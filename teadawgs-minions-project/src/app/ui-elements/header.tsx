@@ -21,7 +21,7 @@ export default function Header({authenticated}: {authenticated: boolean}) {
     }
 
     return (
-        <div className="flex justify-center items-center bg-red-400 w-full rounded-2xl h-20 space-x-2">
+        <div className="flex justify-center items-center bg-red-400 w-full h-20 space-x-2">
             <div className="absolute left-4">
                 <Image 
                     src="/teacup_dog_paw_logo.svg"
