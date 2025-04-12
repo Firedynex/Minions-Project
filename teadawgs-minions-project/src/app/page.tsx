@@ -1,6 +1,6 @@
 "use client"
-import Sidebar from "./ui-elements/sidebar";
-import Header from "./ui-elements/header";
+import Sidebar from "../components/ui-elements/Sidebar";
+import Header from "../components/ui-elements/Header";
 import { useState } from "react";
 
 export default function Home() {
@@ -10,6 +10,7 @@ export default function Home() {
     <>
       <Header authenticated = {authenticated}/>
       <Sidebar />
+      
     </>
   );
 }
