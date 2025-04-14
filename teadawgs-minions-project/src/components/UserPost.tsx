@@ -119,11 +119,6 @@ export default function UserPost() {
           </div>
         </div>
       ))}
-
-      {/* Create New Post Button */}
-      <button className="bg-gray-500 text-black px-4 py-2 rounded-lg mt-4 hover:bg-gray-700 transition duration-300 mr-4 cursor-pointer">
-        Create New Post
-      </button>
     </div>
   );
 }
