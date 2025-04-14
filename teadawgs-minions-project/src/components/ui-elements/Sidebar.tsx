@@ -31,7 +31,7 @@ export default function Sidebar() {
                     className="w-20 h-20 hover:scale-110 transition-transform duration-300 cursor-pointer"
                 />
             </a>
-            <Link href="/create-post">
+            <Link href="/add-post">
                 <Image 
                     src="/add_icon.svg"
                     alt="Add post icon"
