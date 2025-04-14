@@ -78,6 +78,9 @@ export default function AddPost(){
                             objectFit: 'cover'
                         }}
                         alt={`Image ${index + 1}`}
+                        width={300}
+                        height={600}
+                        priority
                         />
                 ))
                 }
