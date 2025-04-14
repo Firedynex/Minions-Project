@@ -9,11 +9,7 @@ export default function Home() {
   const [authenticated, setAuthenticated] = useState(false);
   return (
     <>
-      <Header authenticated = {authenticated}/>
-      <div className="m-3 flex flex-row justify-center items-center"> 
-                <Sidebar />
-                <UserPost />
-      </div>
+      
     </>
   );
 }

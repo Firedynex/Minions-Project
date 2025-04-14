@@ -1,7 +1,5 @@
 "use client"
 import { useState } from "react";
-import { Lilita_One, Roboto } from "next/font/google";
-
 
 export default function UserPost() {
   const [like, setLike] = useState(false);
