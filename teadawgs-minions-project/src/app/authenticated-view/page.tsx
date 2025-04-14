@@ -5,7 +5,7 @@ export default function AuthenticatedHomePage() {
     return(
         <>
             <Sidebar />
-            <div className="flex flex-row justify-center items-center bg-red-400 ">
+            <div className="flex flex-row justify-center items-center min-h-screen bg-red-400">
                 <UserPost />
             </div>
         </>
