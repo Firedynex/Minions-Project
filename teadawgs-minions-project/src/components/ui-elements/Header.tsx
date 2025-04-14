@@ -1,12 +1,19 @@
 "use client"
 import Image from "next/image";
 import { useState } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Header({authenticated}: {authenticated: boolean}) {
     const [loggedIn, setLoggedIn] = useState(authenticated);
+    const router = useRouter();
+    
     function handleLogout() {
         setLoggedIn(!loggedIn);
+        if (loggedIn) {
+            router.push("/");
+        } else {
+            router.push("authenticated-view");
+        }
     }
 
     return (
