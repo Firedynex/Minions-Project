@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 import { useState, ChangeEvent, FormEvent } from 'react';
 
 type FormData = {
@@ -65,7 +66,7 @@ export default function AddPost(){
             ></div>
             <div className='absolute left-[15px]' style={{width: '470px', height: '700px'}}>
                 {imageUrls.map((url, index) => (
-                    <img
+                    <Image
                         key={index}
                         src={url}
                         className="absolute border-2 border-[#555555] rounded-lg"
@@ -76,6 +77,7 @@ export default function AddPost(){
                             zIndex: index,
                             objectFit: 'cover'
                         }}
+                        alt={`Image ${index + 1}`}
                         />
                 ))
                 }
