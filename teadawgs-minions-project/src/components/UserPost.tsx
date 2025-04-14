@@ -23,7 +23,15 @@ export default function UserPost() {
       likes: 24,
       dislikes: 1,
       comments: 3
-    }
+    },
+    {
+        id: 3,
+        content: "",
+        description: "Text",
+        likes: 24,
+        dislikes: 1,
+        comments: 3
+      }
   ]);
 
   const handleLike = (postId) => {
@@ -54,11 +62,10 @@ export default function UserPost() {
           {/* Middle: Post Content */}
           <div className="flex-1 mx-2">
             <div className="bg-black rounded-lg p-4 w-full max-w-5xl mx-auto">
-              <textarea 
-                className="w-full h-20 bg-gray-200 rounded p-2 mb-2 resize-none text-black " 
-                readOnly 
-                value={post.content}
-              ></textarea>
+            <img className="w-full max-h-30 object-cover rounded mb-2 max-w-350 "
+                src="/placeholder.svg" 
+                alt="Post image"
+                />
               <textarea 
                 className="w-full h-9 bg-gray-200 rounded p-2 resize-none text-sm text-black " 
                 readOnly 
