@@ -46,7 +46,6 @@ export default function AddPost(){
         "https://media.istockphoto.com/id/1390699669/photo/assortment-of-healthy-food-for-clean-eating-flexitarian-mediterranean-diet.jpg?s=612x612&w=0&k=20&c=riJ9OUUAPS2KEDgQh7dOpsbaoDGeRPkq1x4RRVtTucE=",
         "https://media.istockphoto.com/id/480391616/photo/chopping-food-ingredients.jpg?s=612x612&w=0&k=20&c=ofjaHMXEz_CtWzO3q1fN45Yf0Rwl4TcqxZXPSPF9_FU=",
         "https://media.istockphoto.com/id/888187838/photo/i-always-start-my-day-with-a-healthy-breakfast.jpg?s=612x612&w=0&k=20&c=upmRnBuFA0paMMD_NvaCIAjFJwozuPOFnAnb8UsJUF8=",
-        "https://media.istockphoto.com/id/857307942/photo/vegetarian-restaurant-food-indian-fruit-salad.jpg?s=612x612&w=0&k=20&c=xRRmFoDRhtmaaCqIeDqSdxoqVDfoS7DOwmxuD-B2jrE="
     ]
 
     return(
