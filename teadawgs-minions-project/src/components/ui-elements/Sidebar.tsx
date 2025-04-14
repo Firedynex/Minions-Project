@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Sidebar() {
     return (
@@ -30,7 +31,7 @@ export default function Sidebar() {
                     className="w-20 h-20 hover:scale-110 transition-transform duration-300 cursor-pointer"
                 />
             </a>
-            <a>
+            <Link href="/create-post">
                 <Image 
                     src="/add_icon.svg"
                     alt="Add post icon"
@@ -38,7 +39,7 @@ export default function Sidebar() {
                     height={100}
                     className="w-20 h-20 hover:scale-110 transition-transform duration-300 cursor-pointer"
                 />
-            </a>
+            </Link>
         </div>
     );
 }

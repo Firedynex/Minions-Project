@@ -1,7 +1,5 @@
 "use client"
 import { useState } from "react";
-import { Lilita_One, Roboto } from "next/font/google";
-
 
 export default function UserPost() {
   const [like, setLike] = useState(false);
@@ -33,6 +31,16 @@ export default function UserPost() {
         comments: 3
       }
   ]);
+
+  function handleButtonClick(button: string) {
+        if (button === "like") {
+            setLike(!like);
+            setDislike(false);
+        } else if (button === "dislike") {
+            setDislike(!dislike);
+            setLike(false);
+        }
+}
 
   const handleLike = (postId) => {
     setLike(!like);
@@ -76,12 +84,12 @@ export default function UserPost() {
 
           {/* Right: Action Buttons */}
           <div className="flex flex-col justify-start pt-4 pr-2 space-y-3 m-2  ">
-            <button onClick={() => handleLike(post.id)}>
+            <button onClick={() => handleButtonClick("like")}>
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill={like ? "#FFFFFF" : "#000000"}>
                 <path d="M720-120H280v-520l280-280 50 50q7 7 11.5 19t4.5 23v14l-44 174h258q32 0 56 24t24 56v80q0 7-2 15t-4 15L794-168q-9 20-30 34t-44 14Zm-360-80h360l120-280v-80H480l54-220-174 174v406Z"/>
               </svg>
             </button>
-            <button onClick={() => handleDislike(post.id)}>
+            <button onClick={() => handleButtonClick("dislike")}>
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill={dislike ? "#FFFFFF" : "#000000"}>
                 <path d="M240-840h440v520L400-40l-50-50q-7-7-11.5-19t-4.5-23v-14l44-174H120q-32 0-56-24t-24-56v-80q0-7 2-15t4-15l120-282q9-20 30-34t44-14Zm360 80H240L120-480v80h360l-54 220 174-174v-406Z"/>
               </svg>

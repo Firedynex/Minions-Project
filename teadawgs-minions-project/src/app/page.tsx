@@ -1,8 +1,7 @@
 "use client"
-import Sidebar from "../components/ui-elements/Sidebar";
 import Header from "../components/ui-elements/Header";
-import UserPost from "@/components/UserPost";
 import { useState } from "react";
+import Splash from "@/components/Splash";
 
 export default function Home() {
   // Simulate authentication state
@@ -10,10 +9,7 @@ export default function Home() {
   return (
     <>
       <Header authenticated = {authenticated}/>
-      <div className="m-3 flex flex-row justify-center items-center"> 
-                <Sidebar />
-                <UserPost />
-      </div>
+      <Splash/>
     </>
   );
 }
