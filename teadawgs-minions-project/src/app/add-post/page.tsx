@@ -40,6 +40,12 @@ export default function AddPost(){
         console.log('All Items:', [...items, newItem]);
         setFormData(prev => ({...prev, title: '', caption: '', link: ''}));
     };
+    const imageUrls = [
+        "https://media.istockphoto.com/id/1390699669/photo/assortment-of-healthy-food-for-clean-eating-flexitarian-mediterranean-diet.jpg?s=612x612&w=0&k=20&c=riJ9OUUAPS2KEDgQh7dOpsbaoDGeRPkq1x4RRVtTucE=",
+        "https://media.istockphoto.com/id/480391616/photo/chopping-food-ingredients.jpg?s=612x612&w=0&k=20&c=ofjaHMXEz_CtWzO3q1fN45Yf0Rwl4TcqxZXPSPF9_FU=",
+        "https://media.istockphoto.com/id/888187838/photo/i-always-start-my-day-with-a-healthy-breakfast.jpg?s=612x612&w=0&k=20&c=upmRnBuFA0paMMD_NvaCIAjFJwozuPOFnAnb8UsJUF8=",
+        "https://media.istockphoto.com/id/857307942/photo/vegetarian-restaurant-food-indian-fruit-salad.jpg?s=612x612&w=0&k=20&c=xRRmFoDRhtmaaCqIeDqSdxoqVDfoS7DOwmxuD-B2jrE="
+    ]
 
     return(
         <div className="min-h-screen bg-[#1E1E1E] p-6 text-white relative">
@@ -56,6 +62,23 @@ export default function AddPost(){
                 left: 'calc(40% + 20px)'
                 }}
             ></div>
+            <div className='absolute left-[15px]' style={{width: '470px', height: '700px'}}>
+                {imageUrls.map((url, index) => (
+                    <img
+                        key={index}
+                        src={url}
+                        className="absolute border-2 border-[#555555] rounded-lg"
+                        style={{
+                            width: '300px',
+                            height: '600px',
+                            left: `${index * 50}px`,
+                            zIndex: index,
+                            objectFit: 'cover'
+                        }}
+                        />
+                ))
+                }
+            </div>
             <div 
                 className="absolute"
                 style={{
@@ -181,13 +204,7 @@ export default function AddPost(){
                         left: '0',
                         marginRight: 'calc(40% - 470px - 150x)'
                     }}>
-                        {/* <a href="https://www.peanutbutterandfitness.com/wp-content/uploads/2017/06/vertical.jpeg" className="absolute border-2 border-[#555555] bg-gray-700 roundedlg overflow-hidden" 
-                            style={{
-                                width: '470px',
-                                height: '700px',
-                                zIndex: 1,
-                                pointerEvents: 'auto'
-                            }}></a> */}
+
                 </div>
             </div>
         </div>
