@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 
 export default function UserPost() {
   const [posts, setPosts] = useState([
@@ -83,11 +84,13 @@ export default function UserPost() {
           {/* Middle: Post Content */}
           <div className="flex-1 mx-2">
             <div className="bg-black rounded-lg p-4 w-full max-w-5xl mx-auto">
-              <img 
+              <Image 
                 className="w-full max-h-30 object-cover rounded mb-2 max-w-350 "
-                src="/placeholder.svg" 
-                alt="Post image">
-              </img>
+                src="/placeholder.svg"
+                width={350}
+                height={200} 
+                alt="Post image"
+              />
               <textarea
                 className="w-full h-9 bg-gray-200 rounded p-2 resize-none text-sm text-black"
                 readOnly
