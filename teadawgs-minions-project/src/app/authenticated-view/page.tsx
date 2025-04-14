@@ -5,6 +5,7 @@ import Sidebar from "@/components/ui-elements/Sidebar";
 export default function AuthenticatedHomePage() {
     return(
         <>
+            {/*Authenticated page passes down a boolean value to Hedar which has the isLoggedIn variable to determine logged in state */}
             <Header authenticated={true} />
             <br></br>
             

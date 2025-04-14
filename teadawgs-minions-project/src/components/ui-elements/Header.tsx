@@ -4,12 +4,12 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Header({authenticated}: {authenticated: boolean}) {
-    const [loggedIn, setLoggedIn] = useState(authenticated);
+    const [isLoggedIn, setIsLoggedIn] = useState(authenticated);
     const router = useRouter();
     
     function handleLogout() {
-        setLoggedIn(!loggedIn);
-        if (loggedIn) {
+        setIsLoggedIn(!isLoggedIn);
+        if (isLoggedIn) {
             router.push("/");
         } else {
             router.push("authenticated-view");
@@ -31,7 +31,7 @@ export default function Header({authenticated}: {authenticated: boolean}) {
 
             <h1 className={`font-lilita text-5xl`}>tea dawgs</h1>
 
-            {loggedIn && (
+            {isLoggedIn && (
             <div className="absolute right-4 flex items-center space-x-4">
                 <Image
                     src="/profile_icon.svg"
@@ -48,7 +48,7 @@ export default function Header({authenticated}: {authenticated: boolean}) {
                 </div>
             )}
 
-            {!loggedIn && (
+            {!isLoggedIn && (
                 <div className="absolute right-4 flex items-center space-x-4">
                     <span className={`font-roboto text-2xl`}>{"Create Account"}</span>
                     <button onClick={handleLogout} className="flex items-center justify-between border-solid border-2 border-black rounded-full bg-black p-2 hover:bg-gray-700 transition duration-300 mr-4 cursor-pointer">
