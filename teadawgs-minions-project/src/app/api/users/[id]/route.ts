@@ -43,13 +43,18 @@ export async function PUT(request: NextRequest, {params}:RouteParams) {
         const {id} = params;
         const {email: email, firstName: firstName, lastName: lastName, username: username, password: password} = await request.json();
         await connectMongoDB();
-        await User.findByIdAndUpdate(id, {
+        const user = await User.findByIdAndUpdate(id, {
             email,
             firstName,
             lastName,
             username,
             password
         });
+        
+        if (!user) {
+            return NextResponse.json({message: "User not found"}, {status: 404});
+        }
+
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return NextResponse.json({message: "Invalid ID format"}, {status: 400});
         }
