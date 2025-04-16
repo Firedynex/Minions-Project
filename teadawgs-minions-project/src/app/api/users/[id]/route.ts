@@ -10,12 +10,11 @@ interface RouteParams {
 }
 /**
  * GET api to fetch a specific user by ID from the MongoDB database
- * @param request - The incoming request
  * @param param1 - Param object with id
  * @returns - The user data for the specific id or error message
  * @throws - If there is an error in fetching the user
  */
-export async function GET(request: NextRequest, {params}:RouteParams) {
+export async function GET({params}:RouteParams) {
     try {
         const {id} = params;
         await connectMongoDB();
@@ -68,12 +67,11 @@ export async function PUT(request: NextRequest, {params}:RouteParams) {
 
 /**
  * Delete API to remove a specific user by their ID from the MongoDB database
- * @param request Incoming request
  * @param param1 Param with id
  * @returns Response indicating success or failure of deletion
  * @throws Error if there is an issue with the deletion process
  */
-export async function DELETE(request: NextRequest, {params}: RouteParams) {
+export async function DELETE({params}: RouteParams) {
     try {
         const {id} = params;
         if (!mongoose.Types.ObjectId.isValid(id)) {
