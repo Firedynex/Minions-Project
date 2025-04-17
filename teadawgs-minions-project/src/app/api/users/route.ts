@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
         });
         return NextResponse.json({message: "User created successfully!"}, {status: 201});
     } catch (error) {
-        alert("Error creating user: " + error + "\n Please try again.");
+        alert("Error creating your account: " + error + "\n Please try again.");
         console.error("Error creating user:", error);
         return NextResponse.json({message: "Error creating user"}, {status: 500});
     }

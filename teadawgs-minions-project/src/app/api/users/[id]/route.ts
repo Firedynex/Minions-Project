@@ -39,8 +39,8 @@ export async function GET({params}:RouteParams) {
  */
 export async function PUT(request: NextRequest, {params}:RouteParams) {
     try {
-        const {id} = params;
-        const {email: email, firstName: firstName, lastName: lastName, username: username, password: password} = await request.json();
+        const {id} = await params;
+        const {email, firstName, lastName, username, password} = await request.json();
         await connectMongoDB();
         const user = await User.findByIdAndUpdate(id, {
             email,
@@ -59,7 +59,7 @@ export async function PUT(request: NextRequest, {params}:RouteParams) {
         }
         return NextResponse.json({message: "User updated successfully"});
     } catch (error) {
-        alert("Error updating user: " + error +"\n Please try again.");
+        alert("Error updating your profile: " + error +"\n Please try again.");
         console.error("Error updating user:", error);
         return NextResponse.json({message: "Error updating user"}, {status: 500});
     }
@@ -84,7 +84,7 @@ export async function DELETE({params}: RouteParams) {
         }
         return NextResponse.json({message: "User was successfully deleted"});
     } catch (error) {
-        alert("Error deleting user: " + error + "\n Please try again.");
+        alert("Error deleting your account: " + error + "\n Please try again.");
         console.error("Error deleting user:", error);
         return NextResponse.json({message: "Error deleting user"}, {status: 500});
     }
