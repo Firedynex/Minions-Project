@@ -14,7 +14,7 @@ interface RouteParams {
  * @returns - The user data for the specific id or error message
  * @throws - If there is an error in fetching the user
  */
-export async function GET({params}:RouteParams) {
+export async function GET(request: NextRequest, {params}:RouteParams) {
     try {
         const {id} = params;
         await connectMongoDB();
@@ -71,12 +71,9 @@ export async function PUT(request: NextRequest, {params}:RouteParams) {
  * @returns Response indicating success or failure of deletion
  * @throws Error if there is an issue with the deletion process
  */
-export async function DELETE({params}: RouteParams) {
+export async function DELETE(request: NextRequest, {params}: RouteParams) {
     try {
         const {id} = params;
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-            return NextResponse.json({message: "Invalid ID format"}, {status: 400});
-        }
         await connectMongoDB();
         const deletedItem = await User.findByIdAndDelete(id);
         if (!deletedItem) {
