@@ -82,7 +82,7 @@ export async function DELETE(request: NextRequest, {params}: RouteParams) {
         return NextResponse.json({message: "Post deleted successfully!", deletedPost});
     } catch (error) {
         console.error("Error deleting post");
-        return NextResponse.json({message: "Error deleting post"}, {status: 500});
+        return NextResponse.json({message: "Error deleting post", error}, {status: 500});
     }
     
 }
