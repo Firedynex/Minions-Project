@@ -16,7 +16,7 @@ interface RouteParams {
  */
 export async function GET(request: NextRequest, {params}:RouteParams) {
     try {
-        const {id} = params;
+        const {id} = await params;
         await connectMongoDB();
         const user = await User.findOne({_id: id});
         if (!user) {
