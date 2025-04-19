@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectMongoDB from "../../../../config/mongodb";
 import User from "@/models/userSchema";
+import bcrypt from "bcryptjs";
 
 /** 
  * POST api to create a new user in the MongoDB database
@@ -12,12 +13,13 @@ export async function POST(request: NextRequest) {
     try {
         const {email, firstName, lastName, username, password} = await request.json();
         await connectMongoDB();
+        const hashedPassword = await bcrypt.hash(password, 5);
         await User.create({
             email,
             firstName,
             lastName,
             username,
-            password
+            password: hashedPassword
         });
         return NextResponse.json({message: "User created successfully!"}, {status: 201});
     } catch (error) {
@@ -26,4 +28,3 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({message: "Error creating user"}, {status: 500});
     }
 }
-
