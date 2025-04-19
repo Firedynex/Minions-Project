@@ -7,9 +7,9 @@ export default function CreateAccountPage() {
     return (
         <div className="min-h-screen bg-white">
             <div className="absolute inset-0 overflow-hidden z-0">
-                <div className="absolute top-[4%] left-[30%] h-75 w-75 rounded-full bg-red-400"></div>
-                <div className="absolute top-[43%] left-[30%] h-62 w-62 rounded-full bg-red-400"></div>
-                <div className="absolute top-[70%] left-[28%] h-70 w-70 rounded-full bg-red-400"></div>
+                <div className="absolute top-[4%] left-[25%] h-80 w-80 rounded-full bg-red-400"></div>
+                <div className="absolute top-[43%] left-[25%] h-62 w-62 rounded-full bg-red-400"></div>
+                <div className="absolute top-[70%] left-[23%] h-70 w-70 rounded-full bg-red-400"></div>
             </div>
             <div className="relative z-10">
                 <Header authenticated={false}/>
@@ -33,6 +33,10 @@ export default function CreateAccountPage() {
                             <div className="relative">
                                 <label htmlFor="lastName" className="absolute -top-2 left-3 px-1 text-xs font-medium text-gray-700 bg-white">Last Name</label>
                                 <input type="text" id="lastName" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f87171]" />
+                            </div>
+                            <div className="relative">
+                                <label htmlFor="password" className="absolute -top-2 left-3 px-1 text-xs font-medium text-gray-700 bg-white">Username</label>
+                                <input type="password" id="password" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f87171]" />
                             </div>
                             <div className="relative">
                                 <label htmlFor="email" className="absolute -top-2 left-3 px-1 text-xs font-medium text-gray-700 bg-white">Email</label>
