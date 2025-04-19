@@ -50,14 +50,12 @@ export default function Header({authenticated}: {authenticated: boolean}) {
 
             {!isLoggedIn && (
                 <div className="absolute right-4 flex items-center space-x-4">
-                    <span className={`font-roboto text-2xl`}>{"Create Account"}</span>
+                    <span className={`font-roboto text-2xl hover:text-gray-700 hover: cursor-pointer`} onClick={() => router.push("/create-account-page")}>{"Create Account"}</span>
                     <button onClick={handleLogout} className="flex items-center justify-between border-solid border-2 border-black rounded-full bg-black p-2 hover:bg-gray-700 transition duration-300 mr-4 cursor-pointer">
                         <span className={`font-roboto text-2xl`}>{"Login"}</span>
                     </button>
                 </div>
             )}           
-            
-            
         </div>
     );
 }
