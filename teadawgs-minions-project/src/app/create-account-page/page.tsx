@@ -28,23 +28,23 @@ export default function CreateAccountPage() {
                         <form className="space-y-6">
                             <div className="relative">
                                 <label htmlFor="firstName" className="absolute -top-2 left-3 px-1 text-xs font-medium text-gray-700 bg-white">First Name</label>
-                                <input type="text" id="firstName" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f87171]" placeholder="First Name" />
+                                <input type="text" id="firstName" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f87171] text-gray-800" placeholder="First Name" />
                             </div>
                             <div className="relative">
                                 <label htmlFor="lastName" className="absolute -top-2 left-3 px-1 text-xs font-medium text-gray-700 bg-white">Last Name</label>
-                                <input type="text" id="lastName" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f87171]" />
+                                <input type="text" id="lastName" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f87171] text-gray-700" placeholder="Last Name" />
                             </div>
                             <div className="relative">
-                                <label htmlFor="password" className="absolute -top-2 left-3 px-1 text-xs font-medium text-gray-700 bg-white">Username</label>
-                                <input type="password" id="password" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f87171]" />
+                                <label htmlFor="username" className="absolute -top-2 left-3 px-1 text-xs font-medium text-gray-700 bg-white">Username</label>
+                                <input type="text" id="username" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f87171] text-gray-700" placeholder="Username" required/>
                             </div>
                             <div className="relative">
                                 <label htmlFor="email" className="absolute -top-2 left-3 px-1 text-xs font-medium text-gray-700 bg-white">Email</label>
-                                <input type="email" id="email" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f87171]" />
+                                <input type="email" id="email" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f87171] text-gray-700" placeholder="Email" required/>
                             </div>
                             <div className="relative">
                                 <label htmlFor="password" className="absolute -top-2 left-3 px-1 text-xs font-medium text-gray-700 bg-white">Password</label>
-                                <input type="password" id="password" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f87171]" />
+                                <input type="password" id="password" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f87171] text-gray-700" placeholder="Password" required/>
                             </div>
                             <button type="submit" className="w-full bg-[#f87171] text-white py-2 px-4 rounded-md hover:bg-[#d13d3d] transition-color">Create Account</button>
                         </form>
