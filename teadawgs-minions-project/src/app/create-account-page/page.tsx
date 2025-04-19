@@ -9,7 +9,7 @@ export default function CreateAccountPage() {
                 <div className="w-[40%] bg-red-400 min-h-[calc(100vh-4rem)]"
                 ></div>
                 <div className="w-3/5 bg-white">
-                    <main className="max-w-md mx-auto mt-8 p-4">
+                    <main className="max-w-md mx-auto mt-[100px] p-4">
                         <h1 className="text-3xl font-bold text-gray-800 mb-8">Create Account</h1>
                         <form className="space-y-6">
                             <div className="relative">
@@ -28,12 +28,11 @@ export default function CreateAccountPage() {
                                 <label htmlFor="password" className="absolute -top-2 left-3 px-1 text-xs font-medium text-gray-700 bg-white">Password</label>
                                 <input type="password" id="password" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f87171]" />
                             </div>
+                            <button type="submit" className="w-full bg-[#f87171] text-white py-2 px-4 rounded-md hover:bg-[#d13d3d] transition-color">Create Account</button>
                         </form>
                     </main>
+                </div>
             </div>
-            </div>
-            
-            
         </div>
     );
 }
