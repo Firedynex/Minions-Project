@@ -1,16 +1,30 @@
 import React from "react";
 import Header from "../../components/ui-elements/Header";
+import Image from "next/image";
+import workout from "../../assets/workout.jpg"
 
 export default function CreateAccountPage() {
     return (
         <div className="min-h-screen bg-white">
-            <Header authenticated={false}/>
+            <div className="absolute inset-0 overflow-hidden z-0">
+                <div className="absolute top-[4%] left-[30%] h-75 w-75 rounded-full bg-red-400"></div>
+                <div className="absolute top-[43%] left-[30%] h-62 w-62 rounded-full bg-red-400"></div>
+                <div className="absolute top-[70%] left-[28%] h-70 w-70 rounded-full bg-red-400"></div>
+            </div>
+            <div className="relative z-10">
+                <Header authenticated={false}/>
+            </div>
             <div className="flex flex-1">
                 <div className="w-[40%] bg-red-400 min-h-[calc(100vh-4rem)]"
-                ></div>
+                >
+                    <div className="relative z-10 ml-5">
+                        <Image src={workout} alt="image_cluster" width={450} height={450} className="object-contain max-w-full max-h-full"></Image>
+                    </div>
+                    
+                </div>
                 <div className="w-3/5 bg-white">
                     <main className="max-w-md mx-auto mt-[100px] p-4">
-                        <h1 className="text-3xl font-bold text-gray-800 mb-8">Create Account</h1>
+                        <h1 className="relative text-3xl font-bold text-gray-800 mb-8 z-10">Create Account</h1>
                         <form className="space-y-6">
                             <div className="relative">
                                 <label htmlFor="firstName" className="absolute -top-2 left-3 px-1 text-xs font-medium text-gray-700 bg-white">First Name</label>
