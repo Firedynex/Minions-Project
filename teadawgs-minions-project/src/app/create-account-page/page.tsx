@@ -1,9 +1,48 @@
-import React from "react";
+"use client"
+import React, { useState } from "react";
 import Header from "../../components/ui-elements/Header";
 import Image from "next/image";
 import workout from "../../assets/workout.jpg"
 
+type User = {
+    email: string,
+    firstName: string,
+    lastName: string,
+    username: string,
+    password: string
+}
+
 export default function CreateAccountPage() {
+    const [firstName, setFirstName] = useState<string>("");
+    const [lastName, setLastName] = useState<string>("");
+    const [username, setUsername] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+
+    function handleSubmit(e : React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        if (!username || !email || !password) {
+            alert("Please enter all required fields!");
+            return;
+        }
+
+        const userData : User = {
+            email: email,
+            firstName: firstName,
+            lastName: lastName,
+            username: username,
+            password: password
+        }
+
+        setFirstName("");
+        setLastName("");
+        setUsername("");
+        setEmail("");
+        setPassword("");
+
+        console.log(userData);
+    }
+
     return (
         <div className="min-h-screen bg-white">
             <div className="absolute inset-0 overflow-hidden z-0">
@@ -25,28 +64,30 @@ export default function CreateAccountPage() {
                 <div className="w-3/5 bg-white">
                     <main className="max-w-md mx-auto mt-[100px] p-4">
                         <h1 className="relative text-3xl font-bold text-gray-800 mb-8 z-10">Create Account</h1>
-                        <form className="space-y-6">
+                        <form className="space-y-6" onSubmit={handleSubmit}>
                             <div className="relative">
                                 <label htmlFor="firstName" className="absolute -top-2 left-3 px-1 text-xs font-medium text-gray-700 bg-white">First Name</label>
-                                <input type="text" id="firstName" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f87171] text-gray-800" placeholder="First Name" />
+                                <input type="text" id="firstName" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f87171] text-gray-800" placeholder="First Name" value={firstName} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFirstName(e.target.value)}/>
                             </div>
                             <div className="relative">
                                 <label htmlFor="lastName" className="absolute -top-2 left-3 px-1 text-xs font-medium text-gray-700 bg-white">Last Name</label>
-                                <input type="text" id="lastName" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f87171] text-gray-700" placeholder="Last Name" />
+                                <input type="text" id="lastName" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f87171] text-gray-700" placeholder="Last Name" value={lastName} onChange={(e : React.ChangeEvent<HTMLInputElement>) => setLastName(e.target.value)}/>
                             </div>
                             <div className="relative">
                                 <label htmlFor="username" className="absolute -top-2 left-3 px-1 text-xs font-medium text-gray-700 bg-white">Username</label>
-                                <input type="text" id="username" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f87171] text-gray-700" placeholder="Username" required/>
+                                <input type="text" id="username" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f87171] text-gray-700" placeholder="Username" value={username} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)}required/>
                             </div>
                             <div className="relative">
                                 <label htmlFor="email" className="absolute -top-2 left-3 px-1 text-xs font-medium text-gray-700 bg-white">Email</label>
-                                <input type="email" id="email" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f87171] text-gray-700" placeholder="Email" required/>
+                                <input type="email" id="email" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f87171] text-gray-700" placeholder="Email" value={email} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}required/>
                             </div>
                             <div className="relative">
                                 <label htmlFor="password" className="absolute -top-2 left-3 px-1 text-xs font-medium text-gray-700 bg-white">Password</label>
-                                <input type="password" id="password" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f87171] text-gray-700" placeholder="Password" required/>
+                                <input type="password" id="password" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f87171] text-gray-700" placeholder="Password" value={password} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}required/>
                             </div>
-                            <button type="submit" className="w-full bg-[#f87171] text-white py-2 px-4 rounded-md hover:bg-[#d13d3d] transition-color">Create Account</button>
+                            <div className="relative">
+                                <button type="submit" className="w-full bg-[#f87171] text-white py-2 px-4 rounded-md hover:bg-[#d13d3d] transition-color">Submit</button>
+                            </div>
                         </form>
                     </main>
                 </div>
