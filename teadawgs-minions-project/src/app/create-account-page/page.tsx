@@ -19,7 +19,7 @@ export default function CreateAccountPage() {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
-    function handleSubmit(e : React.FormEvent<HTMLFormElement>) {
+    async function handleSubmit(e : React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         if (!username || !email || !password) {
             alert("Please enter all required fields!");
@@ -34,13 +34,27 @@ export default function CreateAccountPage() {
             password: password
         }
 
-        setFirstName("");
-        setLastName("");
-        setUsername("");
-        setEmail("");
-        setPassword("");
-
-        console.log(userData);
+        const url = "http://localhost:3000/api/users/"
+        try {
+            const response = await fetch (url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(userData)
+            });
+            if (!response.ok) {
+                const errorMessage = await response.text();
+                throw new Error(`Error creating user: ${errorMessage}`);
+            }
+            setFirstName("");
+            setLastName("");
+            setUsername("");
+            setEmail("");
+            setPassword("");
+        } catch (error) {
+            alert(error);
+        }
     }
 
     return (
@@ -86,7 +100,7 @@ export default function CreateAccountPage() {
                                 <input type="password" id="password" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f87171] text-gray-700" placeholder="Password" value={password} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}required/>
                             </div>
                             <div className="relative">
-                                <button type="submit" className="w-full bg-[#f87171] text-white py-2 px-4 rounded-md hover:bg-[#d13d3d] transition-color">Submit</button>
+                                <button type="submit" className="w-full bg-[#f87171] text-white py-2 px-4 rounded-md hover:bg-[#d13d3d] hover:cursor-pointer transition-color">Submit</button>
                             </div>
                         </form>
                     </main>

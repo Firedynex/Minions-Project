@@ -24,7 +24,6 @@ export async function GET(request: NextRequest, {params}:RouteParams) {
         }
         return NextResponse.json(user);
     } catch (error) {
-        alert("Error fetching user: " + error + "\n Please try again.");
         console.error("Error fetching user: ", error);
         return NextResponse.json({message: "Error fetching user"}, {status: 500});
     }
@@ -59,7 +58,6 @@ export async function PUT(request: NextRequest, {params}:RouteParams) {
         }
         return NextResponse.json({message: "User updated successfully"});
     } catch (error) {
-        alert("Error updating your profile: " + error +"\n Please try again.");
         console.error("Error updating user:", error);
         return NextResponse.json({message: "Error updating user"}, {status: 500});
     }
@@ -81,7 +79,6 @@ export async function DELETE(request: NextRequest, {params}: RouteParams) {
         }
         return NextResponse.json({message: "User was successfully deleted"});
     } catch (error) {
-        alert("Error deleting your account: " + error + "\n Please try again.");
         console.error("Error deleting user:", error);
         return NextResponse.json({message: "Error deleting user"}, {status: 500});
     }

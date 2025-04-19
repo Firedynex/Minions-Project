@@ -13,6 +13,13 @@ export async function POST(request: NextRequest) {
     try {
         const {email, firstName, lastName, username, password} = await request.json();
         await connectMongoDB();
+        const emailExists = await User.findOne({email: email});
+        const usernameExists = await User.findOne({username: username});
+        if (emailExists) {
+            return NextResponse.json({message: "Email already in use!"}, {status: 403});
+        } else if (usernameExists) {
+            return NextResponse.json({message: "Username already exists!"}, {status: 403});
+        }
         const hashedPassword = await bcrypt.hash(password, 5);
         await User.create({
             email,
@@ -23,7 +30,6 @@ export async function POST(request: NextRequest) {
         });
         return NextResponse.json({message: "User created successfully!"}, {status: 201});
     } catch (error) {
-        alert("Error creating your account: " + error + "\n Please try again.");
         console.error("Error creating user:", error);
         return NextResponse.json({message: "Error creating user"}, {status: 500});
     }
