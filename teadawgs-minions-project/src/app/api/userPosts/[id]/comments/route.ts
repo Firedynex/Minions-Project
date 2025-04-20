@@ -6,7 +6,7 @@ import User from "@/models/userSchema";
 
 interface RouteParams {
     params: {
-        id: string
+        id: string // Post id
     }
 }
 
