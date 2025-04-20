@@ -1,16 +1,24 @@
 'use client';
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import Header from "../../components/ui-elements/Header";
 import Image from "next/image";
 import personalinfo from "../../assets/personal_info_pic.jpg"
 
+type User = {
+    username: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+};
+
 export default function PersonalInfoPage() {
-    const [user, setUser] = useState({
-        username: "Peter_Ben",
-        firstName: "John",
-        lastName: "Doe",
-        email: "peterbui123@gmail.com",
-        password: "password"
+    const [user, setUser] = useState<User>({
+        username: "",
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: ""
     });
 
     const [editing, setEditing] = useState({
@@ -21,18 +29,66 @@ export default function PersonalInfoPage() {
         password: false
     });
 
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const response = await fetch("http://localhost:3000/api/users/current", {
+                    credentials: 'include'
+                });
+                if (response.ok) {
+                    const userData = await response.json();
+                    setUser(userData);
+                }
+            }
+            catch (error) {
+                console.error("Error fetching user data: ", error);
+            }
+        };
+        fetchUserData();
+    }, []);
+
     const handleEdit = (field: keyof typeof editing) => {
         setEditing({...editing, [field]: true});
     };
 
-    const handleSave = () => {
-        setEditing({
-            username: false,
-            firstName: false,
-            lastName: false,
-            email: false,
-            password: false
-        });
+    const handleSave = async () => {
+        if (!user.username || !user.email || !user.password) {
+            alert("Username, email, and password are required fields!");
+            return;
+        }
+        
+        try{
+            const response = await fetch("http://localhost:3000/api/users/update", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(user),
+                credentials: 'include'
+            });
+
+            if (!response.ok) {
+                const errorMessage = await response.text();
+                throw new Error(`Error updating user: ${errorMessage}`);
+            }
+
+            setEditing({
+                username: false,
+                firstName: false,
+                lastName: false,
+                email: false,
+                password: false
+            });
+
+            alert("Profile updated successfully!");
+        } catch (error) {
+            console.error("Updated error:", error);
+            alert(error instanceof Error ? error.message : "Failed to update profile");
+        }
+        
+
+        alert("Profile updated successfully!");
+
     };
 
     return(
