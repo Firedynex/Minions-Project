@@ -55,7 +55,7 @@ export default function PersonalInfoPage() {
                                     </label>
                                     <div className="flex items-center">
                                         <input type={field.type  || 'text'} id={field.id} value={user[field.id as keyof typeof user]} onChange={(e) => setUser({...user, [field.id]: e.target.value})}
-                                                readOnly={!editing[field.id as keyof typeof editing]} className={`w-full px-3 py-2 border border-gray-300 rounded-mb focus:outline-none focus:ring-2 focus ring-[#f87171] ${!editing[field.id as keyof typeof editing] ? 'bg-gray-100 cursor-not-allowed' : 'bg-white'}`}/>
+                                                readOnly={!editing[field.id as keyof typeof editing]} className={`w-full px-3 py-2 border border-gray-300 rounded-mb focus:outline-none focus:ring-2 focus ring-[#f87171] ${!editing[field.id as keyof typeof editing] ? 'bg-gray-700 cursor-not-allowed' : 'bg-white text-gray-900 font-medium'}`}/>
                                         {!editing[field.id as keyof typeof editing] && (
                                             <button type="button" onClick={() => handleEdit(field.id as keyof typeof editing)} className="ml-2 text-gray-500 hover:text-gray-700">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
