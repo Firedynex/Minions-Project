@@ -5,6 +5,7 @@ export default function Sidebar() {
     return (
         <div className="flex flex-col align-center justify-center items-center gap-20 bg-red-400 w-1/13 h-150 rounded-4xl">
             <a>
+            <Link href="/authenticated-view">
                 <Image 
                     src="/home_icon.svg"
                     alt="Home icon"
@@ -12,8 +13,10 @@ export default function Sidebar() {
                     height={100}
                     className="w-20 h-20 hover:scale-110 transition-transform duration-300 cursor-pointer"
                 />
+                </Link> 
             </a>
             <a>
+            <Link href="/food-page">
                 <Image 
                     src="/make_food.svg"
                     alt="Make food icon"
@@ -21,8 +24,10 @@ export default function Sidebar() {
                     height={100}
                     className="w-20 h-20 hover:scale-110 transition-transform duration-300 cursor-pointer"
                 />
+                </Link>
             </a>
             <a>
+            <Link href="/history">
                 <Image 
                     src="/history_icon.svg"
                     alt="History icon"
@@ -30,6 +35,7 @@ export default function Sidebar() {
                     height={100}
                     className="w-20 h-20 hover:scale-110 transition-transform duration-300 cursor-pointer"
                 />
+                </Link>
             </a>
             <Link href="/add-post">
                 <Image 

@@ -1,6 +1,6 @@
-import UserPost from "@/components/ui-elements/UserPost";
 import Header from "@/components/ui-elements/Header";
 import Sidebar from "@/components/ui-elements/Sidebar";
+import Recipelist from "@/components/ui-elements/Recipe";
 
 export default function AuthenticatedHomePage() {
     return(
@@ -11,7 +11,7 @@ export default function AuthenticatedHomePage() {
             
             <div className="m-3 flex flex-row justify-center items-center"> 
                 <Sidebar />
-                <UserPost />
+                <Recipelist/>
             </div>
 
             {/* bubbles */}
