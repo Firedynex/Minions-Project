@@ -65,6 +65,7 @@ export async function PUT(request: NextRequest, {params}:RouteParams) {
 
 /**
  * Delete API to remove a specific user by their ID from the MongoDB database
+ * @param request - Unused next request object
  * @param param1 Param with id
  * @returns Response indicating success or failure of deletion
  * @throws Error if there is an issue with the deletion process

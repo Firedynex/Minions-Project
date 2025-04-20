@@ -60,3 +60,22 @@ export async function POST(request: NextRequest, {params} : RouteParams) {
         return NextResponse.json({message: "Error creating comment!"}, {status: 500});
     }
 }
+
+/**
+ * API to delete comments associated with a specific post.
+ * @param request - Unused next request
+ * @param param1 - Param with post id variable
+ * @returns Response indicating success or failure of deletion
+ * @throws Error if there is an issue with the deletion process.
+ */
+export async function DELETE(request: NextRequest, {params}: RouteParams) {
+    try {
+        const {id} = await params;
+        await connectMongoDB();
+        const deletedItem = await Comment.deleteMany({postId: id});
+        return NextResponse.json({message: "Deleted all comments for this post"}, {status: 200});
+    } catch (error) {
+        console.error("Error deleting comments for this post!", error);
+        return NextResponse.json({message: "Error deleting comments!"}, {status: 500});
+    }
+}
