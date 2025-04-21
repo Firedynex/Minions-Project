@@ -7,7 +7,7 @@ interface IUserPost extends Document {
     content: string,
     link: string,
     visibility: boolean,
-    userId: string,
+    userid: string,
     createdAt: Date,
     updatedAt: Date,
     likes: number,
@@ -36,7 +36,7 @@ const userPostSchema = new Schema<IUserPost>({
         type: Boolean,
         required: true
     },
-    userId: {
+    userid: {
         type: String,
         required: true
     },

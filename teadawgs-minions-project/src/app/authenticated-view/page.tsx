@@ -11,7 +11,7 @@ export default function AuthenticatedHomePage() {
             
             <div className="m-3 flex flex-row justify-center items-center"> 
                 <Sidebar />
-                <UserPost />
+                < UserPost/>
             </div>
 
             {/* bubbles */}

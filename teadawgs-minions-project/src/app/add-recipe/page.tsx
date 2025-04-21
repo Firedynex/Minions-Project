@@ -83,7 +83,7 @@ export default function AddRecipe({ userId }: { userId: string }) {
       
       setData({
         recipe: '', ingredients: [], instructions: [], servings: 4,
-        nutrition: { calories: 0, protein: 0, carbs: 0, fat: 0 },
+        nutrition: { cholesterol: 0, sugar: 0, carbs: 0, fat: 0 },
         image: '', visibility: 'public', status: 'draft'
       });
       alert('Saved successfully');

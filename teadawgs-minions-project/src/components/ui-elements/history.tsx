@@ -2,27 +2,36 @@
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 
+interface Post {
+  userid: number; 
+  description: string;
+  link: string;
+  liked: boolean;
+  disliked: boolean;
+  showComments?: boolean;
+}
+
 export default function UserHistory() {
-  const historyItems = [
-    {
-      id: 1,
-      type: 'recipe',
-      title: 'placeholder',
-      preview: 'Beginning of post text...',
-      viewedAt: 'time since viewing',
-      image: '/placeholder.svg',
-      category: 'Post'
-    },
-    {
-        id: 2,
-        type: 'recipe',
-        title: 'placeholder',
-        preview: 'Beginning of post text...',
-        viewedAt: 'time since viewing',
-        image: '/placeholder.svg',
-        category: 'Post'
-      },
-  ];
+  const [posts, setPosts]     = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError]     = useState<string | null>(null);
+  useEffect(() => {
+      async function fetchPosts() {
+        try {
+          const res = await fetch("/api/userPosts");
+          if (!res.ok) throw new Error(`Error ${res.status}`);
+          const data: Post[] = await res.json();
+          setPosts(data);
+        } catch (err: any) {
+          setError(err.message);
+        } finally {
+          setLoading(false);
+        }
+      }
+      fetchPosts();
+    }, []);
+    if (loading) return <p>Loading posts…</p>;
+    if (error)   return <p className="text-red-500">Failed to load: {error}</p>;
 
   return (
     <div className="min-h-150 bg-black text-gray-100 p-4 max-w-4xl m-4 rounded-lg">
@@ -36,17 +45,17 @@ export default function UserHistory() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 relative left-13">
           {/* Main History List */}
           <div className="lg:col-span-3 space-y-6 ">
-            {historyItems.map((item) => (
+            {posts.map((item) => (
               <div 
-                key={item.id}
+                key={item.userid}
                 className="bg-gray-900 rounded-xl p-6 shadow-lg hover:bg-gray-800 transition-colors"
               >
                 <div className="flex gap-6">
                   {/* Thumbnail */}
                   <div className="w-24 h-24 relative shrink-0">
                     <Image
-                      src={item.image}
-                      alt={item.title}
+                      src={item.link}
+                      alt={"alt"}
                       fill
                       className="object-cover rounded-lg"
                       sizes="(max-width: 768px) 100vw, 10vw"
@@ -56,19 +65,13 @@ export default function UserHistory() {
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
                       <span className="text-sm px-3 py-1 bg-red-500/20 rounded-full">
-                        {item.category}
+                        {item.userid}
                       </span>
-                      <span className="text-gray-400 text-sm">
-                        {item.viewedAt}
-                      </span>
+
                     </div>
                     
-                    <h2 className="text-xl font-semibold text-red-300">
-                      {item.title}
-                    </h2>
-                    
                     <p className="text-gray-300 mt-2 line-clamp-2">
-                      {item.preview}
+                      {item.userid}
                     </p>
                   </div>
                 </div>
