@@ -2,8 +2,8 @@
 import { FormEvent, useState, useEffect, useCallback } from 'react';
 
 interface Nutrition {
-  calories: number;
-  protein: number;
+  cholesterol: number;
+  sugar: number;
   carbs: number;
   fat: number;
 }
@@ -25,7 +25,7 @@ export default function AddRecipe({ userId }: { userId: string }) {
     ingredients: [],
     instructions: [],
     servings: 4,
-    nutrition: { calories: 0, protein: 0, carbs: 0, fat: 0 },
+    nutrition: { cholesterol: 0, sugar: 0, carbs: 0, fat: 0 },
     image: '',
     visibility: 'public',
     status: 'draft'
@@ -46,10 +46,10 @@ export default function AddRecipe({ userId }: { userId: string }) {
       setData(prev => ({
         ...prev,
         nutrition: {
-          calories: nutrition.calories || 20,
-          protein: nutrition.protein || 20,
-          carbs: nutrition.carbs || 20,
-          fat: nutrition.fat || 20,
+          cholesterol: nutrition.cholesterol || 0,
+          sugar: nutrition.sugar || 0,
+          carbs: nutrition.carbs || 0,
+          fat: nutrition.fat || 0,
         }
       }));
     } catch (err) {
@@ -150,7 +150,7 @@ export default function AddRecipe({ userId }: { userId: string }) {
 
       {/* Nutrition Inputs */}
       <div className="grid grid-cols-2 gap-4">
-        {(['calories','protein','carbs','fat'] as const).map((key) => (
+        {(['cholesterol', 'sugar', 'carbs', 'fat'] as const).map((key) => (
           <input
             key={key}
             type="number"
