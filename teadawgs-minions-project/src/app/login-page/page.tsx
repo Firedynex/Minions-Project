@@ -12,12 +12,12 @@ export default function LoginPage() {
 
     async function handleLogin(e : React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-
         try {
-            const formData = new FormData(e.currentTarget); 
+            const formData = new FormData(e.currentTarget);
+            
             const response = await doCredentialLogin(formData);
 
-            if (!response.ok) {
+            if (response?.error) {
                 console.error(response.error);
                 setError(response.error.message || "An error ocurred");
             } else {
@@ -63,11 +63,11 @@ export default function LoginPage() {
                         <form className="space-y-8" onSubmit={handleLogin}>
                             <div className="relative">
                                 <label htmlFor="email" className="absolute -top-2 left-3 px-1 text-xs font-medium text-white bg-[#1C1A1A]">Email</label>
-                                <input type="email" id="email" placeholder="Email" required className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f87171] text-white"/>  
+                                <input name="email" type="email" id="email" placeholder="Email" required className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f87171] text-white"/>  
                             </div>
                             <div className="relative">
                                 <label htmlFor="password" className="absolute -top-2 left-3 px-1 text-xs font-medium text-white bg-[#1C1A1A]">Password</label>
-                                <input type="password" id="password" placeholder="Password" required className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f87171] text-white"/>  
+                                <input name="password" type="password" id="password" placeholder="Password" required className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f87171] text-white"/>  
                             </div>
                             <div className="relative">
                                 <button type="submit" className="w-full bg-white text-bold text-black py-2 px-4 rounded-md hover:bg-gray-300 hover:cursor-pointer transition-color">Login</button>

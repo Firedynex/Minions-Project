@@ -9,7 +9,7 @@ export async function doLogout() {
 export async function doCredentialLogin(formData: FormData): Promise<any> {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
-
+    
     try {
         const response = await signIn("credentials", {
             email,
