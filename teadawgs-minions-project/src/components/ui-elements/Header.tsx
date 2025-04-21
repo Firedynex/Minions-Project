@@ -26,7 +26,7 @@ export default function Header({ session }: HeaderProperties) {
 
 
     return (
-        <nav className="bg-red-400 x-auto max-w-7x1 px-2 sm:px-6 l:px-8 mx-auto">
+        <nav className="bg-red-400 border-b-4 border-black x-auto max-w-7x1 px-2 sm:px-6 l:px-8 mx-auto">
             <div className="relative grid p-3 items-center justify-between">
                 {/* <div className="flex flex-1 items-center justify-center md:items-stretch"> */}
                     {/* Logo and name */}

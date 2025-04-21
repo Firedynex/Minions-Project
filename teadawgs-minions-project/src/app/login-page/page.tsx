@@ -45,7 +45,7 @@ export default function LoginPage() {
 
             {/* Login form */}
             <div className="flex flex-1">
-                <div className="w-[55%] bg-red-400 min-h-[calc(100vh-4rem)] z-[-1]">
+                <div className="w-[55%] bg-red-400 min-h-[calc(100vh-4rem)]">
                     <main className="max-w-md mx-auto mt-[100px] p-4 bg-[#1C1A1A] rounded-2xl mb-2">
                         <h1 className="relative text-3xl font-roboto text-white text-center">Welcome!</h1>
                         <h1 className="relative text-3xl font-roboto text-white text-center mb-5">Sign into your account</h1>
