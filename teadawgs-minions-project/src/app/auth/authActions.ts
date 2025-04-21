@@ -1,4 +1,4 @@
-"user server"
+"use server"
 
 import { signIn, signOut } from "../../auth";
 
@@ -14,7 +14,7 @@ export async function doCredentialLogin(formData: FormData): Promise<any> {
         const response = await signIn("credentials", {
             email,
             password,
-            redirect: false,
+            redirect: false
         });
         return response;
     } catch (err) {
