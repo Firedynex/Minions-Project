@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function UserPost() {
   const [posts, setPosts] = useState([
@@ -82,7 +83,7 @@ export default function UserPost() {
           </div>
 
           {/* Middle: Post Content */}
-          <div className="flex-1 mx-2">
+          <Link className="flex-1 mx-2">
             <div className="bg-black rounded-lg p-4 w-full max-w-5xl mx-auto">
               <Image 
                 className="w-full max-h-30 object-cover rounded mb-2 max-w-350 "
@@ -97,7 +98,7 @@ export default function UserPost() {
                 value={`Description of post by User`}
               />
             </div>
-          </div>
+          </Link>
 
           {/* Right: Action Buttons */}
           <div className="flex flex-col justify-start pt-4 pr-2 space-y-3 m-2">
