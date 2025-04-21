@@ -1,23 +1,23 @@
 'use client';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useState, useEffect, useCallback } from 'react';
 
 interface Nutrition {
-    calories: number;
-    protein: number;
-    carbs: number;
-    fat: number;
-  }
-  
-  interface RecipeFormData {
-    recipe: string;
-    ingredients: string[];
-    instructions: string[];
-    servings: number;
-    nutrition: Nutrition;
-    image: string;
-    visibility: 'public' | 'private';
-    status: 'draft' | 'published';
-  }
+  calories: number;
+  protein: number;
+  carbs: number;
+  fat: number;
+}
+
+interface RecipeFormData {
+  recipe: string;
+  ingredients: string[];
+  instructions: string[];
+  servings: number;
+  nutrition: Nutrition;
+  image: string;
+  visibility: 'public' | 'private';
+  status: 'draft' | 'published';
+}
 
 export default function AddRecipe({ userId }: { userId: string }) {
   const [data, setData] = useState<RecipeFormData>({
@@ -31,7 +31,38 @@ export default function AddRecipe({ userId }: { userId: string }) {
     status: 'draft'
   });
   const [loading, setLoading] = useState(false);
+  const [nutritionLoading, setNutritionLoading] = useState(false);
   const [error, setError] = useState('');
+
+  const fetchNutritionData = useCallback(async () => {
+    if (!data.recipe.trim()) return;
+    
+    setNutritionLoading(true);
+    try {
+      const response = await fetch(`/api/nutrition?query=${encodeURIComponent(data.recipe)}`);
+      if (!response.ok) throw new Error('Nutrition data not found');
+      
+      const nutrition = await response.json();
+      setData(prev => ({
+        ...prev,
+        nutrition: {
+          calories: nutrition.calories || 20,
+          protein: nutrition.protein || 20,
+          carbs: nutrition.carbs || 20,
+          fat: nutrition.fat || 20,
+        }
+      }));
+    } catch (err) {
+      setError('Failed to fetch nutrition data - please enter manually');
+    } finally {
+      setNutritionLoading(false);
+    }
+  }, [data.recipe]);
+
+  useEffect(() => {
+    const timer = setTimeout(fetchNutritionData, 1000);
+    return () => clearTimeout(timer);
+  }, [data.recipe, fetchNutritionData]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -43,12 +74,13 @@ export default function AddRecipe({ userId }: { userId: string }) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId, ...data })
-        
       });
+      
       if (!res.ok) {
         const err = await res.json();
         throw new Error(err.error || 'Failed to save');
       }
+      
       setData({
         recipe: '', ingredients: [], instructions: [], servings: 4,
         nutrition: { calories: 0, protein: 0, carbs: 0, fat: 0 },
@@ -64,15 +96,22 @@ export default function AddRecipe({ userId }: { userId: string }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Title */}
-      <input
-        type="text"
-        placeholder="Recipe Title"
-        value={data.recipe}
-        onChange={(e) => setData({ ...data, recipe: e.target.value })}
-        required
-        className="w-full p-3 bg-gray-800 rounded"
-      />
+      {/* Title Input with Loading Indicator */}
+      <div className="relative">
+        <input
+          type="text"
+          placeholder="Recipe Title"
+          value={data.recipe}
+          onChange={(e) => setData({ ...data, recipe: e.target.value })}
+          required
+          className="w-full p-3 bg-gray-800 rounded pr-24"
+        />
+        {nutritionLoading && (
+          <div className="absolute right-3 top-3 text-gray-400 text-sm">
+            Loading nutrition...
+          </div>
+        )}
+      </div>
 
       {/* Ingredients */}
       <textarea
@@ -98,6 +137,7 @@ export default function AddRecipe({ userId }: { userId: string }) {
           value={data.servings}
           onChange={(e) => setData({ ...data, servings: +e.target.value })}
           className="p-3 bg-gray-800 rounded"
+          min="1"
         />
         <input
           type="url"
@@ -108,7 +148,7 @@ export default function AddRecipe({ userId }: { userId: string }) {
         />
       </div>
 
-      {/* Nutrition */}
+      {/* Nutrition Inputs */}
       <div className="grid grid-cols-2 gap-4">
         {(['calories','protein','carbs','fat'] as const).map((key) => (
           <input
@@ -119,42 +159,24 @@ export default function AddRecipe({ userId }: { userId: string }) {
             onChange={(e) =>
               setData({
                 ...data,
-                nutrition: { ...data.nutrition, [key]: +e.target.value }
+                nutrition: { ...data.nutrition, [key]: Math.max(0, +e.target.value) }
               })
             }
             className="p-3 bg-gray-800 rounded"
+            min="0"
           />
         ))}
       </div>
 
-      {/* Visibility & Status */}
-      <div className="flex gap-4">
-        <select
-          value={data.visibility}
-          onChange={(e) => setData({ ...data, visibility: e.target.value as any })}
-          className="p-3 bg-gray-800 rounded"
-        >
-          <option value="public">Public</option>
-          <option value="private">Private</option>
-        </select>
-        <select
-          value={data.status}
-          onChange={(e) => setData({ ...data, status: e.target.value as any })}
-          className="p-3 bg-gray-800 rounded"
-        >
-          <option value="draft">Draft</option>
-          <option value="published">Published</option>
-        </select>
-      </div>
-
-      {/* Submit */}
+      {/* Submit Button */}
       <button
         type="submit"
         disabled={loading}
-        className="w-full py-3 bg-red-600 rounded"
+        className="w-full py-3 bg-red-600 rounded disabled:opacity-50"
       >
         {loading ? 'Saving...' : 'Save Recipe'}
       </button>
+      
       {error && <p className="text-red-500">{error}</p>}
     </form>
   );
