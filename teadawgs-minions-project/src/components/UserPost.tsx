@@ -83,7 +83,7 @@ export default function UserPost() {
           </div>
 
           {/* Middle: Post Content */}
-          <Link className="flex-1 mx-2">
+          <Link href={`/authenticated-view/posts/${post.id}`} className="flex-1 mx-2">
             <div className="bg-black rounded-lg p-4 w-full max-w-5xl mx-auto">
               <Image 
                 className="w-full max-h-30 object-cover rounded mb-2 max-w-350 "
