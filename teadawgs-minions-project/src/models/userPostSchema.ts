@@ -7,13 +7,22 @@ interface IUserPost extends Document {
     postid: string,
     content: string,
     link: string,
+    userId: string,
     visibility: boolean,
     userid: string,
     createdAt: Date,
     updatedAt: Date,
     likes: number,
     dislikes: number,
-    comments: number
+    comments: number,
+    calories: number,
+    sugar: number,
+    cholesterol: number,
+    fat: number,
+    recipe: string,
+    instructions: string[],
+    ingredients: string[],
+    servings: number,
 }
 
 const userPostSchema = new Schema<IUserPost>({
@@ -37,6 +46,7 @@ const userPostSchema = new Schema<IUserPost>({
         type: String,
         required: false
     },
+    userId: {
     visibility: {
         type: Boolean,
         required: true
@@ -65,6 +75,27 @@ const userPostSchema = new Schema<IUserPost>({
         type: Number,
         default: 0
     },
+    calories: {
+        type: Number
+    },
+    sugar: {
+        type: Number
+    },
+    cholesterol: {
+        type: Number
+    },
+    fat: {
+        type: Number
+    },
+    recipe: {
+        type: String
+    },
+    instructions: [{type: String, required: true}],
+    ingredients: [{type: String, required: true}],
+    servings: {
+        type: Number
+    }
+    
 });
 
 const userPost: Model<IUserPost> = mongoose.models.UserPost || mongoose.model<IUserPost>("UserPost", userPostSchema);

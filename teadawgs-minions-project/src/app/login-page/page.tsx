@@ -1,6 +1,5 @@
 "use client"
 import React, {useState} from "react";
-import Header from "../../components/ui-elements/Header";
 import Image from "next/image";
 import background from "../../assets/LoginBG.jpg"
 import { doCredentialLogin } from "../auth/authActions";
@@ -31,10 +30,6 @@ export default function LoginPage() {
 
     return (
         <div>
-            <div className="relative z-10">
-                <Header authenticated={false}/>
-            </div>
-            
             <Image
                 src={background}
                 alt={"Stock Photos Background"}
@@ -44,12 +39,13 @@ export default function LoginPage() {
             />
 
             {/* Bubbles */}
-            <div className = "absolute left-[50%] -translate-y-1/2 h-90 w-90 rounded-full bg-red-400 z-[0]"></div>
-            <div className = "absolute top-[25%] left-[40%] h-90 w-90 rounded-full bg-red-400 z-[0]"></div>
-            <div className = "absolute top-[65%] left-[40%] h-70 w-70 rounded-full bg-red-400 z-[0]"></div>
+            <div className = "absolute left-[50%] -translate-y-1/2 h-90 w-90 rounded-full bg-red-400 z-[-1]"></div>
+            <div className = "absolute top-[25%] left-[40%] h-90 w-90 rounded-full bg-red-400 z-[-1]"></div>
+            <div className = "absolute top-[65%] left-[40%] h-70 w-70 rounded-full bg-red-400 z-[-1]"></div>
 
+            {/* Login form */}
             <div className="flex flex-1">
-                <div className="w-[55%] bg-red-400 min-h-[calc(100vh-4rem)] z-0">
+                <div className="w-[55%] bg-red-400 min-h-[calc(100vh-4rem)]">
                     <main className="max-w-md mx-auto mt-[100px] p-4 bg-[#1C1A1A] rounded-2xl mb-2">
                         <h1 className="relative text-3xl font-roboto text-white text-center">Welcome!</h1>
                         <h1 className="relative text-3xl font-roboto text-white text-center mb-5">Sign into your account</h1>

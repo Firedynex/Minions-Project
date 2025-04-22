@@ -27,7 +27,7 @@ export async function GET() {
  */
 export async function POST(request: NextRequest) {
     try {
-        const {_id, userId, title, description, link, visibility, likes, dislikes, comments} = await request.json();
+        const {userId, title, description, content, link, likes, dislikes, comments, calories, sugar, cholesterol, fat, recipe, instructions, ingredients, servings} = await request.json();
         await connectMongoDB();
         const userExists = await User.findOne<{ _id: string }>({ _id: userId });
         if (!userExists) {
@@ -39,10 +39,17 @@ export async function POST(request: NextRequest) {
             title,
             description,
             link,
-            visibility,
             likes,
             dislikes,
-            comments
+            comments,
+            calories,
+            sugar,
+            cholesterol,
+            fat,
+            recipe,
+            instructions,
+            ingredients,
+            servings
         });
         return NextResponse.json({message: "Post created successfully!", createdPost}, {status: 201});
     } catch (error) {
