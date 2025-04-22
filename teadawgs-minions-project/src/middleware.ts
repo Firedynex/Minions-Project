@@ -26,6 +26,8 @@ export const config = {
         "/authenticated-view",
         "/food-page",
         "/history",
+        "/api/userPosts/[id]/comments/:path*",
+        "/api/users/[id]/:path*",
     ],
 };
 
