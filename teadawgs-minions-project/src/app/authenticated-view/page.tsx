@@ -1,14 +1,49 @@
+"use client"
 import UserPost from "@/components/ui-elements/UserPost";
 import Sidebar from "@/components/ui-elements/Sidebar";
+import { useEffect, useState } from "react";
 
+interface UserPost {
+    id: string,
+    title: string,
+    description: string,
+    content: string,
+    link: string,
+    userId: string,
+    likes: number,
+    dislikes: number,
+    comments: number
+}
 
 export default function AuthenticatedHomePage() {
+    const [posts, setPosts] = useState<UserPost[]>([]);
+
+    useEffect(() => {
+        const url = "http://localhost:3000/api/userPosts";
+        const fetchData = async () => {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error("Error getting user posts! " + response.status);
+                }
+                const data = await response.json();
+                console.log(data);
+                setPosts(data);
+            } catch (error) {
+                console.error("Error getting user posts!", error);
+            }
+        }
+        fetchData();
+    }, []);
+    
     return(
         <>
             
             <div className="m-3 flex flex-row justify-center items-center"> 
                 <Sidebar />
-                <UserPost />
+                {posts.map((post) => (
+                    <UserPost key={post.id} userPost = {post}/>
+                ))}
             </div>
 
             {/* bubbles */}
