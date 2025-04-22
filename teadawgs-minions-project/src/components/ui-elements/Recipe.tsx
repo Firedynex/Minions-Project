@@ -60,7 +60,7 @@ export default function Recipe({ userId }: { userId: string }) {
 
           {/* Right: Content Area */}
           <div className="flex-1 flex flex-col">
-            <h1 className="text-3xl font-bold mb-9 border-b border-gray-700 pb-4 text-center">
+            <h1 className="text-3xl font-bold mb-9 border-b border-gray-700 pb-4 text-center mb-10">
               {post.recipe}
             </h1>
 

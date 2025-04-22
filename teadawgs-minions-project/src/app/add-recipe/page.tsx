@@ -95,89 +95,121 @@ export default function AddRecipe({ userId }: { userId: string }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Title Input with Loading Indicator */}
-      <div className="relative">
-        <input
-          type="text"
-          placeholder="Recipe Title"
-          value={data.recipe}
-          onChange={(e) => setData({ ...data, recipe: e.target.value })}
-          required
-          className="w-full p-3 bg-gray-800 rounded pr-24"
-        />
-        {nutritionLoading && (
-          <div className="absolute right-3 top-3 text-gray-400 text-sm">
-            Loading nutrition...
+    <div className="min-h-screen bg-black text-gray-100">
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-red-400">Add New Recipe</h1>
+          <p className="text-gray-400 mt-2">Create and share your culinary masterpiece</p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Main Form */}
+          <div className="lg:col-span-3">
+            <form onSubmit={handleSubmit} className="bg-gray-900 rounded-xl p-6 shadow-lg space-y-6">
+              {/* Title Input with Loading Indicator */}
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Recipe Title"
+                  value={data.recipe}
+                  onChange={(e) => setData({ ...data, recipe: e.target.value })}
+                  required
+                  className="w-full p-4 bg-gray-800 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500"
+                />
+                {nutritionLoading && (
+                  <div className="absolute right-4 top-4 text-gray-400 text-sm">
+                    Loading nutrition...
+                  </div>
+                )}
+              </div>
+
+              {/* Ingredients */}
+              <div>
+                <label className="block text-gray-300 mb-2">Ingredients</label>
+                <textarea
+                  placeholder="Enter ingredients, one per line"
+                  value={data.ingredients.join('\n')}
+                  onChange={(e) => setData({ ...data, ingredients: e.target.value.split('\n') })}
+                  className="w-full p-4 bg-gray-800 rounded-lg h-32 text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500"
+                />
+              </div>
+
+              {/* Instructions */}
+              <div>
+                <label className="block text-gray-300 mb-2">Instructions</label>
+                <textarea
+                  placeholder="Enter instructions, one step per line"
+                  value={data.instructions.join('\n')}
+                  onChange={(e) => setData({ ...data, instructions: e.target.value.split('\n') })}
+                  className="w-full p-4 bg-gray-800 rounded-lg h-32 text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500"
+                />
+              </div>
+
+              {/* Servings & Image */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-gray-300 mb-2">Servings</label>
+                  <input
+                    type="number"
+                    placeholder="Servings"
+                    value={data.servings}
+                    onChange={(e) => setData({ ...data, servings: +e.target.value })}
+                    className="w-full p-4 bg-gray-800 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500"
+                    min="1"
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-300 mb-2">Image URL</label>
+                  <input
+                    type="url"
+                    placeholder="Paste image URL"
+                    value={data.image}
+                    onChange={(e) => setData({ ...data, image: e.target.value })}
+                    className="w-full p-4 bg-gray-800 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500"
+                  />
+                </div>
+              </div>
+
+              {/* Nutrition Inputs */}
+              <div>
+                <h3 className="text-xl font-semibold text-red-300 mb-4">Nutrition Information</h3>
+                <div className="grid grid-cols-2 gap-6">
+                  {(['cholesterol', 'sugar', 'carbs', 'fat'] as const).map((key) => (
+                    <div key={key}>
+                      <label className="block text-gray-300 mb-2 capitalize">{key}</label>
+                      <input
+                        type="number"
+                        placeholder={`${key} (g)`}
+                        value={data.nutrition[key]}
+                        onChange={(e) =>
+                          setData({
+                            ...data,
+                            nutrition: { ...data.nutrition, [key]: Math.max(0, +e.target.value) }
+                          })
+                        }
+                        className="w-full p-4 bg-gray-800 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500"
+                        min="0"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full py-4 bg-red-600 hover:bg-red-700 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? 'Saving Recipe...' : 'Save Recipe'}
+              </button>
+              
+              {error && <p className="text-red-500 text-center py-2">{error}</p>}
+            </form>
           </div>
-        )}
+        </div>
       </div>
-
-      {/* Ingredients */}
-      <textarea
-        placeholder="Ingredients (one per line)"
-        value={data.ingredients.join('\n')}
-        onChange={(e) => setData({ ...data, ingredients: e.target.value.split('\n') })}
-        className="w-full p-3 bg-gray-800 rounded h-32"
-      />
-
-      {/* Instructions */}
-      <textarea
-        placeholder="Instructions (one per line)"
-        value={data.instructions.join('\n')}
-        onChange={(e) => setData({ ...data, instructions: e.target.value.split('\n') })}
-        className="w-full p-3 bg-gray-800 rounded h-32"
-      />
-
-      {/* Servings & Image */}
-      <div className="grid grid-cols-2 gap-4">
-        <input
-          type="number"
-          placeholder="Servings"
-          value={data.servings}
-          onChange={(e) => setData({ ...data, servings: +e.target.value })}
-          className="p-3 bg-gray-800 rounded"
-          min="1"
-        />
-        <input
-          type="url"
-          placeholder="Image URL"
-          value={data.image}
-          onChange={(e) => setData({ ...data, image: e.target.value })}
-          className="p-3 bg-gray-800 rounded"
-        />
-      </div>
-
-      {/* Nutrition Inputs */}
-      <div className="grid grid-cols-2 gap-4">
-        {(['cholesterol', 'sugar', 'carbs', 'fat'] as const).map((key) => (
-          <input
-            key={key}
-            type="number"
-            placeholder={key}
-            value={data.nutrition[key]}
-            onChange={(e) =>
-              setData({
-                ...data,
-                nutrition: { ...data.nutrition, [key]: Math.max(0, +e.target.value) }
-              })
-            }
-            className="p-3 bg-gray-800 rounded"
-            min="0"
-          />
-        ))}
-      </div>
-
-      {/* Submit Button */}
-      <button
-        type="submit"
-        disabled={loading}
-        className="w-full py-3 bg-red-600 rounded disabled:opacity-50"
-      >
-        {loading ? 'Saving...' : 'Save Recipe'}
-      </button>
-      
-      {error && <p className="text-red-500">{error}</p>}
-    </form>
+    </div>
   );
 }
