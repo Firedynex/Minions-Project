@@ -1,6 +1,6 @@
 import Header from "@/components/ui-elements/Header";
 import Sidebar from "@/components/ui-elements/Sidebar";
-import HistoryPage from "@/components/ui-elements/history";
+import HistoryPage from "@/components/ui-elements/History";
 
 export default function AuthenticatedHomePage() {
     return(
