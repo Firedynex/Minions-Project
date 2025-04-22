@@ -3,14 +3,9 @@ import React, {useState, useEffect} from "react";
 import { useParams } from 'next/navigation';
 import Image from "next/image";
 import personalinfo from "../../../assets/personal_info_pic.jpg"
+import { getSession } from "next-auth/react";
 
-// user: {
-//     username: string;
-//     firstName: string;
-//     lastName: string;
-//     email: string;
-//     password: string;
-// }
+const session = await getSession();
 
 export default function PersonalInfoPage() {
     const [user, setUser] = useState({
@@ -20,8 +15,7 @@ export default function PersonalInfoPage() {
         email: "",
         password: ""
     });
-    const params = useParams();
-    const id = params?.id as string;
+    const id = session?.user?.id;
 
     const [editing, setEditing] = useState({
         username: false,
@@ -30,34 +24,6 @@ export default function PersonalInfoPage() {
         email: false,
         password: false
     });
-
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const response = await fetch(`http://localhost:3000/api/users/${id}`, {
-                    credentials: 'include'
-                });
-                if (!response.ok) {
-                    throw new Error('Network response failed');
-                }
-                const data = await response.json();
-                const userData = data.user;
-                setUser({
-                    username: userData.username || "",
-                    firstName: userData.firstName || "",
-                    lastName: userData.lastName || "",
-                    email: userData.email || "",
-                    password: userData.password || "",
-                });
-            }
-            catch (error) {
-                console.error("Error fetching user data: ", error);
-            }
-        };
-        if (id) {
-            fetchUserData();
-        }
-    }, [id]);
 
 
     const handleEdit = (field: keyof typeof editing) => {
@@ -69,6 +35,7 @@ export default function PersonalInfoPage() {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { id, value } = e.target;
+        console.log(id);
         setUser(prev => ({
           ...prev,
           [id]: value,
@@ -76,9 +43,12 @@ export default function PersonalInfoPage() {
       };
 
     const handleSave = async (e: React.FormEvent) => {
+        if (!user.username || !user.email || !user.password) {
+            alert("Username, email, and password are required fields!");
+            return;
+        }
         e.preventDefault();
         try {
-            console.log("params:", params);
             const response = await fetch(`/api/users/${id}`, {
               method: 'PUT',
               headers: {
@@ -116,7 +86,7 @@ export default function PersonalInfoPage() {
             <div className="flex flex-1">
                 <div className="w-[40%] bg-red-400 min-h-[calc(100vh-4rem)] flex items-center justify-center">
                 <div className="relative z-10 ml-5">
-                        <Image src={personalinfo} alt="paperdoingpaperwork" width={450} height={450} className="object-contain max-w-full max-h-full"></Image>
+                        <Image priority src={personalinfo} alt="paperdoingpaperwork" width={450} height={450} className="object-contain max-w-full max-h-full"></Image>
                     </div>
                 </div>
                 <div className="w-3/5">

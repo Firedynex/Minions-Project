@@ -31,7 +31,7 @@ export default function Header({ session }: HeaderProperties) {
                 {/* <div className="flex flex-1 items-center justify-center md:items-stretch"> */}
                     {/* Logo and name */}
                     <div className="md:flex left-4">
-                        <Link href="/">
+                        <Link href={isLoggedIn ? "/authenticated-view" : "/"}>
                             <Image 
                                 src="/teacup_dog_paw_logo.svg"
                                 alt="Teacup Dog Paw Logo"
