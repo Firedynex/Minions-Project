@@ -154,6 +154,18 @@ export default function UserPost({userPost} : UserPostsProps) {
             </button>
           </div>
         </div>
+        {showComments && (
+          <div className="w-full max-w-2xl bg-white p-4 rounded-lg mt-2">
+            <div className="mb-4">
+              <textarea value={newComment} onChange={(e) => setNewComment(e.target.value)} placeholder="Write a comment..." className="w-full p-2 border rounded mb-2" rows={3}>
+              </textarea>
+              <button onClick={handleAddComment} className="bg-blue-500 text-white px-4 py-1 rounded text-sm">
+                  Post Comment
+                </button>
+            </div>
+            
+          </div>
+        )}
     </div>
   );
 }
