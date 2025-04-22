@@ -10,7 +10,7 @@ const middleware = async (request: NextRequest) => {
     const isAuthenticated = !!session?.user;
     console.log(isAuthenticated, pathname);
 
-    const publicPaths = ["/", "/login-page", "/create-account-page"];
+    const publicPaths = ["/", "/login-page", "/create-account-page", "/api/users", "/api/userPosts"];
 
     if (!isAuthenticated && !publicPaths.includes(pathname)) {
         return NextResponse.redirect(new URL("/login-page", request.url));
@@ -27,7 +27,8 @@ export const config = {
         "/food-page",
         "/history",
         "/api/userPosts/[id]/comments/:path*",
-        "/api/users/[id]/:path*",
+        "/api/users/:path*",
+        "/api/userPosts/:path*"
     ],
 };
 
