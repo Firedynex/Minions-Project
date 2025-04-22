@@ -1,24 +1,21 @@
 'use client';
 import React, {useState, useEffect} from "react";
+import { useParams } from 'next/navigation';
 import Image from "next/image";
-import personalinfo from "../../assets/personal_info_pic.jpg"
+import personalinfo from "../../../assets/personal_info_pic.jpg"
+import { getSession } from "next-auth/react";
 
-type User = {
-    username: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-};
+const session = await getSession();
 
 export default function PersonalInfoPage() {
-    const [user, setUser] = useState<User>({
+    const [user, setUser] = useState({
         username: "",
         firstName: "",
         lastName: "",
         email: "",
         password: ""
     });
+    const id = session?.user?.id;
 
     const [editing, setEditing] = useState({
         username: false,
@@ -28,49 +25,41 @@ export default function PersonalInfoPage() {
         password: false
     });
 
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const response = await fetch("http://localhost:3000/api/users/current", {
-                    credentials: 'include'
-                });
-                if (response.ok) {
-                    const userData = await response.json();
-                    setUser(userData);
-                }
-            }
-            catch (error) {
-                console.error("Error fetching user data: ", error);
-            }
-        };
-        fetchUserData();
-    }, []);
 
     const handleEdit = (field: keyof typeof editing) => {
-        setEditing({...editing, [field]: true});
-    };
+        setEditing(prev => ({
+            ...prev,
+            [field]: true,
+          }));
+      };
 
-    const handleSave = async () => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { id, value } = e.target;
+        console.log(id);
+        setUser(prev => ({
+          ...prev,
+          [id]: value,
+        }));
+      };
+
+    const handleSave = async (e: React.FormEvent) => {
         if (!user.username || !user.email || !user.password) {
             alert("Username, email, and password are required fields!");
             return;
         }
-        
-        try{
-            const response = await fetch("http://localhost:3000/api/users/update", {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(user),
-                credentials: 'include'
+        e.preventDefault();
+        try {
+            const response = await fetch(`/api/users/${id}`, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(user),
             });
-
+      
             if (!response.ok) {
-                const errorMessage = await response.text();
-                throw new Error(`Error updating user: ${errorMessage}`);
+              throw new Error('Network response failed');
             }
-
             setEditing({
                 username: false,
                 firstName: false,
@@ -78,21 +67,18 @@ export default function PersonalInfoPage() {
                 email: false,
                 password: false
             });
-
-            alert("Profile updated successfully!");
-        } catch (error) {
+            alert("Profile updated successfully");
+          } catch (error) {
             console.error("Updated error:", error);
             alert(error instanceof Error ? error.message : "Failed to update profile");
-        }
+          }
+        };
+
         
 
-        alert("Profile updated successfully!");
-
-    };
-
     return(
-        <div className="min-h-screen bg-white">
-            {/* <div className="absolute inset-0 overflow-hidden z-0">
+        <div className="min-h-screen">
+            {/* <div className="absolute inset-0 overflow-hidden z-[-1]">
                 <div className="absolute top-[4%] left-[25%] h-80 w-80 rounded-full bg-red-400"></div>
                 <div className="absolute top-[43%] left-[25%] h-62 w-62 rounded-full bg-red-400"></div>
                 <div className="absolute top-[70%] left-[23%] h-70 w-70 rounded-full bg-red-400"></div>
@@ -100,13 +86,13 @@ export default function PersonalInfoPage() {
             <div className="flex flex-1">
                 <div className="w-[40%] bg-red-400 min-h-[calc(100vh-4rem)] flex items-center justify-center">
                 <div className="relative z-10 ml-5">
-                        <Image src={personalinfo} alt="paperdoingpaperwork" width={450} height={450} className="object-contain max-w-full max-h-full"></Image>
+                        <Image priority src={personalinfo} alt="paperdoingpaperwork" width={450} height={450} className="object-contain max-w-full max-h-full"></Image>
                     </div>
                 </div>
-                <div className="w-3/5 bg-white">
+                <div className="w-3/5">
     
-                    <main className="max-w-md mx-auto mt-[100px] p-4">
-                        <h1 className="text-3xl font-bold text-gray-800 mb-8">Hello, {user.username}</h1>
+                    <main className="max-w-md mx-auto mt-[100px] p-4 bg-white">
+                        <h1 className="text-3xl font-bold text-gray-800 mb-8">Hello, </h1>
                         <form className="space-y-6">
                             {[
                                 {id: 'firstName', label: 'first Name'},
@@ -120,7 +106,7 @@ export default function PersonalInfoPage() {
                                         {field.label}
                                     </label>
                                     <div className="flex items-center">
-                                        <input type={field.type  || 'text'} id={field.id} value={user[field.id as keyof typeof user]} onChange={(e) => setUser({...user, [field.id]: e.target.value})}
+                                        <input type={field.type  || 'text'} id={field.id} value={user[field.id as keyof typeof user]} onChange={handleChange}
                                                 readOnly={!editing[field.id as keyof typeof editing]} className={`w-full px-3 py-2 border border-gray-300 rounded-mb focus:outline-none focus:ring-2 focus ring-[#f87171] ${!editing[field.id as keyof typeof editing] ? 'bg-gray-700 cursor-not-allowed' : 'bg-white text-gray-900 font-medium'}`}/>
                                         {!editing[field.id as keyof typeof editing] && (
                                             <button type="button" onClick={() => handleEdit(field.id as keyof typeof editing)} className="ml-2 text-gray-500 hover:text-gray-700">
