@@ -84,6 +84,27 @@ export default function UserPost({userPost} : UserPostsProps) {
     }
   }
 
+  const handleAddComment =  async () => {
+    if(!newComment.trim()) return;
+
+    try{
+      const response = await fetch(`/api/posts/${userPost._id}/comments`,{
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+          userId: "CURRENT_USER_ID",
+          text: newComment
+        }),
+      });
+      if(response.ok){
+        const addedComment = await response.json();
+        setComments([...comments, addedComment]);
+        setNewComment("");
+      }
+    } catch(error) {
+      console.error("Error adding comments:", error);
+    }
+  }
   return (
     <div className="flex flex-col w-full items-center justify-center bg-red-400 p-4 max-w-4xl m-4 rounded-lg">
         <div className="flex flex-row w-full max-w-2xl mb-4">
