@@ -41,13 +41,11 @@ export default function AuthenticatedHomePage() {
             
             <div className="m-3 flex flex-row justify-center items-center"> 
                 <Sidebar />
-                < UserPost/>
-            <div>
-
+                <div className="flex flex-col gap-4 ml-4">
+                    {posts.map((post) => (
+                        <UserPost key={post.id} userPost = {post}/>
+                    ))}
                 </div>
-                {posts.map((post) => (
-                    <UserPost key={post.id} userPost = {post}/>
-                ))}
             </div>
 
             {/* bubbles */}
