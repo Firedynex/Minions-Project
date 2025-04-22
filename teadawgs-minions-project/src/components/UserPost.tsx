@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function UserPost() {
+  const [postComments, setPostComments] = useState<Record<number, any[]>>({});
+  const [newComment, setNewComment] = useState("");
   const [posts, setPosts] = useState([
     {
       id: 1,
@@ -40,6 +42,20 @@ export default function UserPost() {
     },
   ]);
 
+  const fetchComments = async (postId: number) => {
+    try{
+      const response = await fetch(`/api/userPosts/${postId}/comments`);
+      if (!response.ok) throw new Error("Failed to fetch comments");
+      const comments = await response.json();
+      setPostComments(prev => ({
+        ...prev,
+        [postId]: comments
+      }));
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+    }
+  }
+
   const handleToggle = (id: number, action: "like" | "dislike" | "comment") => {
     setPosts((prevPosts) =>
       prevPosts.map((post) => {
@@ -59,6 +75,9 @@ export default function UserPost() {
           };
         }
         if (action === "comment") {
+          if(!post.showComments){
+            fetchComments(id);
+          }
           return {
             ...post,
             showComments: !post.showComments,

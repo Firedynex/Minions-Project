@@ -21,10 +21,6 @@ export async function GET(request: NextRequest, {params}: RouteParams) {
     try {
         const {id} = params;
         await connectMongoDB();
-        const userExists = await User.findById({_id: id});
-        if (!userExists) {
-            return NextResponse.json({message: "User does not exist!"}, {status: 404});
-        }
         const comments = await Comment.find({postId: id});
         return NextResponse.json(comments, {status: 200});
     } catch(error) {

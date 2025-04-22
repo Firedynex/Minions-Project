@@ -27,17 +27,17 @@ export async function GET() {
  */
 export async function POST(request: NextRequest) {
     try {
-        const {userId, title, description, content, link, visibility, likes, dislikes, comments} = await request.json();
+        const {_id, userId, title, description, link, visibility, likes, dislikes, comments} = await request.json();
         await connectMongoDB();
         const userExists = await User.findOne<{ _id: string }>({ _id: userId });
         if (!userExists) {
             return NextResponse.json({message: "User does not exist!"}, {status: 404});
         }
         const createdPost = await userPost.create({
+            _id,
             userId,
             title,
             description,
-            content,
             link,
             visibility,
             likes,

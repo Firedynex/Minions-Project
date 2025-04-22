@@ -1,35 +1,38 @@
-import mongoose, {Schema, Document, Model} from "mongoose";
+import mongoose, { Schema, Document, Model } from "mongoose";
 
-interface IRecipe extends Document {
-    title: string,
-    ingredients: string,
-    servings: string,
-    instructions: string
-    userId: string
+export interface INutrition {
+  calories: number;
+  cholesterol: number;
+  carbs: number;
+  fat: number;
 }
 
-const recipeSchema = new Schema<IRecipe>({
-    title: {
-        type: String,
-        required: true
-    },
-    ingredients: {
-        type: String,
-        required: true
-    },
-    servings: {
-        type: String,
-        required: false
-    },
-    instructions: {
-        type: String,
-        required: true
-    },
-    userId: {
-        type: String,
-        required: true
-    }
+export interface IRecipe extends Document {
+  recipe: string;               
+  instructions: string[];
+  ingredients: string[];
+  servings: number;
+  nutrition: INutrition;
+  image: string;
+  userId?: string;
+}
+
+const nutritionSchema = new Schema<INutrition>({
+  calories: { type: Number, default: 0 },
+  cholesterol: { type: Number, default: 0 },
+  carbs:   { type: Number, default: 0 },
+  fat:     { type: Number, default: 0 },
 });
+
+const recipeSchema = new Schema<IRecipe>({
+  recipe:     { type: String, required: true },
+  instructions: [{ type: String, required: true }],
+  ingredients:  [{ type: String, required: true }],
+  servings:      { type: Number, default: 1 },
+  nutrition:     { type: nutritionSchema, required: true },
+  image:         { type: String, default: '' },
+  userId:        { type: String, required: true },
+}, { timestamps: true });
 
 const Recipe: Model<IRecipe> = mongoose.models.Recipe || mongoose.model<IRecipe>("Recipe", recipeSchema);
 export default Recipe;

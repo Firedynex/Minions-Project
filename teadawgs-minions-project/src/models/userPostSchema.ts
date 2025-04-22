@@ -4,10 +4,11 @@ import type {Date} from "mongoose";
 interface IUserPost extends Document {
     title: string,
     description: string,
+    postid: string,
     content: string,
     link: string,
     visibility: boolean,
-    userId: string,
+    userid: string,
     createdAt: Date,
     updatedAt: Date,
     likes: number,
@@ -24,6 +25,10 @@ const userPostSchema = new Schema<IUserPost>({
         type: String,
         required: true
     },
+    postid:{
+        type: String,
+        required: true
+    },
     content: {
         type: String,
         required: false
@@ -36,7 +41,7 @@ const userPostSchema = new Schema<IUserPost>({
         type: Boolean,
         required: true
     },
-    userId: {
+    userid: {
         type: String,
         required: true
     },
@@ -59,7 +64,7 @@ const userPostSchema = new Schema<IUserPost>({
     comments: {
         type: Number,
         default: 0
-    }
+    },
 });
 
 const userPost: Model<IUserPost> = mongoose.models.UserPost || mongoose.model<IUserPost>("UserPost", userPostSchema);
