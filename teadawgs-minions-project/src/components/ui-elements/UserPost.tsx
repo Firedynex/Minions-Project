@@ -2,6 +2,13 @@
 import { useState } from "react";
 import Image from "next/image";
 
+interface Comment {
+  _id: string;
+  userId: string;
+  text: string;
+  createdAt: string;
+}
+
 interface UserPostsProps {
   userPost: {
     _id: string,
@@ -12,7 +19,7 @@ interface UserPostsProps {
     userId: string,
     likes: number,
     dislikes: number,
-    comments: number
+    comments: Comment[];
   }
 }
 
@@ -22,6 +29,9 @@ export default function UserPost({userPost} : UserPostsProps) {
   const [comment, setComment] = useState<boolean>(false);
   const [likes, setLikes] = useState<number>(userPost.likes);
   const [dislikes, setDislikes] = useState<number>(userPost.dislikes);
+  const [newComment, setNewComment] = useState<string>("");
+  const [showComments, setShowComments] = useState<boolean>(false);
+  const [comments, setComments] = useState<Comment[]>(userPost.comments || []);
 
   async function handleToggle(action : "like" | "dislike" | "comment") {
     const updatedPost = {
@@ -53,7 +63,7 @@ export default function UserPost({userPost} : UserPostsProps) {
       updatedPost.likes = newLikes;
       updatedPost.dislikes = newDislikes;
     } else if (action === "comment") {
-      setComment(!comment);
+      setShowComments(!showComments);
       return;
     }
 
