@@ -28,7 +28,6 @@ export async function POST(request: Request) {
     if (!recipe) {
       return NextResponse.json({ error: 'Missing required recipe field' }, { status: 400 });
     }
-    //test id until can get userid
     const newRecipe = new Recipe({
       recipe,
       instructions,

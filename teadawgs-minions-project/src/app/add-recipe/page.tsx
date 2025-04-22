@@ -15,8 +15,6 @@ interface RecipeFormData {
   servings: number;
   nutrition: Nutrition;
   image: string;
-  visibility: 'public' | 'private';
-  status: 'draft' | 'published';
 }
 
 export default function AddRecipe({ userId }: { userId: string }) {
@@ -27,12 +25,12 @@ export default function AddRecipe({ userId }: { userId: string }) {
     servings: 4,
     nutrition: { cholesterol: 0, sugar: 0, carbs: 0, fat: 0 },
     image: '',
-    visibility: 'public',
-    status: 'draft'
   });
   const [loading, setLoading] = useState(false);
   const [nutritionLoading, setNutritionLoading] = useState(false);
   const [error, setError] = useState('');
+  const [detailsFetched, setDetailsFetched] = useState(false);
+
 
   const fetchNutritionData = useCallback(async () => {
     if (!data.recipe.trim()) return;
@@ -59,10 +57,7 @@ export default function AddRecipe({ userId }: { userId: string }) {
     }
   }, [data.recipe]);
 
-  useEffect(() => {
-    const timer = setTimeout(fetchNutritionData, 1000);
-    return () => clearTimeout(timer);
-  }, [data.recipe, fetchNutritionData]);
+ 
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -70,7 +65,7 @@ export default function AddRecipe({ userId }: { userId: string }) {
     setError('');
 
     try {
-      const res = await fetch('/api/recipes', {
+      const res = await fetch('/api/recipe_list', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId, ...data })
@@ -87,12 +82,41 @@ export default function AddRecipe({ userId }: { userId: string }) {
         image: '', visibility: 'public', status: 'draft'
       });
       alert('Saved successfully');
-    } catch (e: any) {
+    } catch (err) {
       setError(e.message);
     } finally {
       setLoading(false);
     }
   };
+  
+
+  const fetchRecipeDetailsData = useCallback(async () => {
+    if (!data.recipe.trim()) return;
+  
+    try {
+      const response = await fetch(`/api/recipeDetails?query=${encodeURIComponent(data.recipe)}`);
+      if (!response.ok) throw new Error('Recipe details not found');
+  
+      const result = await response.json();
+      setData(prev => ({
+        ...prev,
+        ingredients: result.ingredients || [],
+        instructions: result.instructions || [],
+        servings: result.servings || 0
+      }));
+      setDetailsFetched(true);
+    } catch (err) {
+      console.error('Failed to fetch recipe details');
+    }
+  }, [data.recipe]);
+  
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetchNutritionData();
+      fetchRecipeDetailsData();
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [data.recipe, fetchNutritionData, fetchRecipeDetailsData]);
 
   return (
     <div className="min-h-screen bg-black text-gray-100">
@@ -126,7 +150,9 @@ export default function AddRecipe({ userId }: { userId: string }) {
 
               {/* Ingredients */}
               <div>
-                <label className="block text-gray-300 mb-2">Ingredients</label>
+                <label className="block text-gray-300 mb-2">
+                  Ingredients
+                </label>
                 <textarea
                   placeholder="Enter ingredients, one per line"
                   value={data.ingredients.join('\n')}
@@ -137,14 +163,17 @@ export default function AddRecipe({ userId }: { userId: string }) {
 
               {/* Instructions */}
               <div>
-                <label className="block text-gray-300 mb-2">Instructions</label>
+                <label className="block text-gray-300 mb-2">
+                  Instructions
+                </label>
                 <textarea
                   placeholder="Enter instructions, one step per line"
                   value={data.instructions.join('\n')}
                   onChange={(e) => setData({ ...data, instructions: e.target.value.split('\n') })}
-                  className="w-full p-4 bg-gray-800 rounded-lg h-32 text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500"
+                  className="w-full p-4 bg-gray-800 rounded-lg h-48 text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500"
                 />
               </div>
+
 
               {/* Servings & Image */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -180,6 +209,7 @@ export default function AddRecipe({ userId }: { userId: string }) {
                       <label className="block text-gray-300 mb-2 capitalize">{key}</label>
                       <input
                         type="number"
+                        step="0.01"
                         placeholder={`${key} (g)`}
                         value={data.nutrition[key]}
                         onChange={(e) =>

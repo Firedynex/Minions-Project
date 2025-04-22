@@ -2,7 +2,7 @@ import mongoose, { Schema, Document, Model } from "mongoose";
 
 export interface INutrition {
   calories: number;
-  protein: number;
+  cholesterol: number;
   carbs: number;
   fat: number;
 }
@@ -15,13 +15,11 @@ export interface IRecipe extends Document {
   nutrition: INutrition;
   image: string;
   userId?: string;
-  visibility: 'public' | 'private';
-  status: 'draft' | 'published';
 }
 
 const nutritionSchema = new Schema<INutrition>({
   calories: { type: Number, default: 0 },
-  protein: { type: Number, default: 0 },
+  cholesterol: { type: Number, default: 0 },
   carbs:   { type: Number, default: 0 },
   fat:     { type: Number, default: 0 },
 });
@@ -34,8 +32,6 @@ const recipeSchema = new Schema<IRecipe>({
   nutrition:     { type: nutritionSchema, required: true },
   image:         { type: String, default: '' },
   userId:        { type: String, required: true },
-  visibility:    { type: String, enum: ['public', 'private'], default: 'public' },
-  status:        { type: String, enum: ['draft', 'published'], default: 'draft' },
 }, { timestamps: true });
 
 const Recipe: Model<IRecipe> = mongoose.models.Recipe || mongoose.model<IRecipe>("Recipe", recipeSchema);

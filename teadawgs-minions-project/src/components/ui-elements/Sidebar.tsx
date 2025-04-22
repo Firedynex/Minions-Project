@@ -18,16 +18,6 @@ export default function Sidebar() {
         />
       </Link>
 
-      <Link href="/food-page">
-        <Image
-          src="/make_food.svg"
-          alt="Make food icon"
-          width={100}
-          height={100}
-          className="w-20 h-20 hover:scale-110 transition-transform duration-300 cursor-pointer"
-        />
-      </Link>
-
       <Link href="/history">
         <Image
           src="/history_icon.svg"
@@ -39,28 +29,15 @@ export default function Sidebar() {
       </Link>
 
       {/* Add Post Menu */}
-      <div className="relative">
+      <Link href="/add-recipe">
         <Image
           src="/add_icon.svg"
           alt="Add post icon"
           width={100}
           height={100}
-          onClick={() => setShowOptions((prev) => !prev)}
           className="w-20 h-20 hover:scale-110 transition-transform duration-300 cursor-pointer"
         />
-
-        {/* Dropdown menu */}
-        {showOptions && (
-          <div className="absolute right-24 top-1/2 transform -translate-y-1/2 bg-white text-black shadow-md rounded-lg z-50">
-            <Link href="/add-post" className="bg-red block px-4 py-2 hover:bg-gray-200">
-              Add Post
-            </Link>
-            <Link href="/add-recipe" className="bg-red block px-4 py-2 hover:bg-gray-200">
-              Add Recipe
-            </Link>
-          </div>
-        )}
-      </div>
+        </Link>
     </div>
   );
 }
