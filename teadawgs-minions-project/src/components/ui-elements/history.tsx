@@ -69,25 +69,25 @@ export default function UserHistory() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 relative left-13">
           <div className="lg:col-span-3 space-y-6 ">
             {recipes.map((recipe) => (
-              <div 
+              <div
                 key={recipe._id}
                 className="bg-gray-900 rounded-xl p-6 shadow-lg hover:bg-gray-800 transition-colors"
               >
                 <div className="flex gap-6">
-                  <div className="w-24 h-24 relative shrink-0">
-                    <Image
+                    <div className="w-24 h-24 relative shrink-0">
+                      <Image
                       src={recipe.image}
                       alt={recipe.title}
-                      fill
-                      className="object-cover rounded-lg"
-                      sizes="(max-width: 768px) 100vw, 10vw"
-                    />
-                  </div>
+                        fill
+                        className="object-cover rounded-lg"
+                        sizes="(max-width: 768px) 100vw, 10vw"
+                      />
+                    </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <span className="text-sm px-3 py-1 bg-red-500/20 rounded-full">
+                    <span className="text-sm px-3 py-1 bg-red-500/20 rounded-full">
                         {recipe.title}
-                      </span>
+                    </span>
                     </div>
                     <p className="text-gray-300 mt-2 line-clamp-2">
                       {recipe.description}
