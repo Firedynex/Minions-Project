@@ -1,6 +1,5 @@
 'use client';
-import React, {useState, useEffect} from "react";
-import { useParams } from 'next/navigation';
+import React, {useState} from "react";
 import Image from "next/image";
 import personalinfo from "../../../assets/personal_info_pic.jpg"
 import { getSession } from "next-auth/react";
