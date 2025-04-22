@@ -1,6 +1,5 @@
 'use client';
 import React, {useState, useEffect} from "react";
-import Header from "../../components/ui-elements/Header";
 import Image from "next/image";
 import personalinfo from "../../assets/personal_info_pic.jpg"
 
@@ -93,14 +92,11 @@ export default function PersonalInfoPage() {
 
     return(
         <div className="min-h-screen bg-white">
-            <div className="absolute inset-0 overflow-hidden z-0">
+            {/* <div className="absolute inset-0 overflow-hidden z-0">
                 <div className="absolute top-[4%] left-[25%] h-80 w-80 rounded-full bg-red-400"></div>
                 <div className="absolute top-[43%] left-[25%] h-62 w-62 rounded-full bg-red-400"></div>
                 <div className="absolute top-[70%] left-[23%] h-70 w-70 rounded-full bg-red-400"></div>
-            </div>
-            <div className="relative z-10">
-                <Header authenticated={true}/>
-            </div>
+            </div> */}
             <div className="flex flex-1">
                 <div className="w-[40%] bg-red-400 min-h-[calc(100vh-4rem)] flex items-center justify-center">
                 <div className="relative z-10 ml-5">
