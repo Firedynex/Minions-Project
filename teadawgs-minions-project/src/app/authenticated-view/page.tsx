@@ -39,10 +39,12 @@ export default function AuthenticatedHomePage() {
     return(
         <>
             
-            <div className="m-3 flex flex-row justify-center items-center"> 
+            <div className="m-3 flex flex-row justify-center items-center">
                 <Sidebar />
                 {posts.map((post) => (
-                    <UserPost key={post._id} userPost = {post}/>
+                    <div key={post._id} className="m-3 flex flex-col justify-center items-center">
+                        <UserPost userPost = {post}/>
+                    </div>
                 ))}
             </div>
 

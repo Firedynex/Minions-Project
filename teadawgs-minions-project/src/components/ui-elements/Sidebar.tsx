@@ -4,10 +4,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { getSession } from "next-auth/react";
 
-const session = await getSession();
-
 export default function Sidebar() {
   const [showOptions, setShowOptions] = useState(false);
+  const [session, setSession] = useState<any>(null);
+
+  useEffect(() => {
+    async function fetchSession() {
+      const sessionData = await getSession();
+      setSession(sessionData);
+    }
+    fetchSession();
+  }, []);
+
   const id = session?.user?.id;
 
   return (
