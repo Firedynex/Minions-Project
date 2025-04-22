@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Lilita_One, Roboto } from "next/font/google";
 import { auth } from "../auth";
+import { SessionProvider } from "next-auth/react"
 import Header from "@/components/ui-elements/Header";
 import "./globals.css";
 
@@ -31,8 +32,10 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Header session={session} />
-        {children}
+        <SessionProvider>
+          <Header session={session} />
+          {children}
+        </SessionProvider>
       </body>
     </html>
   );
