@@ -1,4 +1,4 @@
-import UserPost from "@/components/UserPost";
+import UserPost from "@/components/ui-elements/UserPost";
 import Sidebar from "@/components/ui-elements/Sidebar";
 
 
