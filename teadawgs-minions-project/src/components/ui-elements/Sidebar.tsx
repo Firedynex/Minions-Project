@@ -49,8 +49,7 @@ export default function Sidebar() {
           className="w-20 h-20 hover:scale-110 transition-transform duration-300 cursor-pointer"
         />
       </Link>
-<<<<<<< HEAD
-=======
+
       <Link href="/authenticated-view">
         <Image
           src="/home_icon.svg"
@@ -60,7 +59,6 @@ export default function Sidebar() {
           className="w-20 h-20 hover:scale-110 transition-transform duration-300 cursor-pointer"
         />
       </Link>
->>>>>>> main
 
       <Link href="/history">
         <Image
