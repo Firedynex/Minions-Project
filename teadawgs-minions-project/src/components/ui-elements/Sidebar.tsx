@@ -2,41 +2,13 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter, useParams } from 'next/navigation';
+import { getSession } from "next-auth/react";
 
-interface UserProps {
-    user: {
-        _id: number;
-        username: string;
-        firstName: string;
-        lastName: string;
-        email: string;
-        password: string;
-    }
-}
+const session = await getSession();
 
 export default function Sidebar() {
   const [showOptions, setShowOptions] = useState(false);
-  const [user, setUser] = useState<UserProps['user'] | null>(null);
-  const router = useRouter();
-  const params = useParams();
-  const id = params?.id as string;
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        console.log(id);
-        const response = await fetch(`http://localhost:3000/api/users/${id}`);
-        if (!response.ok) throw new Error('Network response was not ok');
-        const data = await response.json();
-        setUser(data.user);
-      } catch (error) {
-        console.log('Error from ShowUserDetails', error);
-      }
-    };
-
-    if (id) fetchUser();
-  }, [id]);
+  const id = session?.user?.id;
 
   return (
     <div className="flex flex-col items-center gap-20 bg-red-400 w-40 h-full rounded-4xl relative py-8">
