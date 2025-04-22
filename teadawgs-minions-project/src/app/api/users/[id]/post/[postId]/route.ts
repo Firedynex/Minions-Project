@@ -43,15 +43,22 @@ export async function GET(_request: NextRequest, {params}: RouteParams) {
 export async function PUT(request: NextRequest, {params}: RouteParams) {
     try {
         const {id, postId} = params;
-        const {title, description, content, link, visibility} = await request.json();
+        const {title, description, content, link, calories, sugar, cholesterol, fat, recipe, instructions, ingredients, servings} = await request.json();
         await connectMongoDB();
         const post = await userPost.findByIdAndUpdate({_id: postId, userId: id}, {
             title,
             description,
             content,
             link,
-            visibility,
-            updatedAt: new Date()
+            updatedAt: new Date(),
+            calories,
+            sugar,
+            cholesterol,
+            fat,
+            recipe,
+            instructions,
+            ingredients,
+            servings
         }, {new: true});
         if (!post) {
             return NextResponse.json({message: "Post does not exist!"}, {status: 404});
