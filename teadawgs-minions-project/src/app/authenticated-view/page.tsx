@@ -4,7 +4,7 @@ import Sidebar from "@/components/ui-elements/Sidebar";
 import { useEffect, useState } from "react";
 
 interface UserPost {
-    id: string,
+    _id: string,
     title: string,
     description: string,
     content: string,
@@ -42,7 +42,7 @@ export default function AuthenticatedHomePage() {
             <div className="m-3 flex flex-row justify-center items-center"> 
                 <Sidebar />
                 {posts.map((post) => (
-                    <UserPost key={post.id} userPost = {post}/>
+                    <UserPost key={post._id} userPost = {post}/>
                 ))}
             </div>
 
