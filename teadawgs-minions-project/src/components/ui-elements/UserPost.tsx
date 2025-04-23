@@ -1,12 +1,14 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
+import {useSession} from "next-auth/react";
 
 interface Comment {
   _id: string;
   userId: string;
-  text: string;
+  content: string;
   createdAt: string;
+  username?: string;
 }
 
 interface UserPostsProps {
@@ -20,18 +22,22 @@ interface UserPostsProps {
     likes: number,
     dislikes: number,
     comments: Comment[];
+    username?: string;
   }
 }
 
 export default function UserPost({userPost} : UserPostsProps) {
   const [like, setLike] = useState<boolean>(false);
   const [dislike, setDislike] = useState<boolean>(false);
-  const [comment, setComment] = useState<boolean>(false);
   const [likes, setLikes] = useState<number>(userPost.likes);
   const [dislikes, setDislikes] = useState<number>(userPost.dislikes);
   const [newComment, setNewComment] = useState<string>("");
   const [showComments, setShowComments] = useState<boolean>(false);
   const [comments, setComments] = useState<Comment[]>(userPost.comments || []);
+  const {data: session} = useSession();
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+
 
   async function handleToggle(action : "like" | "dislike" | "comment") {
     const updatedPost = {
@@ -87,24 +93,44 @@ export default function UserPost({userPost} : UserPostsProps) {
   const handleAddComment =  async () => {
     if(!newComment.trim()) return;
 
+    if (!session?.user){
+      setError("You must be loggin in to comment");
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
     try{
-      const response = await fetch(`/api/posts/${userPost._id}/comments`,{
+      const response = await fetch(`/api/userPosts/${userPost._id}/comments`,{
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
-          userId: "CURRENT_USER_ID",
-          text: newComment
+          postId: userPost._id,
+          content: newComment,
+          username: session.user.name || "Anonymous",
         }),
       });
-      if(response.ok){
-        const addedComment = await response.json();
-        setComments([...comments, addedComment]);
-        setNewComment("");
+      const commentData = await response.json();
+
+      if(!response.ok){
+        throw new Error(commentData.message || "Failed to post comment");
       }
-    } catch(error) {
+
+      setComments(prev => [...prev, commentData]);
+      setNewComment("");
+      } catch (error) {
+        if(error instanceof Error){
+          setError(error.message);
+        } else {
+          setError("An unexpected error occurred");
+        }
       console.error("Error adding comments:", error);
+    } finally {
+      setLoading(false);
     }
-  }
+  };
+
   return (
     <div className="flex flex-col w-full items-center justify-center bg-red-400 p-4 max-w-4xl m-4 rounded-lg">
         <div className="flex flex-row w-full max-w-2xl mb-4">
@@ -117,16 +143,18 @@ export default function UserPost({userPost} : UserPostsProps) {
 
           {/* Middle: Post Content */}
           <div className="bg-black rounded-lg p-4 w-full max-w-5xl mx-auto">
-            <h1 className="font-bold text-xl">
+            <h1 className="font-bold text-xl text-white">
               {userPost.title}
             </h1>
-            <Image 
+            {userPost.link && (
+              <Image 
               className="w-full max-h-30 object-cover rounded mb-2 max-w-350 "
               src={userPost.link}
               width={350}
               height={200} 
               alt="Post image"
             />
+            )}
             <p
               className="w-full h-9 bg-gray-200 rounded p-2 resize-none text-sm text-black">
               {userPost.description}
@@ -148,22 +176,37 @@ export default function UserPost({userPost} : UserPostsProps) {
             </button>
             <p className="text-black text-center font-sm">{dislikes}</p>
             <button onClick={() => handleToggle("comment")}>
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill={showComments ? "#FFFFFF" : "#000000"}>
                 <path d="M240-400h320v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80ZM80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Z" />
               </svg>
             </button>
+            <p className="text-black text-center font-sm">{comments.length}</p>
           </div>
         </div>
         {showComments && (
           <div className="w-full max-w-2xl bg-white p-4 rounded-lg mt-2">
             <div className="mb-4">
-              <textarea value={newComment} onChange={(e) => setNewComment(e.target.value)} placeholder="Write a comment..." className="w-full p-2 border rounded mb-2" rows={3}>
+              <textarea value={newComment} onChange={(e) => setNewComment(e.target.value)} placeholder="Write a comment..." className="w-full p-2 border rounded mb-2 text-black" rows={3}>
               </textarea>
+              {error && (
+                <p className="text-red-500 text-sm mb-2">{error}</p>
+              )}
               <button onClick={handleAddComment} className="bg-blue-500 text-white px-4 py-1 rounded text-sm">
                   Post Comment
                 </button>
             </div>
-            
+            <div className="space-y-3">
+              {comments.map((comment) => (
+                <div key={comment._id} className="bg-gray-100 p-3 rounded">
+                  <div className="flex items-center mb-1">
+                    <div className="bg-gray-300 rounded-full w-6 h-6 flex items-center justify-center mr-2">
+                      <span className="text-xs">U</span>
+                    </div>
+                  </div>
+                  <p className="text-sm text-black">{comment.content}</p>
+                </div>
+              ))}
+            </div>
           </div>
         )}
     </div>
