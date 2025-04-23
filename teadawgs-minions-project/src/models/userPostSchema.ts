@@ -12,7 +12,7 @@ interface IUserPost extends Document {
   servings: string;
   createdAt: Date;
   updatedAt: Date;
-  calories: number;
+  carbs: number;
   sugar: number;
   cholesterol: number;
   fat: number;
@@ -28,7 +28,7 @@ const userPostSchema = new Schema<IUserPost>({
   instructions: { type: String, required: true },
   ingredients: { type: String, required: true },
   servings: { type: String, default: "1" },
-  calories: { type: Number, required: false },
+  carbs: { type: Number, required: false },
   sugar: { type: Number, required: false },
   cholesterol: { type: Number, required: false },
   fat: { type: Number, required: false }
