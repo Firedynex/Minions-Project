@@ -4,21 +4,18 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession, signIn } from 'next-auth/react';
 
-interface Post {
-  _id: string;
-  title: string;
-  description: string;
-  content: string;
-  link: string;
-  userId: string;
-  visibility: boolean;
-  likes: number;
-  dislikes: number;
-  comments: number;
-  createdAt: string;
-  updatedAt: string;
-  instructions: string[];
-  ingredients: string[];
+type Post = {
+  _id: string,
+  userId: string,
+  title: string,
+  link: string,
+  sugar: number,
+  cholesterol: number,
+  fat: number,
+  carbs: number
+  instructions: string,
+  ingredients: string,
+  servings: string
 }
 
 export default function UserHistory() {
@@ -134,7 +131,7 @@ export default function UserHistory() {
                     )}
                     {post.ingredients && post.ingredients.length > 0 && (
                       <p className="text-gray-400 text-sm mt-1">
-                        Ingredients: {post.ingredients.slice(0, 3).join(', ')}
+                        Ingredients: {"LMAO"}
                         {post.ingredients.length > 3 && '...'}
                       </p>
                     )}
