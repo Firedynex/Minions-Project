@@ -61,8 +61,15 @@ export default function UserPost({userPost} : UserPostsProps) {
       const commentData = await response.json();
       setComments(commentData);
     }
+    const getLikesAndDislikes = async () => {
+      const response = await fetch(`/api/userPosts/${userPost._id}`);
+      const data = await response.json();
+      setLikes(data.likes);
+      setDislikes(data.dislikes);
+    }
     getUsername();
     getComments();
+    getLikesAndDislikes();
   },[]);
 
   async function handleToggle(action : "like" | "dislike" | "comment" | "description") {
