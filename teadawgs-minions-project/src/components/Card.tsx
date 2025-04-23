@@ -5,7 +5,7 @@ interface CardProps {
   
   const Card = ({ children, className = "" }: CardProps) => {
     return (
-      <div className={`shadow-lg rounded-lg ${className}`}>
+      <div className={`shadow-lg rounded-lg flex justify-center${className}`}>
         {children}
       </div>
     );

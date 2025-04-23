@@ -1,4 +1,5 @@
 import UserPost from "@/components/ui-elements/UserPost";
+import Card from "@/components/Card";
 import { useEffect, useState } from "react";
 
 interface UserPost {
@@ -34,11 +35,11 @@ export default function Posts() {
     }, []);
     return (
         <div className="flex flex-col ml-4 space-y-4 max-w-screen-md w-full">
-                        {posts.map((post) => (
-                            <div key={post._id} className="">
-                                <UserPost userPost = {post}/>
-                            </div>
-                        ))}
-                        </div>
+            {posts.map((post) => (
+                <Card key={post._id} className="p-4">
+                    <UserPost userPost={post} />
+                </Card>
+            ))}
+        </div>
     );
 }

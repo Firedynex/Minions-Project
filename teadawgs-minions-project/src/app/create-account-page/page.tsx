@@ -19,7 +19,7 @@ export default function CreateAccountPage() {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
-
+    //Creates a new user in the database
     async function handleSubmit(e : React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         if (!username || !email || !password) {
