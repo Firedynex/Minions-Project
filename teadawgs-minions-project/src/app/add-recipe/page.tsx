@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { getSession } from "next-auth/react";
-
+import { useRouter } from 'next/router';
 const session = await getSession();
 
 type Post = {
@@ -122,6 +122,18 @@ export default function AddRecipe() {
         const errorMessage = await response.text();
         throw new Error(`Error creating post: ${errorMessage}`);
       }
+      setQuery("");
+      setTitle("");
+      setIngredients("");
+      setInstructions("");
+      setServing("");
+      setCholesterol(0);
+      setSugar(0);
+      setCarbs(0);
+      setFat(0);
+      setImageUrl(0);
+      setBadQuery(false);
+
     } catch (error) {
       alert(error);
     }
