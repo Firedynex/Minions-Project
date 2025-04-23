@@ -17,6 +17,7 @@ export default function UserPost() {
       liked: false,
       disliked: false,
       showComments: false,
+      username: "User1"
     },
     {
       id: 2,
@@ -28,6 +29,7 @@ export default function UserPost() {
       liked: false,
       disliked: false,
       showComments: false,
+      username:"User2",
     },
     {
       id: 3,
