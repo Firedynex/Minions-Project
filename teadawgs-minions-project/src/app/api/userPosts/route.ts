@@ -28,7 +28,6 @@ export async function GET() {
 export async function POST(request: NextRequest) {
     try {
         const { 
-            _id,
             userId, 
             title, 
             description, 
@@ -55,7 +54,6 @@ export async function POST(request: NextRequest) {
         }
 
         const createdPost = await userPost.create({
-            _id,
             userId,
             title,
             description,

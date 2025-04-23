@@ -11,11 +11,9 @@ interface INutrition {
 interface IUserPost extends Document {
   title: string;
   description: string;
-  postid: string;
   content: string;
   link: string;
   userId: mongoose.Types.ObjectId;
-  visibility?: boolean;
   likes: number;
   dislikes: number;
   comments: number;
@@ -38,11 +36,9 @@ const NutritionSchema = new Schema<INutrition>({
 const userPostSchema = new Schema<IUserPost>({
   title: { type: String, required: true },
   description: { type: String, required: true },
-  postid: { type: String, required: true },
   content: { type: String },
   link: { type: String },
   userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-  visibility: { type: Boolean, default: false },
   likes: { type: Number, default: 0 },
   dislikes: { type: Number, default: 0 },
   comments: { type: Number, default: 0 },
@@ -55,5 +51,4 @@ const userPostSchema = new Schema<IUserPost>({
   timestamps: true // Automatically adds createdAt and updatedAt
 });
 
-// Fix for circular reference
 export default mongoose.models.UserPost || mongoose.model<IUserPost>('UserPost', userPostSchema);
