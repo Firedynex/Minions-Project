@@ -27,7 +27,6 @@ interface UserPostsProps {
     likes: number,
     dislikes: number,
     comments: Comment[],
-    username?: string,
   }
 }
 
@@ -67,24 +66,22 @@ export default function UserPost({userPost} : UserPostsProps) {
       dislikes,
       comments: userPost.comments
     };
+    
     if (action === "like") {
-      const newLikes = like ? likes-1 : likes+1;
-      const newDislikes = 0;
-
       setLike(!like);
       setDislike(false);
-
+      const newLikes = like ? likes - 1 : likes + 1;
+      const newDislikes = 0;
       setLikes(newLikes);
       setDislikes(newDislikes);
 
       updatedPost.likes = newLikes;
       updatedPost.dislikes = newDislikes;
     } else if (action === "dislike") {
-      const newDislikes = dislike ? dislikes-1 : dislikes+1;
-      const newLikes = 0;
-
       setDislike(!dislike);
       setLike(false);
+      const newDislikes = dislike ? dislikes-1 : dislikes+1;
+      const newLikes = 0;
       setLikes(newLikes);
       setDislikes(newDislikes);
 
@@ -240,8 +237,8 @@ export default function UserPost({userPost} : UserPostsProps) {
               {comments.map((comment) => (
                 <div key={Math.random()} className="bg-gray-100 p-3 rounded">
                   <div className="flex items-center mb-1">
-                    <div className="bg-gray-300 rounded-full w-6 h-6 flex items-center justify-center mr-2">
-                      <span className="text-xs">U</span>
+                    <div className="w-12 h-12 mr-4 bg-white rounded-full flex items-center justify-center">
+                      <span className=" text-sm text-black font-lilita">{comment.username}</span>
                     </div>
                   </div>
                   <p className="text-sm text-black">{comment.content}</p>
