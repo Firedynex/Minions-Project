@@ -97,7 +97,12 @@
         Manage your created posts
         </p>
         </div>
-
+        <button 
+          onClick={(e) => setShowDescription(!showDescription)} 
+          className="w-full mb-4 h-9 bg-amber-400 rounded p-2 resize-none text-sm text-black"
+          >
+            Show Details
+          </button>
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 relative left-13 px-4">
         <div className="lg:col-span-3 space-y-6">
         {posts.map(post => (
@@ -122,12 +127,6 @@
                     {post.title}
                     </span>
                     <div>
-                    <button 
-                    onClick={(e) => setShowDescription(!showDescription)} 
-                    className="w-full mt-4 h-9 bg-amber-400 rounded p-2 resize-none text-sm text-black"
-                    >
-                    Show Details
-                    </button>
                     {showDescription && (
                     <div className="bg-white p-2 rounded-xl mt-4 font-roboto">
                       <h1 className="font-bold text-black">Ingredients: </h1>

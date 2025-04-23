@@ -1,6 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { getSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+
 const session = await getSession();
 
 type Post = {
@@ -29,6 +31,7 @@ export default function ModifyPost({editPost, post} : {editPost : boolean, post 
   const [fat, setFat] = useState<number>(0);
   const [imageUrl, setImageUrl] = useState<string>("");
   const [badQuery, setBadQuery] = useState<boolean>(false);
+  const router = useRouter();
 
   const userId = session?.user?.id;
 
@@ -132,7 +135,6 @@ export default function ModifyPost({editPost, post} : {editPost : boolean, post 
       if (!response.ok) {
         throw new Error("Error updating post!");
       }
-      alert("Updated post");
     }catch(error) {
       alert(error);
     }
@@ -190,6 +192,7 @@ export default function ModifyPost({editPost, post} : {editPost : boolean, post 
     setFat(0);
     setImageUrl("");
     setBadQuery(false);
+    router.push("/authenticated-view");
   }
 
   return (

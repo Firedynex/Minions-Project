@@ -2,7 +2,6 @@
 import React, {useState} from "react";
 import Image from "next/image";
 import background from "../../assets/LoginBG.jpg"
-import Card from "@/components/Card";
 import { doCredentialLogin } from "../auth/authActions";
 import { useRouter } from "next/navigation";
 
@@ -45,9 +44,9 @@ export default function LoginPage() {
             <div className = "absolute top-[65%] left-[40%] h-70 w-70 rounded-full bg-red-400 z-[-1]"></div>
 
             {/* Login form */}
-            <div className="flex flex-1 ">
+            <div className="flex flex-1">
                 <div className="w-[55%] bg-red-400 min-h-[calc(100vh-4rem)]">
-                    <Card className="max-w-md mx-auto mt-[100px] p-4 bg-[#1C1A1A] mb-2">
+                    <main className="max-w-md mx-auto mt-[100px] p-4 bg-[#1C1A1A] rounded-2xl mb-2">
                         <h1 className="relative text-3xl font-roboto text-white text-center">Welcome!</h1>
                         <h1 className="relative text-3xl font-roboto text-white text-center mb-5">Sign into your account</h1>
 
@@ -70,7 +69,7 @@ export default function LoginPage() {
                                 <button type="submit" className="w-full bg-white text-bold text-black py-2 px-4 rounded-md hover:bg-gray-300 hover:cursor-pointer transition-color">Login</button>
                             </div>
                         </form>
-                    </Card>
+                    </main>
 
                     {/* Create Account */}
                     <h1 className="relative text-xl font-lilita text-[#1C1A1A] text-center">Don't have an account yet?</h1> 
