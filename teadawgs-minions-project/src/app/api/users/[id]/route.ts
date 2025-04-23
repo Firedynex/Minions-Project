@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import connectMongoDB from "../../../../../config/mongodb";
 import User from "@/models/userSchema";
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 
 interface RouteParams {
     params: {
@@ -41,12 +42,13 @@ export async function PUT(request: NextRequest, {params}:RouteParams) {
         const {id} = await params;
         const {email, firstName, lastName, username, password} = await request.json();
         await connectMongoDB();
+        const hashedPassword = await bcrypt.hash(password, 5);
         const user = await User.findByIdAndUpdate(id, {
             email,
             firstName,
             lastName,
             username,
-            password
+            password: hashedPassword
         });
         
         if (!user) {

@@ -1,5 +1,5 @@
 'use client';
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Image from "next/image";
 import personalinfo from "../../../assets/personal_info_pic.jpg"
 import { getSession } from "next-auth/react";
@@ -25,6 +25,14 @@ export default function PersonalInfoPage() {
         password: false
     });
 
+    useEffect(() => {
+        const getUserDetails = async () => {
+            const response = await fetch(`/api/users/${id}`);
+            const data = await response.json();
+            setUser(data);
+        }
+        getUserDetails();
+    }, []);
 
     const handleEdit = (field: keyof typeof editing) => {
         setEditing(prev => ({
