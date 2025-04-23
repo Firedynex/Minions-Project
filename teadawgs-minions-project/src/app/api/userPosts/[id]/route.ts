@@ -90,7 +90,7 @@ export async function PUT(request: NextRequest, {params}:RouteParams) {
  */
 export async function DELETE(request: NextRequest, {params}: RouteParams) {
     try {
-        const {id} = params;
+        const {id} = await params;
         await connectMongoDB();
         const deletedItem = await userPost.findByIdAndDelete(id);
         if (!deletedItem) {

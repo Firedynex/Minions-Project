@@ -19,7 +19,7 @@ interface RouteParams {
  */
 export async function GET(request: NextRequest, {params}: RouteParams) {
     try {
-        const {id} = params;
+        const {id} = await params;
         await connectMongoDB();
         const comments = await Comment.find({postId: id});
         return NextResponse.json(comments, {status: 200});
