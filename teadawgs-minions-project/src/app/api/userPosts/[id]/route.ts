@@ -39,14 +39,26 @@ export async function GET(request: NextRequest, {params}:RouteParams) {
 export async function PUT(request: NextRequest, {params}:RouteParams) {
     try {
         const {id} = await params;
-        const {email, firstName, lastName, username, password} = await request.json();
+        const { 
+            title, 
+            link,  
+            sugar, 
+            cholesterol, 
+            fat, 
+            instructions, 
+            ingredients, 
+            servings 
+        } = await request.json();
         await connectMongoDB();
         const post = await userPost.findByIdAndUpdate(id, {
-            email,
-            firstName,
-            lastName,
-            username,
-            password
+            title, 
+            link,  
+            sugar, 
+            cholesterol, 
+            fat, 
+            instructions, 
+            ingredients, 
+            servings 
         });
         
         if (!post) {

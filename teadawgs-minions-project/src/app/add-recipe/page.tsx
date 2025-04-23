@@ -1,122 +1,125 @@
 'use client';
-import { FormEvent, useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
+import { getSession } from "next-auth/react";
 
-interface Nutrition {
-  cholesterol: number;
-  sugar: number;
-  carbs: number;
-  fat: number;
+const session = await getSession();
+
+type Post = {
+  userId: string,
+  title: string,
+  link: string,
+  sugar: string,
+  cholesterol: string,
+  fat: string,
+  instructions: string,
+  ingredients: string,
+  servings: string
 }
 
-interface RecipeFormData {
-  recipe: string;
-  ingredients: string[];
-  instructions: string[];
-  servings: number;
-  nutrition: Nutrition;
-  image: string;
-}
+export default function AddRecipe() {
+  const [query, setQuery] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
+  const [ingredients, setIngredients] = useState<string>();
+  const [instructions, setInstructions] = useState<string>();
+  const [servings, setServing] = useState<string>("");
+  const [cholesterol, setCholesterol] = useState<string>("");
+  const [sugar, setSugar] = useState<string>("");
+  const [carbs, setCarbs] = useState<string>("");
+  const [fat, setFat] = useState<string>("");
+  const [imageUrl, setImageUrl] = useState<string>("");
+  const [badQuery, setBadQuery] = useState<boolean>(false);
 
-export default function AddRecipe({ userId }: { userId: string }) {
-  const [data, setData] = useState<RecipeFormData>({
-    recipe: '',
-    ingredients: [],
-    instructions: [],
-    servings: 4,
-    nutrition: { cholesterol: 0, sugar: 0, carbs: 0, fat: 0 },
-    image: '',
-  });
-  const [loading, setLoading] = useState(false);
-  const [nutritionLoading, setNutritionLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [detailsFetched, setDetailsFetched] = useState(false);
+  const userId = session?.user?.id;
 
-
-  const fetchNutritionData = useCallback(async () => {
-    if (!data.recipe.trim()) return;
-    
-    setNutritionLoading(true);
+  const apiKey = process.env.NEXT_PUBLIC_API_NINJAS_KEY;
+  if (!apiKey) {
+    console.error("Need api key!");
+    return;
+  }
+  
+  async function processRecipeQuery() {
     try {
-      const response = await fetch(`/api/nutrition?query=${encodeURIComponent(data.recipe)}`);
-      if (!response.ok) throw new Error('Nutrition data not found');
-      
-      const nutrition = await response.json();
-      setData(prev => ({
-        ...prev,
-        nutrition: {
-          cholesterol: nutrition.cholesterol || 0,
-          sugar: nutrition.sugar || 0,
-          carbs: nutrition.carbs || 0,
-          fat: nutrition.fat || 0,
+      await fetch(
+        `https://api.api-ninjas.com/v1/recipe?query=${encodeURIComponent(query)}`,
+        { headers: { 'X-Api-Key': apiKey || '' } }
+      ).then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
-      }));
-    } catch (err) {
-      setError('Failed to fetch nutrition data - please enter manually');
-    } finally {
-      setNutritionLoading(false);
+        return response.json();
+      })
+      .then(data => {
+        const recipeData = data[0];
+        if (!recipeData) {
+          throw new Error("Invalid entry!");
+        }
+        setTitle(recipeData.title);
+        setIngredients(recipeData.ingredients);
+        setInstructions(recipeData.instructions);
+        setServing(recipeData.servings);
+      })
+    } catch(error) {
+      setBadQuery(true);
     }
-  }, [data.recipe]);
+  }
 
- 
+  async function processNutritionQuery() {
+    try {
+        await fetch(`https://api.api-ninjas.com/v1/nutrition?query=${encodeURIComponent(query)}`,
+        {headers: { 'X-Api-Key': apiKey || '' } }
+      ).then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP ERROR! status: ${response.status}`);
+        }
+        return response.json();
+      }).then(data => {
+        const nutritionData = data[0];
+        if (!nutritionData) {
+          throw new Error("Invalid entry!");
+        }
+        setCholesterol(nutritionData.cholesterol_mg);
+        setSugar(nutritionData.sugar_g);
+        setFat(nutritionData.fat_total_g);
+        setCarbs(nutritionData.carbohydrates_total_g);
+      })
+    } catch(error) {
+      setBadQuery(true);
+    }
+  }
 
-  const handleSubmit = async (e: FormEvent) => {
+  async function handleSubmit(e) {
     e.preventDefault();
-    setLoading(true);
-    setError('');
+    processRecipeQuery();
+    processNutritionQuery();
 
+    const postData : Post = {
+      userId: userId || "",
+      title: title,
+      link: imageUrl,
+      sugar: sugar,
+      cholesterol: cholesterol,
+      fat: fat,
+      instructions: instructions || "",
+      ingredients: ingredients || "",
+      servings: servings
+    }
+    const url = "http://localhost:3000/api/userPosts";
     try {
-      const res = await fetch('/api/recipe_list', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, ...data })
-      });
-      
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || 'Failed to save');
+      const response = await fetch (url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(postData)
+      })
+      if (!response.ok) {
+        const errorMessage = await response.text();
+        throw new Error(`Error creating post: ${errorMessage}`);
       }
-      
-      setData({
-        recipe: '', ingredients: [], instructions: [], servings: 4,
-        nutrition: { cholesterol: 0, sugar: 0, carbs: 0, fat: 0 },
-        image: '', visibility: 'public', status: 'draft'
-      });
-      alert('Saved successfully');
-    } catch (err) {
-      setError(e.message);
-    } finally {
-      setLoading(false);
+    } catch (error) {
+      alert(error);
     }
-  };
-  
-
-  const fetchRecipeDetailsData = useCallback(async () => {
-    if (!data.recipe.trim()) return;
-  
-    try {
-      const response = await fetch(`/api/recipeDetails?query=${encodeURIComponent(data.recipe)}`);
-      if (!response.ok) throw new Error('Recipe details not found');
-  
-      const result = await response.json();
-      setData(prev => ({
-        ...prev,
-        ingredients: result.ingredients || [],
-        instructions: result.instructions || [],
-        servings: result.servings || 0
-      }));
-      setDetailsFetched(true);
-    } catch (err) {
-      console.error('Failed to fetch recipe details');
-    }
-  }, [data.recipe]);
-  
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      fetchNutritionData();
-      fetchRecipeDetailsData();
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, [data.recipe, fetchNutritionData, fetchRecipeDetailsData]);
+  }
 
   return (
     <div className="min-h-screen bg-black text-gray-100">
@@ -130,36 +133,47 @@ export default function AddRecipe({ userId }: { userId: string }) {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Main Form */}
           <div className="lg:col-span-3">
-            <form onSubmit={handleSubmit} className="bg-gray-900 rounded-xl p-6 shadow-lg space-y-6">
+            <form onSubmit={(e) => handleSubmit(e)} className="bg-gray-900 rounded-xl p-6 shadow-lg space-y-6">
               {/* Title Input with Loading Indicator */}
+
               <div className="relative">
                 <input
                   type="text"
-                  placeholder="Recipe Title"
-                  value={data.recipe}
-                  onChange={(e) => setData({ ...data, recipe: e.target.value })}
+                  placeholder="Enter your query here"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
                   required
                   className="w-full p-4 bg-gray-800 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500"
                 />
-                {nutritionLoading && (
+                {badQuery && (
                   <div className="absolute right-4 top-4 text-gray-400 text-sm">
-                    Loading nutrition...
+                    Please enter a valid query...
                   </div>
                 )}
               </div>
 
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Recipe Title"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  className="w-full p-4 bg-gray-800 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500"
+                />
+              </div>
+
               {/* Ingredients */}
-              <div>
+                <div>
                 <label className="block text-gray-300 mb-2">
                   Ingredients
                 </label>
                 <textarea
                   placeholder="Enter ingredients, one per line"
-                  value={data.ingredients.join('\n')}
-                  onChange={(e) => setData({ ...data, ingredients: e.target.value.split('\n') })}
+                  value={ingredients?.split('|').join('\n')}
+                  onChange={(e) => setIngredients(e.target.value.split('\n').join('|'))}
                   className="w-full p-4 bg-gray-800 rounded-lg h-32 text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500"
                 />
-              </div>
+                </div>
 
               {/* Instructions */}
               <div>
@@ -168,8 +182,8 @@ export default function AddRecipe({ userId }: { userId: string }) {
                 </label>
                 <textarea
                   placeholder="Enter instructions, one step per line"
-                  value={data.instructions.join('\n')}
-                  onChange={(e) => setData({ ...data, instructions: e.target.value.split('\n') })}
+                  value={instructions?.split(".").join("\n")}
+                  onChange={(e) => setInstructions(e.target.value.split("\n").join("."))}
                   className="w-full p-4 bg-gray-800 rounded-lg h-48 text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500"
                 />
               </div>
@@ -180,10 +194,10 @@ export default function AddRecipe({ userId }: { userId: string }) {
                 <div>
                   <label className="block text-gray-300 mb-2">Servings</label>
                   <input
-                    type="number"
+                    type="text"
                     placeholder="Servings"
-                    value={data.servings}
-                    onChange={(e) => setData({ ...data, servings: +e.target.value })}
+                    value={servings}
+                    onChange={(e) => setServing(e.target.value)}
                     className="w-full p-4 bg-gray-800 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500"
                     min="1"
                   />
@@ -193,8 +207,8 @@ export default function AddRecipe({ userId }: { userId: string }) {
                   <input
                     type="url"
                     placeholder="Paste image URL"
-                    value={data.image}
-                    onChange={(e) => setData({ ...data, image: e.target.value })}
+                    value={imageUrl}
+                    onChange={(e) => setImageUrl(e.target.value)}
                     className="w-full p-4 bg-gray-800 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500"
                   />
                 </div>
@@ -204,38 +218,58 @@ export default function AddRecipe({ userId }: { userId: string }) {
               <div>
                 <h3 className="text-xl font-semibold text-red-300 mb-4">Nutrition Information</h3>
                 <div className="grid grid-cols-2 gap-6">
-                  {(['cholesterol', 'sugar', 'carbs', 'fat'] as const).map((key) => (
-                    <div key={key}>
-                      <label className="block text-gray-300 mb-2 capitalize">{key}</label>
-                      <input
-                        type="number"
-                        step="0.01"
-                        placeholder={`${key} (g)`}
-                        value={data.nutrition[key]}
-                        onChange={(e) =>
-                          setData({
-                            ...data,
-                            nutrition: { ...data.nutrition, [key]: Math.max(0, +e.target.value) }
-                          })
-                        }
-                        className="w-full p-4 bg-gray-800 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500"
-                        min="0"
-                      />
-                    </div>
-                  ))}
+                  <div>
+                    <label className="block text-gray-300 mb-2">Cholesterol (mg) </label>
+                    <input
+                      type="number"
+                      placeholder="Enter Cholesterol"
+                      value={cholesterol}
+                      onChange={(e) => setCholesterol(e.target.value)}
+                      className="w-full p-4 bg-gray-800 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-300 mb-2">Sugar (g) </label>
+                    <input
+                      type="number"
+                      placeholder="Enter Sugar"
+                      value={sugar}
+                      onChange={(e) => setSugar(e.target.value)}
+                      className="w-full p-4 bg-gray-800 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-300 mb-2">Carbs (g) </label>
+                    <input
+                      type="number"
+                      placeholder="Enter Carbs"
+                      value={carbs}
+                      onChange={(e) => setCarbs(e.target.value)}
+                      className="w-full p-4 bg-gray-800 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-300 mb-2">Fat (g) </label>
+                    <input
+                      type="number"
+                      placeholder="Enter Fat"
+                      value={fat}
+                      onChange={(e) => setFat(e.target.value)}
+                      className="w-full p-4 bg-gray-800 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500"
+                    />
+                  </div>
                 </div>
               </div>
 
               {/* Submit Button */}
               <button
                 type="submit"
-                disabled={loading}
                 className="w-full py-4 bg-red-600 hover:bg-red-700 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? 'Saving Recipe...' : 'Save Recipe'}
+                {'Save Recipe'}
               </button>
               
-              {error && <p className="text-red-500 text-center py-2">{error}</p>}
+              {/* {error && <p className="text-red-500 text-center py-2">{error}</p>} */}
             </form>
           </div>
         </div>
