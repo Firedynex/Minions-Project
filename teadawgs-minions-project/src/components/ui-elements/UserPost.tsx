@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import {useSession} from "next-auth/react";
 
@@ -43,6 +43,22 @@ export default function UserPost({userPost} : UserPostsProps) {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [showDescription, setShowDescription] = useState<boolean>(false);
+  const [username, setUsername] = useState<string>("");
+
+  useEffect(() => {
+    const getUsername = async () => {
+      const url = `/api/users/${userPost.userId}`
+      const response = await fetch(url);
+      if (!response) {
+        setUsername("U");
+      } else {
+        const data = await response.json();
+        setUsername(data.username);
+      }
+      return;
+    }
+    getUsername();
+  },[]);
 
   async function handleToggle(action : "like" | "dislike" | "comment" | "description") {
     const updatedPost = {
@@ -57,6 +73,7 @@ export default function UserPost({userPost} : UserPostsProps) {
 
       setLike(!like);
       setDislike(false);
+
       setLikes(newLikes);
       setDislikes(newDislikes);
 
@@ -145,8 +162,8 @@ export default function UserPost({userPost} : UserPostsProps) {
         <div className="flex flex-row w-full max-w-2xl mb-4">
           {/* Left: Username */}
           <div className="flex items-start pt-4 pl-2">
-            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
-              <span className=" text-sm text-black">{userPost.username?.charAt(0).toUpperCase() || 'U'}</span>
+            <div className="w-12 h-12 mr-4 bg-white rounded-full flex items-center justify-center">
+              <span className=" text-sm text-black font-lilita">{username}</span>
             </div>
           </div>
 
