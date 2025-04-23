@@ -42,7 +42,7 @@ export async function GET(request: NextRequest, {params}: RouteParams) {
  */
 export async function POST(request: NextRequest, {params} : RouteParams) {
     try {
-        const {userId, postId, content} = await request.json();
+        const {username, postId, content} = await request.json();
         const {id} = await params;
         await connectMongoDB();
         const postExists = await userPost.findById({_id: id});
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest, {params} : RouteParams) {
             return NextResponse.json({message: "Post does not exist!"}, {status: 404});
         }
         const createdComment = await Comment.create({
-            userId,
+            username,
             postId,
             content
         });

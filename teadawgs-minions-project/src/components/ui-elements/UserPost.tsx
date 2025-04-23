@@ -74,6 +74,7 @@ export default function UserPost({userPost} : UserPostsProps) {
     }
   }
 
+  
   return (
     <div className="flex flex-col w-full items-center justify-center bg-red-400 p-4 max-w-4xl m-4 rounded-lg">
         <div className="flex flex-row w-full max-w-2xl mb-4">
