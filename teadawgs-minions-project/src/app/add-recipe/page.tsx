@@ -87,12 +87,14 @@ export default function AddRecipe() {
     }
   }
 
+  async function generateRecipe() {
+    await processRecipeQuery();
+    await processNutritionQuery();
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      await processRecipeQuery();
-      await processNutritionQuery();
-
       const postData: Post = {
         userId: userId || "",
         title: title,
@@ -135,24 +137,29 @@ export default function AddRecipe() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Main Form */}
           <div className="lg:col-span-3">
+            <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Enter your query here"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    required
+                    className="w-full p-4 bg-gray-800 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500"
+                  />
+                  {badQuery && (
+                    <div className="absolute right-4 top-4 text-gray-400 text-sm">
+                      Please enter a valid query...
+                    </div>
+                  )}
+                </div>
+                <button
+                  onClick={generateRecipe}
+                  className="w-full py-4 bg-red-600 hover:bg-red-700 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {'Generate Recipe'}
+                </button>
             <form onSubmit={(e) => handleSubmit(e)} className="bg-gray-900 rounded-xl p-6 shadow-lg space-y-6">
               {/* Title Input with Loading Indicator */}
-
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Enter your query here"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  required
-                  className="w-full p-4 bg-gray-800 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500"
-                />
-                {badQuery && (
-                  <div className="absolute right-4 top-4 text-gray-400 text-sm">
-                    Please enter a valid query...
-                  </div>
-                )}
-              </div>
 
               <div className="relative">
                 <input
@@ -160,6 +167,7 @@ export default function AddRecipe() {
                   placeholder="Recipe Title"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
+                  required
                   className="w-full p-4 bg-gray-800 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500"
                 />
               </div>
@@ -173,6 +181,7 @@ export default function AddRecipe() {
                   placeholder="Enter ingredients, one per line"
                   value={ingredients?.split('|').join('\n')}
                   onChange={(e) => setIngredients(e.target.value.split('\n').join('|'))}
+                  required
                   className="w-full p-4 bg-gray-800 rounded-lg h-32 text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500"
                 />
                 </div>
@@ -186,6 +195,7 @@ export default function AddRecipe() {
                   placeholder="Enter instructions, one step per line"
                   value={instructions?.split(".").join("\n")}
                   onChange={(e) => setInstructions(e.target.value.split("\n").join("."))}
+                  required
                   className="w-full p-4 bg-gray-800 rounded-lg h-48 text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500"
                 />
               </div>
