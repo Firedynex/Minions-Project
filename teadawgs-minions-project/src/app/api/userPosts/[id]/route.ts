@@ -48,7 +48,9 @@ export async function PUT(request: NextRequest, {params}:RouteParams) {
             carbs, 
             instructions, 
             ingredients, 
-            servings 
+            servings,
+            likes,
+            dislikes 
         } = await request.json();
         await connectMongoDB();
         const post = await userPost.findByIdAndUpdate(id, {
@@ -60,7 +62,9 @@ export async function PUT(request: NextRequest, {params}:RouteParams) {
             carbs,
             instructions, 
             ingredients, 
-            servings 
+            servings,
+            likes,
+            dislikes 
         });
         
         if (!post) {

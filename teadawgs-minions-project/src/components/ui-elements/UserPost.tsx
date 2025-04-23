@@ -82,20 +82,24 @@ export default function UserPost({userPost} : UserPostsProps) {
     
     if (action === "like") {
       setLike(!like);
-      setDislike(false);
+      if (!like && dislike) {
+        setDislike(false);
+        setDislikes(dislikes - 1);
+      }
       const newLikes = like ? likes - 1 : likes + 1;
-      const newDislikes = 0;
       setLikes(newLikes);
-      setDislikes(newDislikes);
 
       updatedPost.likes = newLikes;
-      updatedPost.dislikes = newDislikes;
+      updatedPost.dislikes = dislike ? dislikes - 1 : dislikes;
     } else if (action === "dislike") {
       setDislike(!dislike);
-      setLike(false);
-      const newDislikes = dislike ? dislikes-1 : dislikes+1;
-      const newLikes = 0;
-      setLikes(newLikes);
+      let newLikes = likes;
+      if (!dislike && like) {
+        setLike(false);
+        newLikes = likes - 1;
+        setLikes(newLikes);
+      }
+      const newDislikes = dislike ? dislikes - 1 : dislikes + 1;
       setDislikes(newDislikes);
 
       updatedPost.likes = newLikes;
@@ -107,7 +111,6 @@ export default function UserPost({userPost} : UserPostsProps) {
       setShowDescription(!showDescription);
       return;
     }
-
     try {
       const response = await fetch(`/api/userPosts/${userPost._id}`, {
         method: 'PUT',
@@ -152,7 +155,6 @@ export default function UserPost({userPost} : UserPostsProps) {
       }
 
       setComments(prev => [...prev, commentData.createdComment]);
-      console.log(comments);
       setNewComment("");
       } catch (error) {
         if(error instanceof Error){
