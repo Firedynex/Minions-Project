@@ -217,10 +217,6 @@ export default function UserPost({userPost} : UserPostsProps) {
             </div>
           </div>
         )}
-        {showDescription && (
-
-        )
-        }
     </div>
   );
 }
