@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import workout from "../../assets/workout.jpg"
+import Card from "@/components/Card";
 
 type User = {
     email: string,
@@ -72,7 +73,7 @@ export default function CreateAccountPage() {
                     
                 </div>
                 <div className="w-3/5 z-10">
-                    <main className="max-w-md mx-auto mt-[100px] p-4 bg-white rounded-2xl">
+                    <Card className="max-w-md mx-auto mt-[100px] p-4 bg-white">
                         <h1 className="relative text-3xl font-bold text-gray-800 mb-8">Create Account</h1>
                         <form className="space-y-6" onSubmit={handleSubmit}>
                             <div className="relative">
@@ -99,7 +100,7 @@ export default function CreateAccountPage() {
                                 <button type="submit" className="w-full bg-[#f87171] text-white py-2 px-4 rounded-md hover:bg-[#d13d3d] hover:cursor-pointer transition-color">Submit</button>
                             </div>
                         </form>
-                    </main>
+                    </Card>
                 </div>
             </div>
         </div>

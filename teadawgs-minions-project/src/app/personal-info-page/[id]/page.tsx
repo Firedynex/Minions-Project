@@ -3,6 +3,7 @@ import React, {useState} from "react";
 import Image from "next/image";
 import personalinfo from "../../../assets/personal_info_pic.jpg"
 import { getSession } from "next-auth/react";
+import Card from "@/components/Card";
 
 const session = await getSession();
 
@@ -90,7 +91,7 @@ export default function PersonalInfoPage() {
                 </div>
                 <div className="w-3/5">
     
-                    <main className="max-w-md mx-auto mt-[100px] p-4 bg-white">
+                    <Card className="max-w-md mx-auto mt-[100px] p-4 bg-white">
                         <h1 className="text-3xl font-bold text-gray-800 mb-8">Hello, </h1>
                         <form className="space-y-6">
                             {[
@@ -119,7 +120,7 @@ export default function PersonalInfoPage() {
                             ))}
                             <button type="button" onClick={handleSave} className="w-full bg-[#f87171] text-white py-2 px-4 rounded-md hover:bg-[#d13d3d] transition-colors">Save Changes</button>
                         </form>
-                    </main>
+                    </Card>
                 </div>
             </div>
         </div>
