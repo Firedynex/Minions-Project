@@ -18,7 +18,7 @@ interface UserPostsProps {
     instructions: string,
     ingredients: string,
     servings: string,
-    calories: number,
+    carbs: number,
     sugar: number,
     cholesterol: number,
     fat: number,
@@ -166,6 +166,7 @@ export default function UserPost({userPost} : UserPostsProps) {
             )}
             <button onClick={() => handleToggle("description")}
               className="w-full h-9 bg-gray-200 rounded p-2 resize-none text-sm text-black">
+                Click Here for More
             </button>
           </div>
 
@@ -191,6 +192,21 @@ export default function UserPost({userPost} : UserPostsProps) {
             <p className="text-black text-center font-sm">{comments.length}</p>
           </div>
         </div>
+        {showDescription && (
+          <div className="bg-white p-2 rounded-xl font-roboto">
+            <h1 className="font-bold text-black">Ingredients: </h1>
+            <p className="text-sm text-black">{userPost.ingredients}</p>
+            <h1 className="font-bold text-black">Instructions: </h1>
+            <p className="text-sm text-black">{userPost.instructions}</p>
+            <h1 className="font-bold text-black">Details: </h1>
+            <p className="text-sm text-black">{userPost.servings}</p>
+            <p className="text-sm text-black">{userPost.carbs} grams carbs</p>
+            <p className="text-sm text-black">{userPost.sugar} grams sugar</p>
+            <p className="text-sm text-black">{userPost.cholesterol} milligrams cholesterol</p>
+            <p className="text-sm text-black">{userPost.fat} grams fat</p>
+          </div>
+        )
+        }
         {showComments && (
           <div className="w-full max-w-2xl bg-white p-4 rounded-lg mt-2">
             <div className="mb-4">
@@ -217,10 +233,7 @@ export default function UserPost({userPost} : UserPostsProps) {
             </div>
           </div>
         )}
-        {showDescription && (
-
-        )
-        }
+        
     </div>
   );
 }
