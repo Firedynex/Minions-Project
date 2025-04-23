@@ -59,7 +59,7 @@ export default function AddRecipe() {
         setInstructions(recipeData.instructions);
         setServing(recipeData.servings);
       })
-    } catch(error) {
+    } catch(_error) {
       setBadQuery(true);
     }
   }
@@ -235,7 +235,7 @@ export default function AddRecipe() {
                       type="number"
                       placeholder="Enter Cholesterol"
                       value={cholesterol}
-                      onChange={(e) => setCholesterol(e.target.value)}
+                      onChange={(e) => setCholesterol(Number(e.target.value))}
                       className="w-full p-4 bg-gray-800 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500"
                     />
                   </div>
@@ -245,7 +245,7 @@ export default function AddRecipe() {
                       type="number"
                       placeholder="Enter Sugar"
                       value={sugar}
-                      onChange={(e) => setSugar(e.target.value)}
+                      onChange={(e) => setSugar(Number(e.target.value))}
                       className="w-full p-4 bg-gray-800 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500"
                     />
                   </div>
@@ -255,7 +255,7 @@ export default function AddRecipe() {
                       type="number"
                       placeholder="Enter Carbs"
                       value={carbs}
-                      onChange={(e) => setCarbs(e.target.value)}
+                      onChange={(e) => setCarbs(Number(e.target.value))}
                       className="w-full p-4 bg-gray-800 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500"
                     />
                   </div>
@@ -265,7 +265,7 @@ export default function AddRecipe() {
                       type="number"
                       placeholder="Enter Fat"
                       value={fat}
-                      onChange={(e) => setFat(e.target.value)}
+                      onChange={(e) => setFat(Number(e.target.value))}
                       className="w-full p-4 bg-gray-800 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500"
                     />
                   </div>
@@ -274,6 +274,7 @@ export default function AddRecipe() {
 
               {/* Submit Button */}
               <button
+                  type='button'
                   onClick={generateRecipe}
                   className="w-full py-4 bg-red-600 hover:bg-red-700 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
