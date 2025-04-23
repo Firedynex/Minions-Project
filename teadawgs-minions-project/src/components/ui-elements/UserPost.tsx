@@ -5,7 +5,7 @@ import {useSession} from "next-auth/react";
 
 interface Comment {
   _id: string;
-  userId: string;
+  postId: string;
   content: string;
   createdAt: string;
   username?: string;
@@ -112,12 +112,12 @@ export default function UserPost({userPost} : UserPostsProps) {
         }),
       });
       const commentData = await response.json();
-
       if(!response.ok){
         throw new Error(commentData.message || "Failed to post comment");
       }
 
-      setComments(prev => [...prev, commentData]);
+      setComments(prev => [...prev, commentData.createdComment]);
+      console.log(comments);
       setNewComment("");
       } catch (error) {
         if(error instanceof Error){
@@ -197,7 +197,7 @@ export default function UserPost({userPost} : UserPostsProps) {
             </div>
             <div className="space-y-3">
               {comments.map((comment) => (
-                <div key={comment._id} className="bg-gray-100 p-3 rounded">
+                <div key={Math.random()} className="bg-gray-100 p-3 rounded">
                   <div className="flex items-center mb-1">
                     <div className="bg-gray-300 rounded-full w-6 h-6 flex items-center justify-center mr-2">
                       <span className="text-xs">U</span>
