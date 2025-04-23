@@ -89,29 +89,31 @@ export default function AddRecipe() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    processRecipeQuery();
-    processNutritionQuery();
-
-    const postData : Post = {
-      userId: userId || "",
-      title: title,
-      link: imageUrl,
-      sugar: sugar,
-      cholesterol: cholesterol,
-      fat: fat,
-      instructions: instructions || "",
-      ingredients: ingredients || "",
-      servings: servings
-    }
-    const url = "http://localhost:3000/api/userPosts";
     try {
-      const response = await fetch (url, {
+      await processRecipeQuery();
+      await processNutritionQuery();
+
+      const postData: Post = {
+        userId: userId || "",
+        title: title,
+        link: imageUrl,
+        sugar: sugar,
+        cholesterol: cholesterol,
+        fat: fat,
+        instructions: instructions || "",
+        ingredients: ingredients || "",
+        servings: servings
+      };
+
+      const url = "http://localhost:3000/api/userPosts";
+      const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify(postData)
-      })
+      });
+
       if (!response.ok) {
         const errorMessage = await response.text();
         throw new Error(`Error creating post: ${errorMessage}`);
