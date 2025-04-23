@@ -1,13 +1,13 @@
 import mongoose, {Schema, Document, Model} from "mongoose";
 
 interface IComment extends Document {
-    userId: string,
+    username: string,
     postId: string,
     content: string,
 }
 
 const commentSchema = new Schema<IComment>({
-    userId: {
+    username: {
         type: String,
         required: true
     },

@@ -8,6 +8,16 @@ export default function Sidebar() {
 
   return (
     <div className="flex flex-col items-center gap-20 bg-red-400 w-40 h-full rounded-4xl relative py-8">
+      <Link href={`/personal-info-page/${id}`}>
+        <Image 
+          src="/profile_icon.svg"
+          alt="Profile Icon"
+          width={100}
+          height={100}
+          className="w-20 h-20 hover:scale-110 transition-transform duration-300 cursor-pointer"
+        />
+      </Link>
+
       <Link href="/authenticated-view">
         <Image
           src="/home_icon.svg"

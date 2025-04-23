@@ -17,7 +17,7 @@ export default function CreateAccountPage() {
     const [username, setUsername] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const [state, setState] = useState(initialState)
+
 
     async function handleSubmit(e : React.FormEvent<HTMLFormElement>) {
         e.preventDefault();

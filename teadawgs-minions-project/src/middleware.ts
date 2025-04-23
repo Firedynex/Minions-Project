@@ -25,7 +25,7 @@ export const config = {
         "/add-recipe",
         "/authenticated-view",
         "/food-page",
-        "/history",
+        "/history"
     ],
 };
 

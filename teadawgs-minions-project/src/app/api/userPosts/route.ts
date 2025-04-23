@@ -27,17 +27,37 @@ export async function GET() {
  */
 export async function POST(request: NextRequest) {
     try {
-        const {userId, title, description, content, link, likes, dislikes, comments, calories, sugar, cholesterol, fat, recipe, instructions, ingredients, servings} = await request.json();
+        const { 
+            userId, 
+            title, 
+            description, 
+            content, 
+            link, 
+            likes, 
+            dislikes, 
+            comments, 
+            calories, 
+            sugar, 
+            cholesterol, 
+            fat, 
+            recipe, 
+            instructions, 
+            ingredients, 
+            servings 
+        } = await request.json();
+
         await connectMongoDB();
         const userExists = await User.findOne<{ _id: string }>({ _id: userId });
+        
         if (!userExists) {
             return NextResponse.json({message: "User does not exist!"}, {status: 404});
         }
+
         const createdPost = await userPost.create({
-            _id,
             userId,
             title,
             description,
+            content,
             link,
             likes,
             dislikes,
@@ -51,9 +71,16 @@ export async function POST(request: NextRequest) {
             ingredients,
             servings
         });
-        return NextResponse.json({message: "Post created successfully!", createdPost}, {status: 201});
+
+        return NextResponse.json(
+            {message: "Post created successfully!", createdPost}, 
+            {status: 201}
+        );
     } catch (error) {
         console.error("Error creating post: ", error);
-        return NextResponse.json({message: "Error creating post"}, {status: 500});
+        return NextResponse.json(
+            {message: "Error creating post"}, 
+            {status: 500}
+        );
     }
 };

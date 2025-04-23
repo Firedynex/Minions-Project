@@ -1,14 +1,34 @@
 import UserPost from "@/components/ui-elements/UserPost";
 import Sidebar from "@/components/ui-elements/Sidebar";
+import { useEffect, useState } from "react";
 
+interface UserPost {
+    _id: string,
+    title: string,
+    description: string,
+    content: string,
+    link: string,
+    userId: string,
+    likes: number,
+    dislikes: number,
+    comments: number
+}
 
 export default function AuthenticatedHomePage() {
     return(
         <>
             
-            <div className="m-3 flex flex-row justify-center items-center"> 
-                <Sidebar />
-                < UserPost/>
+            <div className="flex justify-center items-start m-10">
+                <div className="sticky top-20">
+                    <Sidebar />
+                </div>
+                <div className="flex flex-col ml-4 space-y-4 max-w-screen-md w-full">
+                {posts.map((post) => (
+                    <div key={post._id} className="">
+                        <UserPost userPost = {post}/>
+                    </div>
+                ))}
+                </div>
             </div>
 
             {/* bubbles */}
