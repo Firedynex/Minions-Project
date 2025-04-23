@@ -130,14 +130,15 @@ export default function UserPost({userPost} : UserPostsProps) {
       setLoading(false);
     }
   };
-
+  console.log("Username:", userPost?.username)
   return (
+    
     <div className="flex flex-col w-full items-center justify-center bg-red-400 p-4 max-w-4xl m-4 rounded-lg">
         <div className="flex flex-row w-full max-w-2xl mb-4">
           {/* Left: Username */}
           <div className="flex items-start pt-4 pl-2">
             <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
-              <span className=" text-sm text-black">{userPost.userId}</span>
+              <span className=" text-sm text-black">{userPost.username?.charAt(0).toUpperCase() || 'U'}</span>
             </div>
           </div>
 
