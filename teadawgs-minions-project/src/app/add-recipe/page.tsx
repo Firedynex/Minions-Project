@@ -8,9 +8,10 @@ type Post = {
   userId: string,
   title: string,
   link: string,
-  sugar: string,
-  cholesterol: string,
-  fat: string,
+  sugar: number,
+  cholesterol: number,
+  fat: number,
+  carbs: number
   instructions: string,
   ingredients: string,
   servings: string
@@ -22,10 +23,10 @@ export default function AddRecipe() {
   const [ingredients, setIngredients] = useState<string>();
   const [instructions, setInstructions] = useState<string>();
   const [servings, setServing] = useState<string>("");
-  const [cholesterol, setCholesterol] = useState<string>("");
-  const [sugar, setSugar] = useState<string>("");
-  const [carbs, setCarbs] = useState<string>("");
-  const [fat, setFat] = useState<string>("");
+  const [cholesterol, setCholesterol] = useState<number>(0);
+  const [sugar, setSugar] = useState<number>(0);
+  const [carbs, setCarbs] = useState<number>(0);
+  const [fat, setFat] = useState<number>(0);
   const [imageUrl, setImageUrl] = useState<string>("");
   const [badQuery, setBadQuery] = useState<boolean>(false);
 
@@ -102,6 +103,7 @@ export default function AddRecipe() {
         sugar: sugar,
         cholesterol: cholesterol,
         fat: fat,
+        carbs: carbs,
         instructions: instructions || "",
         ingredients: ingredients || "",
         servings: servings

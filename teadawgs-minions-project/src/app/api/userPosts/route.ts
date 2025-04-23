@@ -33,7 +33,8 @@ export async function POST(request: NextRequest) {
             link, 
             sugar, 
             cholesterol, 
-            fat, 
+            fat,
+            carbs, 
             instructions, 
             ingredients, 
             servings 
@@ -53,6 +54,7 @@ export async function POST(request: NextRequest) {
             sugar,
             cholesterol,
             fat,
+            carbs,
             instructions,
             ingredients,
             servings

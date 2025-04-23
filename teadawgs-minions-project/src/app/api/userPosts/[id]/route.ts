@@ -44,7 +44,8 @@ export async function PUT(request: NextRequest, {params}:RouteParams) {
             link,  
             sugar, 
             cholesterol, 
-            fat, 
+            fat,
+            carbs, 
             instructions, 
             ingredients, 
             servings 
@@ -56,6 +57,7 @@ export async function PUT(request: NextRequest, {params}:RouteParams) {
             sugar, 
             cholesterol, 
             fat, 
+            carbs,
             instructions, 
             ingredients, 
             servings 
