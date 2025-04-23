@@ -7,9 +7,8 @@ interface IUserPost extends Document {
   likes: number;
   dislikes: number;
   comments: number;
-  recipe?: string;
-  instructions: string[];
-  ingredients: string[];
+  instructions: string;
+  ingredients: string;
   servings: string;
   createdAt: Date;
   updatedAt: Date;
@@ -26,9 +25,8 @@ const userPostSchema = new Schema<IUserPost>({
   likes: { type: Number, default: 0 },
   dislikes: { type: Number, default: 0 },
   comments: { type: Number, default: 0 },
-  recipe: { type: String },
-  instructions: { type: [String], required: true },
-  ingredients: { type: [String], required: true },
+  instructions: { type: String, required: true },
+  ingredients: { type: String, required: true },
   servings: { type: String, default: "1" },
   calories: { type: Number, required: false },
   sugar: { type: Number, required: false },

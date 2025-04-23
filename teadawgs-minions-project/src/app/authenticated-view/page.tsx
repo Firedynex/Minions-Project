@@ -6,13 +6,18 @@ import { useEffect, useState } from "react";
 interface UserPost {
     _id: string,
     title: string,
-    description: string,
-    content: string,
     link: string,
     userId: string,
     likes: number,
     dislikes: number,
-    comments: number
+    comments: number,
+    instructions: string,
+    ingredients: string,
+    servings: string,
+    calories: number,
+    sugar: number,
+    cholesterol: number,
+    fat: number,
 }
 
 export default function AuthenticatedHomePage() {

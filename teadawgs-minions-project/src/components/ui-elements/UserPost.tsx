@@ -15,14 +15,19 @@ interface UserPostsProps {
   userPost: {
     _id: string,
     title: string,
-    description: string,
-    content: string,
+    instructions: string,
+    ingredients: string,
+    servings: string,
+    calories: number,
+    sugar: number,
+    cholesterol: number,
+    fat: number,
     link: string,
     userId: string,
     likes: number,
     dislikes: number,
-    comments: Comment[];
-    username?: string;
+    comments: Comment[],
+    username?: string,
   }
 }
 
@@ -37,9 +42,9 @@ export default function UserPost({userPost} : UserPostsProps) {
   const {data: session} = useSession();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [showDescription, setShowDescription] = useState<boolean>(false);
 
-
-  async function handleToggle(action : "like" | "dislike" | "comment") {
+  async function handleToggle(action : "like" | "dislike" | "comment" | "description") {
     const updatedPost = {
       ...userPost,
       likes,
@@ -70,6 +75,9 @@ export default function UserPost({userPost} : UserPostsProps) {
       updatedPost.dislikes = newDislikes;
     } else if (action === "comment") {
       setShowComments(!showComments);
+      return;
+    } else if (action === "description") {
+      setShowDescription(!showDescription);
       return;
     }
 
@@ -156,10 +164,9 @@ export default function UserPost({userPost} : UserPostsProps) {
               alt="Post image"
             />
             )}
-            <p
+            <button onClick={() => handleToggle("description")}
               className="w-full h-9 bg-gray-200 rounded p-2 resize-none text-sm text-black">
-              {userPost.description}
-            </p>
+            </button>
           </div>
 
           {/* Right: Action Buttons */}
@@ -210,6 +217,10 @@ export default function UserPost({userPost} : UserPostsProps) {
             </div>
           </div>
         )}
+        {showDescription && (
+
+        )
+        }
     </div>
   );
 }
