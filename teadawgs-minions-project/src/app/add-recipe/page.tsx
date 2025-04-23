@@ -137,7 +137,11 @@ export default function AddRecipe() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Main Form */}
           <div className="lg:col-span-3">
-            <div className="relative">
+            
+                
+            <form onSubmit={(e) => handleSubmit(e)} className="bg-gray-900 rounded-xl p-6 shadow-lg space-y-6">
+              {/* Title Input with Loading Indicator */}
+              <div className="relative">
                   <input
                     type="text"
                     placeholder="Enter your query here"
@@ -152,14 +156,6 @@ export default function AddRecipe() {
                     </div>
                   )}
                 </div>
-                <button
-                  onClick={generateRecipe}
-                  className="w-full py-4 bg-red-600 hover:bg-red-700 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {'Generate Recipe'}
-                </button>
-            <form onSubmit={(e) => handleSubmit(e)} className="bg-gray-900 rounded-xl p-6 shadow-lg space-y-6">
-              {/* Title Input with Loading Indicator */}
 
               <div className="relative">
                 <input
@@ -276,6 +272,12 @@ export default function AddRecipe() {
 
               {/* Submit Button */}
               <button
+                  onClick={generateRecipe}
+                  className="w-full py-4 bg-red-600 hover:bg-red-700 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {'Generate Recipe'}
+                </button>
+              <button
                 type="submit"
                 className="w-full py-4 bg-red-600 hover:bg-red-700 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
@@ -283,6 +285,7 @@ export default function AddRecipe() {
               </button>
               
               {/* {error && <p className="text-red-500 text-center py-2">{error}</p>} */}
+              
             </form>
           </div>
         </div>
