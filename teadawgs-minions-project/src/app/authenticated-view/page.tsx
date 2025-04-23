@@ -17,6 +17,7 @@ interface UserPost {
     calories: number,
     sugar: number,
     cholesterol: number,
+    carbs: number,
     fat: number,
 }
 

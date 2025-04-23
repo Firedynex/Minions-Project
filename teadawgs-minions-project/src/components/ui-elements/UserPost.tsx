@@ -43,6 +43,7 @@ export default function UserPost({userPost} : UserPostsProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [showDescription, setShowDescription] = useState<boolean>(false);
   const [username, setUsername] = useState<string>("");
+  const isLoggedIn = !!session?.user;
 
   useEffect(() => {
     const getUsername = async () => {
@@ -199,26 +200,29 @@ export default function UserPost({userPost} : UserPostsProps) {
           </div>
 
           {/* Right: Action Buttons */}
-          <div className="flex flex-col justify-start pt-4 pr-2 space-y-3 m-2">
-            <button onClick={() => handleToggle("like")}>
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill={like ? "#FFFFFF" : "#000000"}>
-                <path d="M720-120H280v-520l280-280 50 50q7 7 11.5 19t4.5 23v14l-44 174h258q32 0 56 24t24 56v80q0 7-2 15t-4 15L794-168q-9 20-30 34t-44 14Zm-360-80h360l120-280v-80H480l54-220-174 174v406Z" />
-              </svg>
-            </button>
-            <p className="text-black text-center font-sm">{likes}</p>
-            <button onClick={() => handleToggle("dislike")}>
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill={dislike ? "#FFFFFF" : "#000000"}>
-                <path d="M240-840h440v520L400-40l-50-50q-7-7-11.5-19t-4.5-23v-14l44-174H120q-32 0-56-24t-24-56v-80q0-7 2-15t4-15l120-282q9-20 30-34t44-14Zm360 80H240L120-480v80h360l-54 220 174-174v-406Z" />
-              </svg>
-            </button>
-            <p className="text-black text-center font-sm">{dislikes}</p>
-            <button onClick={() => handleToggle("comment")}>
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill={showComments ? "#FFFFFF" : "#000000"}>
-                <path d="M240-400h320v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80ZM80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Z" />
-              </svg>
-            </button>
-            <p className="text-black text-center font-sm">{comments.length}</p>
-          </div>
+          {isLoggedIn && (
+              <div className="flex flex-col justify-start pt-4 pr-2 space-y-3 m-2">
+              <button onClick={() => handleToggle("like")}>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill={like ? "#FFFFFF" : "#000000"}>
+                  <path d="M720-120H280v-520l280-280 50 50q7 7 11.5 19t4.5 23v14l-44 174h258q32 0 56 24t24 56v80q0 7-2 15t-4 15L794-168q-9 20-30 34t-44 14Zm-360-80h360l120-280v-80H480l54-220-174 174v406Z" />
+                </svg>
+              </button>
+              <p className="text-black text-center font-sm">{likes}</p>
+              <button onClick={() => handleToggle("dislike")}>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill={dislike ? "#FFFFFF" : "#000000"}>
+                  <path d="M240-840h440v520L400-40l-50-50q-7-7-11.5-19t-4.5-23v-14l44-174H120q-32 0-56-24t-24-56v-80q0-7 2-15t4-15l120-282q9-20 30-34t44-14Zm360 80H240L120-480v80h360l-54 220 174-174v-406Z" />
+                </svg>
+              </button>
+              <p className="text-black text-center font-sm">{dislikes}</p>
+              <button onClick={() => handleToggle("comment")}>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill={showComments ? "#FFFFFF" : "#000000"}>
+                  <path d="M240-400h320v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80ZM80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Z" />
+                </svg>
+              </button>
+              <p className="text-black text-center font-sm">{comments.length}</p>
+            </div>
+          )}
+          
         </div>
         {showDescription && (
           <div className="bg-white p-2 rounded-xl font-roboto">
