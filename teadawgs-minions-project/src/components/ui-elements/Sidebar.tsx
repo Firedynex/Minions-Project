@@ -5,7 +5,6 @@ import Link from "next/link";
 import { getSession } from "next-auth/react";
 
 export default function Sidebar() {
-  const [showOptions, setShowOptions] = useState(false);
   const [session, setSession] = useState<any>(null);
 
   useEffect(() => {
