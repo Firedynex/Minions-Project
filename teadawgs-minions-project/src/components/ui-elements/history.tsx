@@ -79,7 +79,7 @@ export default function UserHistory() {
   };
 
   const handleEdit = (postId: string) => {
-    router.push(`/posts/${postId}/edit`);
+    router.push(`/edit-post/${postId}/`);
   };
 
   if (loading) return <p>Loading posts…</p>;

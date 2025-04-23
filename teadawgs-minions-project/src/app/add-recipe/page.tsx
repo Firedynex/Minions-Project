@@ -2,6 +2,6 @@ import ModifyPost from "@/components/ModifyPost"
 
 export default function AddRecipe() {
   return (
-    <ModifyPost editPost = {true} />
+    <ModifyPost editPost = {false} post={{}}/>
   );
 }

@@ -4,7 +4,7 @@ import { getSession } from "next-auth/react";
 const session = await getSession();
 
 type Post = {
-    _id?: string,
+  _id? : string,
   userId: string,
   title: string,
   link: string,
@@ -107,8 +107,38 @@ export default function ModifyPost({editPost, post} : {editPost : boolean, post 
     await processNutritionQuery();
   }
 
-  async function handleSubmit(e) {
-    e.preventDefault();
+  async function updatePost() {
+    try {
+      const postData: Post = {
+        userId: userId || "",
+        title: title,
+        link: imageUrl,
+        sugar: sugar,
+        cholesterol: cholesterol,
+        fat: fat,
+        carbs: carbs,
+        instructions: instructions || "",
+        ingredients: ingredients || "",
+        servings: servings
+      };
+      const url = `http://localhost:3000/api/userPosts/${post._id}`;
+      const response = await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(postData)
+      });
+      if (!response.ok) {
+        throw new Error("Error updating post!");
+      }
+      alert("Updated post");
+    }catch(error) {
+      alert(error);
+    }
+  }
+
+  async function createPost() {
     try {
       const postData: Post = {
         userId: userId || "",
@@ -136,21 +166,30 @@ export default function ModifyPost({editPost, post} : {editPost : boolean, post 
         const errorMessage = await response.text();
         throw new Error(`Error creating post: ${errorMessage}`);
       }
-      setQuery("");
-      setTitle("");
-      setIngredients("");
-      setInstructions("");
-      setServing("");
-      setCholesterol(0);
-      setSugar(0);
-      setCarbs(0);
-      setFat(0);
-      setImageUrl("");
-      setBadQuery(false);
-
+      
     } catch (error) {
       alert(error);
     }
+  }
+  async function handleSubmit(e, type : "Update" | "Post") {
+    e.preventDefault();
+    if (type === "Post") {
+      createPost();
+    } else if (type === "Update") {
+      updatePost();
+    }
+
+    setQuery("");
+    setTitle("");
+    setIngredients("");
+    setInstructions("");
+    setServing("");
+    setCholesterol(0);
+    setSugar(0);
+    setCarbs(0);
+    setFat(0);
+    setImageUrl("");
+    setBadQuery(false);
   }
 
   return (
@@ -167,7 +206,14 @@ export default function ModifyPost({editPost, post} : {editPost : boolean, post 
           <div className="lg:col-span-3">
             
                 
-            <form onSubmit={(e) => handleSubmit(e)} className="bg-gray-900 rounded-xl p-6 shadow-lg space-y-6">
+            <form onSubmit={(e) => {
+              if (editPost) {
+                handleSubmit(e, "Update");
+              } else {
+                handleSubmit(e, "Post");
+              }
+            }}
+              className="bg-gray-900 rounded-xl p-6 shadow-lg space-y-6">
               {/* Title Input with Loading Indicator */}
               <div className="relative">
                   <input
@@ -175,7 +221,6 @@ export default function ModifyPost({editPost, post} : {editPost : boolean, post 
                     placeholder="Enter your query here"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    required
                     className="w-full p-4 bg-gray-800 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500"
                   />
                   {badQuery && (

@@ -78,11 +78,6 @@ export default function PersonalInfoPage() {
 
     return(
         <div className="min-h-screen">
-            {/* <div className="absolute inset-0 overflow-hidden z-[-1]">
-                <div className="absolute top-[4%] left-[25%] h-80 w-80 rounded-full bg-red-400"></div>
-                <div className="absolute top-[43%] left-[25%] h-62 w-62 rounded-full bg-red-400"></div>
-                <div className="absolute top-[70%] left-[23%] h-70 w-70 rounded-full bg-red-400"></div>
-            </div> */}
             <div className="flex flex-1">
                 <div className="w-[40%] bg-red-400 min-h-[calc(100vh-4rem)] flex items-center justify-center">
                 <div className="relative z-10 ml-5">
