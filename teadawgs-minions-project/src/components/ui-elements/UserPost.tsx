@@ -56,7 +56,13 @@ export default function UserPost({userPost} : UserPostsProps) {
       }
       return;
     }
+    const getComments = async () => {
+      const response = await fetch(`/api/userPosts/${userPost._id}/comments`);
+      const commentData = await response.json();
+      setComments(commentData);
+    }
     getUsername();
+    getComments();
   },[]);
 
   async function handleToggle(action : "like" | "dislike" | "comment" | "description") {
@@ -152,7 +158,6 @@ export default function UserPost({userPost} : UserPostsProps) {
       setLoading(false);
     }
   };
-  console.log("Username:", userPost?.username)
   return (
     
     <div className="flex flex-col w-full items-center justify-center bg-red-400 p-4 max-w-4xl m-4 rounded-lg">
