@@ -45,7 +45,6 @@ export default function UserHistory() {
         if (!res.ok) throw new Error(res.statusText);
         const data = await res.json();
         
-        // Extract posts from the response object
         if (data.posts && Array.isArray(data.posts)) {
           setPosts(data.posts);
         } else {
@@ -66,7 +65,7 @@ export default function UserHistory() {
       const userId = session?.user?.id;
       if (!userId) throw new Error('User not authenticated');
 
-      const res = await fetch(`/api/users/${userId}/posts/${postId}`, { // Consistent endpoint
+      const res = await fetch(`/api/users/${userId}/post/${postId}`, { 
         method: 'DELETE',
       });
 

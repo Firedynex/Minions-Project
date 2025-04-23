@@ -78,18 +78,18 @@ export async function PUT(request: NextRequest, {params}: RouteParams) {
  * @throws - 404 Post does not exist.
  * @throws - Error deleting post.
  */
-export async function DELETE(request: NextRequest, {params}: RouteParams) {
+export async function DELETE(request: NextRequest, { params }: RouteParams) {
     try {
-        const {id, postId} = params;
-        await connectMongoDB();
-        const deletedPost = await userPost.findByIdAndDelete({_id: postId, userId: id});
-        if (!deletedPost) {
-            return NextResponse.json({message: "Post does not exist!"}, {status: 404});
-        }
-        return NextResponse.json({message: "Post deleted successfully!", deletedPost});
+      const { id, postId } = await params;
+      await connectMongoDB();
+      const deletedPost = await userPost.findOneAndDelete({ _id: postId, userId: id });
+      if (!deletedPost) {
+        return NextResponse.json({ message: "Post does not exist!" }, { status: 404 });
+      }
+      return NextResponse.json({ message: "Post deleted successfully!", deletedPost });
     } catch (error) {
-        console.error("Error deleting post");
-        return NextResponse.json({message: "Error deleting post", error}, {status: 500});
+      console.error("Error deleting post", error);
+      return NextResponse.json({ message: "Error deleting post", error }, { status: 500 });
     }
-    
-}
+  }
+  
