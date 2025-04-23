@@ -24,6 +24,7 @@ export default function UserHistory() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [showDescription, setShowDescription] = useState<boolean>(false);
 
   useEffect(() => {
     if (status !== 'authenticated') {
@@ -121,20 +122,25 @@ export default function UserHistory() {
                     <span className="text-sm px-3 py-1 bg-red-500/20 rounded-full">
                       {post.title}
                     </span>
-                    <p className="text-gray-300 mt-2 line-clamp-2">
-                      {post.description}
-                    </p>
-                    {post.content && (
-                      <p className="text-gray-400 text-sm mt-1 line-clamp-1">
-                        {post.content}
-                      </p>
-                    )}
-                    {post.ingredients && post.ingredients.length > 0 && (
-                      <p className="text-gray-400 text-sm mt-1">
-                        Ingredients: {"LMAO"}
-                        {post.ingredients.length > 3 && '...'}
-                      </p>
-                    )}
+                    <div>
+                        <button onClick={(e) => setShowDescription(!showDescription)} className="w-full mt-4 h-9 bg-amber-400 rounded p-2 resize-none text-sm text-black">
+                            Show Details
+                        </button>
+                        {showDescription && (
+                            <div className="bg-white p-2 rounded-xl mt-4 font-roboto">
+                                <h1 className="font-bold text-black">Ingredients: </h1>
+                                <p className="text-sm text-black">{post.ingredients}</p>
+                                <h1 className="font-bold text-black">Instructions: </h1>
+                                <p className="text-sm text-black">{post.instructions}</p>
+                                <h1 className="font-bold text-black">Details: </h1>
+                                <p className="text-sm text-black">{post.servings}</p>
+                                <p className="text-sm text-black">{post.carbs} grams carbs</p>
+                                <p className="text-sm text-black">{post.sugar} grams sugar</p>
+                                <p className="text-sm text-black">{post.cholesterol} milligrams cholesterol</p>
+                                <p className="text-sm text-black">{post.fat} grams fat</p>
+                            </div>
+                        )}
+                    </div>
                     <div className="flex gap-2 mt-4">
                       <button
                         onClick={() => handleEdit(post._id)}
