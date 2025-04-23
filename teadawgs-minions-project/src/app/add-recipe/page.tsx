@@ -209,6 +209,7 @@ export default function AddRecipe() {
                     placeholder="Paste image URL"
                     value={imageUrl}
                     onChange={(e) => setImageUrl(e.target.value)}
+                    required
                     className="w-full p-4 bg-gray-800 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500"
                   />
                 </div>
