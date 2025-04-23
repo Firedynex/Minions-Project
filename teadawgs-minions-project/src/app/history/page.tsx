@@ -1,17 +1,15 @@
-import Header from "@/components/ui-elements/Header";
 import Sidebar from "@/components/ui-elements/Sidebar";
-import HistoryPage from "@/components/ui-elements/History";
+import UserHistory from "@/components/ui-elements/History";
 
 export default function AuthenticatedHomePage() {
     return(
         <>
             {/*Authenticated page passes down a boolean value to Header which has the isLoggedIn variable to determine logged in state */}
-            <Header authenticated={true} />
             <br></br>
             
             <div className="m-3 flex flex-row justify-center items-center"> 
                 <Sidebar />
-                <HistoryPage/>
+                <UserHistory/>
             </div>
 
             {/* bubbles */}

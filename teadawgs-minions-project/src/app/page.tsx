@@ -10,11 +10,10 @@ export default function Home() {
     <>
       <Splash/>
       {/* non-authenticate post view */}
-      <button>
       <button onClick={() => router.push("/non-authenticated-view")} className="flex items-center justify-between border-solid border-2 border-black rounded-full bg-black p-2 hover:bg-gray-700 transition duration-300 m-4 cursor-pointer">
                             <span className={`font-roboto text-xl`}>View Posts</span>
                         </button>
-      </button>
+      
     </>
   );
 }
