@@ -9,6 +9,7 @@ export default function LoginPage() {
     const router = useRouter();
     const [error, setError] = useState<string | null>(null);
 
+    //Handles login
     async function handleLogin(e : React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         try {

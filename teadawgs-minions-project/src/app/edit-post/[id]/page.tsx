@@ -35,7 +35,7 @@ export default function EditPost({params} : RouteParams) {
             alert(error);
         }
     }
-
+    //Gets the post to edit
     useEffect(() => {
         getPost();
     }, []);

@@ -25,6 +25,7 @@ interface UserPost {
 export default function AuthenticatedHomePage() {
     const [posts, setPosts] = useState<UserPost[]>([]);
 
+    //Initial loadup of user posts
     useEffect(() => {
         const url = "http://localhost:3000/api/userPosts";
         const fetchData = async () => {

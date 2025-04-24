@@ -24,6 +24,7 @@ export default function PersonalInfoPage() {
         password: false
     });
 
+    //Gets all the data for initial load of user
     useEffect(() => {
         const getUserDetails = async () => {
             const response = await fetch(`/api/users/${id}`);
@@ -33,6 +34,7 @@ export default function PersonalInfoPage() {
         getUserDetails();
     }, []);
 
+    //Handles editing of fields
     const handleEdit = (field: keyof typeof editing) => {
         setEditing(prev => ({
             ...prev,
@@ -40,6 +42,7 @@ export default function PersonalInfoPage() {
           }));
       };
 
+      //Handles when fields change in the form
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { id, value } = e.target;
         console.log(id);
@@ -49,6 +52,7 @@ export default function PersonalInfoPage() {
         }));
       };
 
+      //Updates user in the database
     const handleSave = async (e: React.FormEvent) => {
         if (!user.username || !user.email || !user.password) {
             alert("Username, email, and password are required fields!");
