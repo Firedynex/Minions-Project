@@ -2,8 +2,11 @@
 Final full stack web development project
 
 Team Name: the Minions
+
 App Name: teadawgs
+
 Members: Turjoy Paul, Kataleena Mishra, Peter Bui, Kareem Coulibaly
+
 Roles: 
 * Team Lead: Turjoy Paul
 * Communication Lead: Peter Bui
