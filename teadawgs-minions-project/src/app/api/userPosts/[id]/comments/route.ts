@@ -16,7 +16,7 @@ interface RouteParams {
  * @returns - Next Response indicating success of getting comments or not
  * @throws - If there was an error in getting comments
  */
-export async function GET(request: NextRequest, {params}: RouteParams) {
+export async function GET(request: NextRequest, { params } : { params: Promise<{ id: string }> }) {
     try {
         const {id} = await params;
         await connectMongoDB();
