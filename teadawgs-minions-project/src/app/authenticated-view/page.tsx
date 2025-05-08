@@ -35,7 +35,7 @@ export default function AuthenticatedHomePage() {
                     throw new Error("Error getting user posts! " + response.status);
                 }
                 const data = await response.json();
-                console.log(data);
+                data.reverse();
                 setPosts(data);
             } catch (error) {
                 console.error("Error getting user posts!", error);

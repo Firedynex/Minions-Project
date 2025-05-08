@@ -29,6 +29,7 @@ export default function Posts() {
                     throw new Error("Error getting user posts! " + response.status);
                 }
                 const data = await response.json();
+                data.reverse();
                 setPosts(data);
             } catch (error) {
                 console.error("Error getting user posts!", error);
