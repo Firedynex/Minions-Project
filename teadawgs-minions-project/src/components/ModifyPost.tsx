@@ -76,7 +76,7 @@ export default function ModifyPost({editPost, post} : {editPost : boolean, post 
         setInstructions(recipeData.instructions);
         setServing(recipeData.servings);
       })
-    } catch(_error) {
+    } catch {
       setBadQuery(true);
     }
   }
@@ -100,7 +100,7 @@ export default function ModifyPost({editPost, post} : {editPost : boolean, post 
         setFat(nutritionData.fat_total_g);
         setCarbs(nutritionData.carbohydrates_total_g);
       })
-    } catch(error) {
+    } catch {
       setBadQuery(true);
     }
   }
@@ -173,7 +173,7 @@ export default function ModifyPost({editPost, post} : {editPost : boolean, post 
       alert(error);
     }
   }
-  async function handleSubmit(e, type : "Update" | "Post") {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>, type : "Update" | "Post") {
     e.preventDefault();
     if (type === "Post") {
       createPost();

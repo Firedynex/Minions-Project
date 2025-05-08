@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { authConfig } from "../config/auth.config";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
   "use client";
   import Image from 'next/image';
   import { useState, useEffect } from 'react';
@@ -98,7 +99,7 @@
         </p>
         </div>
         <button 
-          onClick={(e) => setShowDescription(!showDescription)} 
+          onClick={() => setShowDescription(!showDescription)} 
           className="w-full mb-4 h-9 bg-amber-400 rounded p-2 resize-none text-sm text-black"
           >
             Show Details

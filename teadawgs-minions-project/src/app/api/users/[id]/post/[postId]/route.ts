@@ -18,13 +18,12 @@ interface RouteParams{
  */
 export async function GET(_request: NextRequest, {params}: RouteParams) {
     try {
-        const {id, postId} = await params;
+        const {postId} = await params;
         await connectMongoDB();
         const postExists = await userPost.findOne({_id: postId});
         if (!postExists) {
             return NextResponse.json({message: "Post does not exist!"}, {status: 404});
         }
-        const post = await userPost.find({_id: postId, userId : id});
         return NextResponse.json({message: "Successfully retrieved post!", postExists}, {status: 200});
     } catch(error) {
         console.error("There was an error getting user post!", error);
@@ -42,7 +41,7 @@ export async function GET(_request: NextRequest, {params}: RouteParams) {
  */
 export async function PUT(request: NextRequest, {params}: RouteParams) {
     try {
-        const {id, postId} = await params;
+        const {postId} = await params;
         const {title, description, content, link, calories, sugar, cholesterol, fat, recipe, instructions, ingredients, servings} = await request.json();
         await connectMongoDB();
         const post = await userPost.findByIdAndUpdate({_id: postId}, {

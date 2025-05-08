@@ -73,7 +73,7 @@ export default function LoginPage() {
                     </main>
 
                     {/* Create Account */}
-                    <h1 className="relative text-xl font-lilita text-[#1C1A1A] text-center">Don't have an account yet?</h1> 
+                    <h1 className="relative text-xl font-lilita text-[#1C1A1A] text-center">Don&apos;t have an account yet?</h1> 
                     <button onClick={() => router.push("/create-account-page")} className="flex items-center justify-self-center rounded-xl bg-[#1C1A1A] p-2 hover:bg-gray-700 transition duration-300 mr-4 cursor-pointer">
                         <span className={`font-roboto text-sm`}>{"Create account"}</span>
                     </button>

@@ -27,7 +27,7 @@ export default function NotFound() {
                 <div className="bg-white p-8 rounded-lg shadow-lg text-center max-w-md w-full">
                 <h1 className="text-4xl font-lilita mb-4 rounded-2xl text-red-400">404 - Page Not Found</h1>
                 <p className="text-lg mb-6 font-roboto text-gray-700">
-                    The page you're looking for doesn't exist yet!
+                    The page you&apos;re looking for doesn&apos;t exist yet!
                 </p>
                 <Link href={isLoggedIn ? "/authenticated-view" : "/"} className="inline-block bg-black text-white px-6 py-2  font-roboto rounded-full hover:bg-gray-800 transition duration-300">
                     Go Back Home

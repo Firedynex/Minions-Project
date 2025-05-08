@@ -40,7 +40,6 @@ export default function UserPost({userPost} : UserPostsProps) {
   const [comments, setComments] = useState<Comment[]>(userPost.comments || []);
   const {data: session} = useSession();
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
   const [showDescription, setShowDescription] = useState<boolean>(false);
   const [username, setUsername] = useState<string>("");
   const isLoggedIn = !!session?.user;
@@ -136,8 +135,6 @@ export default function UserPost({userPost} : UserPostsProps) {
       setError("You must be loggin in to comment");
       return;
     }
-
-    setLoading(true);
     setError(null);
 
     try{
@@ -164,8 +161,6 @@ export default function UserPost({userPost} : UserPostsProps) {
           setError("An unexpected error occurred");
         }
       console.error("Error adding comments:", error);
-    } finally {
-      setLoading(false);
     }
   };
   return (
