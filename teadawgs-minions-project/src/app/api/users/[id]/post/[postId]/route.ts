@@ -2,13 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import connectMongoDB from "../../../../../../../config/mongodb";
 import userPost from "@/models/userPostSchema";
 
-interface RouteParams{
-    params: {
-        id: string,
-        postId: string
-    }
-}
-
 /**
  * GET api to get a specific post from a specific user
  * @param param0 - Route params object with userId and postId
@@ -16,7 +9,7 @@ interface RouteParams{
  * @throws - Post does not exist
  * @throws - Error getting a post
  */
-export async function GET(_request: NextRequest, {params}: RouteParams) {
+export async function GET(_request: NextRequest, { params } : { params: Promise<{ postId: string }> }) {
     try {
         const {postId} = await params;
         await connectMongoDB();
@@ -39,7 +32,7 @@ export async function GET(_request: NextRequest, {params}: RouteParams) {
  * @throws - Post does not exist.
  * @throws - Error updating post.
  */
-export async function PUT(request: NextRequest, {params}: RouteParams) {
+export async function PUT(request: NextRequest, { params } : { params: Promise<{ postId: string }> }) {
     try {
         const {postId} = await params;
         const {title, description, content, link, calories, sugar, cholesterol, fat, recipe, instructions, ingredients, servings} = await request.json();
@@ -77,7 +70,7 @@ export async function PUT(request: NextRequest, {params}: RouteParams) {
  * @throws - 404 Post does not exist.
  * @throws - Error deleting post.
  */
-export async function DELETE(request: NextRequest, {params}: RouteParams) {
+export async function DELETE(request: NextRequest, { params } : { params: Promise<{ postId: string }> }) {
     try {
         const {postId} = await params;
         await connectMongoDB();
@@ -90,5 +83,4 @@ export async function DELETE(request: NextRequest, {params}: RouteParams) {
         console.error("Error deleting post");
         return NextResponse.json({message: "Error deleting post", error}, {status: 500});
     }
-    
 }

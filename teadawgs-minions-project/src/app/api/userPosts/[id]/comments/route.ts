@@ -3,12 +3,6 @@ import connectMongoDB from "../../../../../../config/mongodb";
 import Comment from "@/models/commentSchema";
 import userPost from "@/models/userPostSchema";
 
-interface RouteParams {
-    params: {
-        id: string // Post id
-    }
-}
-
 /**
  * GET api request to get all the comments for a post.
  * @param request - Unused NextRequest object
@@ -35,7 +29,7 @@ export async function GET(request: NextRequest, { params } : { params: Promise<{
  * @throws - Error if the post doesn't exist.
  * @throws - Error if there is an error in creating a comment.
  */
-export async function POST(request: NextRequest, {params} : RouteParams) {
+export async function POST(request: NextRequest, { params } : { params: Promise<{ id: string }> }) {
     try {
         const {username, postId, content} = await request.json();
         const {id} = await params;
@@ -63,7 +57,7 @@ export async function POST(request: NextRequest, {params} : RouteParams) {
  * @returns Response indicating success or failure of deletion
  * @throws Error if there is an issue with the deletion process.
  */
-export async function DELETE(request: NextRequest, {params}: RouteParams) {
+export async function DELETE(request: NextRequest, { params } : { params: Promise<{ id: string }> }) {
     try {
         const {id} = await params;
         await connectMongoDB();

@@ -2,13 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import connectMongoDB from "../../../../../../config/mongodb";
 import userPost from "@/models/userPostSchema";
 
-interface RouteParams{
-    params: {
-        id: string
-    }
-}
-
-
 /**
  * GET method to get all the posts for a specific user.
  * @param request - Next Request object.
@@ -16,7 +9,7 @@ interface RouteParams{
  * @returns - Next response indicating success or failure of post retrieval.
  * @throws - Error getting all user posts
  */
-export async function GET(request: NextRequest, {params} : RouteParams) {
+export async function GET(request: NextRequest, { params } : { params: Promise<{ id: string }> }) {
     try {
         const {id} = await params;
         await connectMongoDB();
