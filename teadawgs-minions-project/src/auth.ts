@@ -28,7 +28,7 @@ export const {
 
                     if (user) {
                         const isMatch = await bcrypt.compare(
-                            credentials.password,
+                            credentials.password as string,
                             user.password
                         );
                         
