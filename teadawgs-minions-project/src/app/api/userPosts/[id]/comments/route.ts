@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import connectMongoDB from "../../../../../../config/mongodb";
 import Comment from "@/models/commentSchema";
 import userPost from "@/models/userPostSchema";
-import User from "@/models/userSchema";
 
 interface RouteParams {
     params: {
@@ -68,7 +67,7 @@ export async function DELETE(request: NextRequest, {params}: RouteParams) {
     try {
         const {id} = await params;
         await connectMongoDB();
-        const deletedItem = await Comment.deleteMany({postId: id});
+        await Comment.deleteMany({postId: id});
         return NextResponse.json({message: "Deleted all comments for this post"}, {status: 200});
     } catch (error) {
         console.error("Error deleting comments for this post!", error);
