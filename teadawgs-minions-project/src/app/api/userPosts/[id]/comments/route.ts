@@ -6,13 +6,13 @@ import userPost from "@/models/userPostSchema";
 /**
  * GET api request to get all the comments for a post.
  * @param request - Unused NextRequest object
- * @param param1 - Object containing params with post id
+ * @param context - Object containing params with post id
  * @returns - Next Response indicating success of getting comments or not
  * @throws - If there was an error in getting comments
  */
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, context: { params: { id: string } }) {
     try {
-        const { id } = params;
+        const { id } = context.params;
         await connectMongoDB();
         const comments = await Comment.find({ postId: id });
         return NextResponse.json(comments, { status: 200 });
@@ -25,15 +25,15 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
 /**
  * POST api request to create a comment.
  * @param request - Next Request object containing json request.
- * @param param1 - Object containing params with post id
+ * @param context - Object containing params with post id
  * @returns - Next response indicating success of creating comment or not.
  * @throws - Error if the post doesn't exist.
  * @throws - Error if there is an error in creating a comment.
  */
-export async function POST(request: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(request: NextRequest, context: { params: { id: string } }) {
     try {
         const { username, postId, content } = await request.json();
-        const { id } = params;
+        const { id } = context.params;
         await connectMongoDB();
         const postExists = await userPost.findById({ _id: id });
         if (!postExists) {
@@ -52,15 +52,15 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
 }
 
 /**
- * API to delete comments associated with a specific post.
- * @param request - Unused next request
- * @param param1 - Object containing params with post id
- * @returns Response indicating success or failure of deletion
- * @throws Error if there is an issue with the deletion process.
+ * DELETE api request to delete all comments for a specific post.
+ * @param request - Unused NextRequest object
+ * @param context - Object containing params with post id
+ * @returns - Next response indicating success or failure of deletion
+ * @throws - Error if there is an issue with the deletion process
  */
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, context: { params: { id: string } }) {
     try {
-        const { id } = params;
+        const { id } = context.params;
         await connectMongoDB();
         await Comment.deleteMany({ postId: id });
         return NextResponse.json({ message: "Deleted all comments for this post" }, { status: 200 });
