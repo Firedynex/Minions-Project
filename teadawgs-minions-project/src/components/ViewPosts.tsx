@@ -5,13 +5,17 @@ import { useEffect, useState } from "react";
 interface UserPost {
     _id: string,
     title: string,
-    description: string,
-    content: string,
+    instructions: string,
+    ingredients: string,
+    servings: string,
+    carbs: number,
+    sugar: number,
+    cholesterol: number,
+    fat: number,
     link: string,
     userId: string,
     likes: number,
     dislikes: number,
-    comments: number
 }
 
 export default function Posts() {
@@ -25,7 +29,6 @@ export default function Posts() {
                     throw new Error("Error getting user posts! " + response.status);
                 }
                 const data = await response.json();
-                console.log(data);
                 setPosts(data);
             } catch (error) {
                 console.error("Error getting user posts!", error);
