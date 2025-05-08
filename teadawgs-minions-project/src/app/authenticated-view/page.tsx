@@ -11,7 +11,7 @@ interface UserPost {
     userId: string,
     likes: number,
     dislikes: number,
-    comments: number,
+    numComments: number,
     instructions: string,
     ingredients: string,
     servings: string,

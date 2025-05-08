@@ -26,7 +26,8 @@ interface UserPostsProps {
     userId: string,
     likes: number,
     dislikes: number,
-    comments: Comment[],
+    comments?: Comment[],
+    numComments?: number
   }
 }
 
