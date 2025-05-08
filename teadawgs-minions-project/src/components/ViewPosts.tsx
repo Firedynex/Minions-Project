@@ -21,7 +21,7 @@ interface UserPost {
 export default function Posts() {
     const [posts, setPosts] = useState<UserPost[]>([]);
     useEffect(() => {
-        const url = "http://localhost:3000/api/userPosts";
+        const url = "/api/userPosts";
         const fetchData = async () => {
             try {
                 const response = await fetch(url);

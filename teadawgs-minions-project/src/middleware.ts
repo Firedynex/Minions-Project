@@ -8,7 +8,6 @@ const middleware = async (request: NextRequest) => {
     const { pathname } = request.nextUrl;
     const session = await auth();
     const isAuthenticated = !!session?.user;
-    console.log(isAuthenticated, pathname);
 
     const publicPaths = ["/", "/login-page", "/create-account-page"];
 

@@ -36,7 +36,7 @@ export default function CreateAccountPage() {
             password: password
         }
 
-        const url = "http://localhost:3000/api/users/"
+        const url = "/api/users/"
         try {
             const response = await fetch (url, {
                 method: "POST",

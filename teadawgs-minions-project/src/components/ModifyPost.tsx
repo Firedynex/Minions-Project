@@ -124,7 +124,7 @@ export default function ModifyPost({editPost, post} : {editPost : boolean, post?
         ingredients: ingredients || "",
         servings: servings
       };
-      const url = `http://localhost:3000/api/userPosts/${post?._id}`;
+      const url = `/api/userPosts/${post?._id}`;
       const response = await fetch(url, {
         method: "PUT",
         headers: {
@@ -155,7 +155,7 @@ export default function ModifyPost({editPost, post} : {editPost : boolean, post?
         servings: servings
       };
 
-      const url = "http://localhost:3000/api/userPosts";
+      const url = "/api/userPosts";
       const response = await fetch(url, {
         method: "POST",
         headers: {

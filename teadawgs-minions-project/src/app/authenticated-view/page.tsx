@@ -27,7 +27,7 @@ export default function AuthenticatedHomePage() {
 
     //Initial loadup of user posts
     useEffect(() => {
-        const url = "http://localhost:3000/api/userPosts";
+        const url = "/api/userPosts";
         const fetchData = async () => {
             try {
                 const response = await fetch(url);
