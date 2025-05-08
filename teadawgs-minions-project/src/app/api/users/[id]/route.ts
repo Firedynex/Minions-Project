@@ -4,13 +4,18 @@ import User from "@/models/userSchema";
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 
+interface RouteParams {
+    params: {
+        id: string;
+    }
+}
 /**
  * GET api to fetch a specific user by ID from the MongoDB database
  * @param param1 - Param object with id
  * @returns - The user data for the specific id or error message
  * @throws - If there is an error in fetching the user
  */
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, {params}:RouteParams) {
     try {
         const {id} = await params;
         await connectMongoDB();
@@ -32,7 +37,7 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
  * @returns - Message indicating whether the user was updated successfully or not
  * @throws - If there is an error in updating the user
  */
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, {params}:RouteParams) {
     try {
         const {id} = await params;
         const {email, firstName, lastName, username, password} = await request.json();
@@ -67,7 +72,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
  * @returns Response indicating success or failure of deletion
  * @throws Error if there is an issue with the deletion process
  */
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, {params}: RouteParams) {
     try {
         const {id} = await params;
         await connectMongoDB();

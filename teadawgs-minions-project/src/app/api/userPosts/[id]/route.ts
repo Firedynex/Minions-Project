@@ -3,13 +3,18 @@ import connectMongoDB from "../../../../../config/mongodb";
 import mongoose from "mongoose";
 import userPost from "@/models/userPostSchema";
 
+interface RouteParams {
+    params: {
+        id: string;
+    }
+}
 /**
  * GET api to fetch a specific user post by ID from the MongoDB database
  * @param param1 - Param object with id
  * @returns - The post data for the specific id or error message
  * @throws - If there is an error in fetching the user
  */
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, {params}:RouteParams) {
     try {
         const {id} = await params;
         await connectMongoDB();
@@ -31,7 +36,7 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
  * @returns - Message indicating whether the post was updated successfully or not
  * @throws - If there is an error in updating the post
  */
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, {params}:RouteParams) {
     try {
         const {id} = await params;
         const { 
@@ -83,7 +88,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
  * @returns Response indicating success or failure of deletion
  * @throws Error if there is an issue with the deletion process
  */
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, {params}: RouteParams) {
     try {
         const {id} = await params;
         await connectMongoDB();
