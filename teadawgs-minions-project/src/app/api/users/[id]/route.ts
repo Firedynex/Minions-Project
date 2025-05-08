@@ -33,18 +33,23 @@ export async function GET(request: NextRequest, { params } : { params: Promise<{
  * @throws - If there is an error in updating the user
  */
 export async function PUT(request: NextRequest, { params } : { params: Promise<{ id: string }> }) {
+    interface UpdateData {
+        email: string;
+        firstName: string;
+        lastName: string;
+        username: string;
+        password?: string;
+    }
     try {
         const {id} = await params;
         const {email, firstName, lastName, username, password} = await request.json();
+        const updateData : UpdateData = { email, firstName, lastName, username };
+
+        if (password) {
+            updateData.password = await bcrypt.hash(password, 5);
+        }
         await connectMongoDB();
-        const hashedPassword = await bcrypt.hash(password, 5);
-        const user = await User.findByIdAndUpdate(id, {
-            email,
-            firstName,
-            lastName,
-            username,
-            password: hashedPassword
-        });
+        const user = await User.findByIdAndUpdate(id, updateData, {new: true});
         
         if (!user) {
             return NextResponse.json({message: "User not found"}, {status: 404});

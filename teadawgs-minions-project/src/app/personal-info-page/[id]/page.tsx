@@ -8,43 +8,47 @@ const session = await getSession();
 const id = session?.user?.id;
 
 export default function PersonalInfoPage() {
-    const [user, setUser] = useState({
-        username: "",
-        firstName: "",
-        lastName: "",
-        password: ""
-    });
+    const [username, setUsername] = useState<string>(session?.user?.name || "");
+    const [firstName, setFirstName] = useState<string>("");
+    const [lastName, setLastName] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+
     const [editFirstName, setEditFirstName] = useState<boolean>(false);
     const [editLastName, setEditLastName] = useState<boolean>(false);
     const [editUsername, setEditUsername] = useState<boolean>(false);
     const [editPassword, setEditPassword] = useState<boolean>(false);
+    const [passwordChanged, setPasswordChanged] = useState<boolean>(false);
 
     //Gets all the data for initial load of user
     useEffect(() => {
         const getUserDetails = async () => {
             const response = await fetch(`/api/users/${id}`);
             const data = await response.json();
-            setUser(data);
+            setUsername(data.username);
+            setFirstName(data.firstName);
+            setLastName(data.lastName);
+            setPassword(data.password);
         }
         getUserDetails();
     }, []);
 
-    //Handles when fields change in the form
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { id, value } = e.target;
-        setUser(prev => ({
-          ...prev,
-          [id]: value,
-        }));
-      };
-
     //Updates user in the database
     const handleSave = async (e: React.FormEvent) => {
-        if (!user.username || !user.password) {
+        if (!username || !password) {
             alert("Username and password are required fields!");
             return;
         }
         e.preventDefault();
+        const user: { username: string; firstName: string; lastName: string; password?: string } = {
+            username: username,
+            firstName: firstName,
+            lastName: lastName,
+        };
+
+        if (passwordChanged) {
+            user.password = password;
+        }
+
         try {
             const response = await fetch(`/api/users/${id}`, {
               method: 'PUT',
@@ -79,14 +83,14 @@ export default function PersonalInfoPage() {
                 <div className="w-3/5">
                     <main className="max-w-md mx-auto mt-[100px] p-4 bg-white">
                         <h1 className="text-3xl font-bold text-gray-800 mb-8">
-                            Hello, {session?.user?.name}
+                            Hello, {username}
                         </h1>
                         <form className="space-y-6">
                             <div className="relative flex">
                                 <label htmlFor="firstName" className="absolute -top-2 left-3 px-1 text-xs font-medium text-gray-700 bg-white">
                                     First Name
                                 </label>
-                                <input type="text" id="firstName" value={user.firstName} onChange={handleChange} readOnly={!editFirstName}
+                                <input type="text" id="firstName" value={firstName} onChange={(e) => {setFirstName(e.target.value)}} readOnly={!editFirstName}
                                 className={`w-full px-3 py-2 border border-gray-300 rounded-mb focus:outline-none focus:ring-2 focus ring-[#f87171] ${editFirstName? 'bg-white text-gray-900 font-medium' : 'bg-gray-700 cursor-not-allowed'}`}/>
                                 <button type="button" onClick={() => setEditFirstName(!editFirstName)} className="ml-2 text-gray-500 hover:text-gray-700">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
@@ -98,7 +102,7 @@ export default function PersonalInfoPage() {
                                 <label htmlFor="lastName" className="absolute -top-2 left-3 px-1 text-xs font-medium text-gray-700 bg-white">
                                     Last Name
                                 </label>
-                                <input type="text" id="lastName" value={user.lastName} onChange={handleChange} readOnly={!editLastName}
+                                <input type="text" id="lastName" value={lastName} onChange={(e) => {setLastName(e.target.value)}} readOnly={!editLastName}
                                 className={`w-full px-3 py-2 border border-gray-300 rounded-mb focus:outline-none focus:ring-2 focus ring-[#f87171] ${editLastName? 'bg-white text-gray-900 font-medium' : 'bg-gray-700 cursor-not-allowed'}`}/>
                                 <button type="button" onClick={() => setEditLastName(!editLastName)} className="ml-2 text-gray-500 hover:text-gray-700">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
@@ -110,7 +114,7 @@ export default function PersonalInfoPage() {
                                 <label htmlFor="username" className="absolute -top-2 left-3 px-1 text-xs font-medium text-gray-700 bg-white">
                                     Username
                                 </label>
-                                <input type="text" id="username" value={user.username} onChange={handleChange} readOnly={!editUsername}
+                                <input type="text" id="username" value={username} onChange={(e) => {setUsername(e.target.value)}} readOnly={!editUsername}
                                 className={`w-full px-3 py-2 border border-gray-300 rounded-mb focus:outline-none focus:ring-2 focus ring-[#f87171] ${editUsername? 'bg-white text-gray-900 font-medium' : 'bg-gray-700 cursor-not-allowed'}`}/>
                                 <button type="button" onClick={() => setEditUsername(!editUsername)} className="ml-2 text-gray-500 hover:text-gray-700">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
@@ -122,7 +126,11 @@ export default function PersonalInfoPage() {
                                 <label htmlFor="password" className="absolute -top-2 left-3 px-1 text-xs font-medium text-gray-700 bg-white">
                                     Password
                                 </label>
-                                <input type="password" id="password" value={user.password} onChange={handleChange} readOnly={!editPassword}
+                                <input type="password" id="password" value={password} onChange={(e) => {
+                                    setPasswordChanged(true); 
+                                    setPassword(e.target.value);
+                                }} 
+                                readOnly={!editPassword}
                                 className={`w-full px-3 py-2 border border-gray-300 rounded-mb focus:outline-none focus:ring-2 focus ring-[#f87171] ${editPassword? 'bg-white text-gray-900 font-medium' : 'bg-gray-700 cursor-not-allowed'}`}/>
                                 <button type="button" onClick={() => setEditPassword(!editPassword)} className="ml-2 text-gray-500 hover:text-gray-700">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
