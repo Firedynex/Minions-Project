@@ -19,7 +19,7 @@ type Post = {
   servings: string
 }
 
-export default function ModifyPost({editPost, post} : {editPost : boolean, post : Post}) {
+export default function ModifyPost({editPost, post} : {editPost : boolean, post? : Post}) {
   const [query, setQuery] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [ingredients, setIngredients] = useState<string>();
@@ -36,7 +36,7 @@ export default function ModifyPost({editPost, post} : {editPost : boolean, post 
   const userId = session?.user?.id;
 
   useEffect(() => {
-    if (editPost) {
+    if (editPost && post) {
         setTitle(post.title);
         setIngredients(post.ingredients);
         setInstructions(post.instructions);
@@ -124,7 +124,7 @@ export default function ModifyPost({editPost, post} : {editPost : boolean, post 
         ingredients: ingredients || "",
         servings: servings
       };
-      const url = `http://localhost:3000/api/userPosts/${post._id}`;
+      const url = `http://localhost:3000/api/userPosts/${post?._id}`;
       const response = await fetch(url, {
         method: "PUT",
         headers: {
