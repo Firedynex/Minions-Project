@@ -1,11 +1,6 @@
 "use client"
 import ModifyPost from "@/components/ModifyPost";
 import { useEffect, useState } from "react";
-interface RouteParams {
-    params: {
-        id: string;
-    }
-}
 
 type Post = {
     _id: string,
@@ -21,11 +16,11 @@ type Post = {
     servings: string
   }
 
-export default function EditPost({params} : RouteParams) {
+export default function EditPost({ params } : { params: Promise<{ id: string }> }) {
     const [post, setPost] = useState<Post>();
     const getPost = async () => {
         try {
-            const response = await fetch(`/api/userPosts/${params.id}`);
+            const response = await fetch(`/api/userPosts/${(await params).id}`);
             if (!response.ok) {
                 throw new Error("Error getting the user post!");
             }
