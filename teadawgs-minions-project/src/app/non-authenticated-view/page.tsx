@@ -1,5 +1,4 @@
 "use client"
-import Posts from "@/components/ViewPosts";
 import Image from 'next/image';
 import SplashBG from '@/assets/splashBG.jpg';
 
@@ -14,9 +13,6 @@ export default function NonAuthenticatedView () {
                     priority={true}
                     className = "object-cover "
                 />
-            </div>
-            <div className="justify-items-center">
-                <Posts />
             </div>
         </>
     );
