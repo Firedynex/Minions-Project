@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import connectMongoDB from "../../../../../config/mongodb";
 import mongoose from "mongoose";
 import userPost from "@/models/userPostSchema";
+import Comment from "@/models/commentSchema";
 
 /**
  * GET api to fetch a specific user post by ID from the MongoDB database
@@ -44,8 +45,8 @@ export async function PUT(request: NextRequest, { params } : { params: Promise<{
             instructions, 
             ingredients, 
             servings,
-            likes,
-            dislikes 
+            likers,
+            dislikers 
         } = await request.json();
         await connectMongoDB();
         const post = await userPost.findByIdAndUpdate(id, {
@@ -58,8 +59,8 @@ export async function PUT(request: NextRequest, { params } : { params: Promise<{
             instructions, 
             ingredients, 
             servings,
-            likes,
-            dislikes 
+            likers,
+            dislikers 
         });
         
         if (!post) {
@@ -77,7 +78,7 @@ export async function PUT(request: NextRequest, { params } : { params: Promise<{
 }
 
 /**
- * Delete API to remove a specific post by their ID from the MongoDB database
+ * Delete API to remove a specific post and its comments by their ID from the MongoDB database
  * @param request - Unused next request object
  * @param param1 Param with id
  * @returns Response indicating success or failure of deletion
@@ -91,6 +92,7 @@ export async function DELETE(request: NextRequest, { params } : { params: Promis
         if (!deletedItem) {
             return NextResponse.json({message: "Item not found"}, {status: 404});
         }
+        await Comment.deleteMany({postId: id});
         return NextResponse.json({message: "Post was successfully deleted"});
     } catch (error) {
         console.error("Error deleting post:", error);
